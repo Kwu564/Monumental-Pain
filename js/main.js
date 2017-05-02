@@ -5,6 +5,9 @@
 //
 // 5/2/2017 -Kindon, updated file structure so states have their own files
 // (please update this comment block with each iteration)
+// added background color via css
+// changed background color to black and replaced hero character with a new character;
+// removed header tag, and centered the game canvas onto the webpage
 
 var game;
 
@@ -17,16 +20,5 @@ window.onload = function() {
    game.state.add('PlayPlatform', PlayPlatform);
    game.state.start('Load'); // in final build, should say 'Boot'
 }
-
-////////////////////////
-//BOOT STATE GOES HERE or before load
-////////////////////////
-
-
-
-/////////////////////////
-//TITLE STATE GOES before Play
-/////////////////////////
-
 
 
