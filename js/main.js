@@ -5,6 +5,8 @@
 //
 // (please update this comment block with each iteration)
 // added background color via css
+// changed background color to black and replaced hero character with a new character;
+// removed header tag, and centered the game canvas onto the webpage
 
 var game;
 
@@ -30,11 +32,15 @@ Load.prototype = {
       
       // set up loading bar here
 
+      // align the game window to center of webpage
+      game.scale.pageAlignHorizontally = true;
+      game.scale.pageAlignVertically = true;
+
       // load graphics assets
       game.load.path = './assets/' // should probably split directory to img and audio
       game.load.image('pbg', 'battle-background.jpg'); // pbg stands for platformer background
-      game.load.image('hero', 'hero.png');
-      game.load.image('platHero', 'hero-tall.png');
+      game.load.image('hero', 'OneArmedHero.png');
+      game.load.image('platHero', 'OneArmedHero.png');
       game.load.image('obg', 'overworld.jpg'); // obg = overworld background
       game.load.image('platform', 'platform.png');
 
@@ -52,7 +58,7 @@ Load.prototype = {
 
 var PlayOver = function(game) {};
 PlayOver.prototype = {
-   create: function() {
+   create: function() {  
       console.log("PlayOver: create");
 
       this.background = game.add.image(0, 0, 'obg');
