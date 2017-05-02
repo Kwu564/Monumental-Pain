@@ -4,6 +4,7 @@
 // 4/30/2017
 //
 // (please update this comment block with each iteration)
+// added background color via css
 
 var game;
 
