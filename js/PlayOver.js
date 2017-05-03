@@ -1,3 +1,5 @@
+// This is the state for top down play on the world map.
+
 var PlayOver = function(game) {};
 PlayOver.prototype = {
    create: function() {

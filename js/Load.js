@@ -1,3 +1,5 @@
+// this is the state for loading assets
+
 var Load = function(game) {};
 Load.prototype = {
 

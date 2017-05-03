@@ -1,3 +1,5 @@
+// This is the state for platform play in battle and possible towns.
+
 var PlayPlatform = function(game) {};
 PlayPlatform.prototype = {
    create: function() {
