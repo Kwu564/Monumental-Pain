@@ -1,4 +1,9 @@
 // This is the state for top down play on the world map.
+// If we need multiple overworld states use this as a baseline.
+// We should consider making a more descriptive log of all changes made, until
+// we do please log changes bellow, do not delete anything from the changelog. Include the date
+// 
+
 
 var PlayOver = function(game) {};
 PlayOver.prototype = {

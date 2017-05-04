@@ -1,4 +1,8 @@
-// This is the state for platform play in battle and possible towns.
+// This is the state for platformer play in battle and possibly in towns.
+// If we decide to make each level a different state, use this as a baseline
+// We should consider making a more descriptive log of all changes made, until
+// we do please log changes bellow, do not delete anything from the changelog. Include the date
+// 
 
 var PlayPlatform = function(game) {};
 PlayPlatform.prototype = {
