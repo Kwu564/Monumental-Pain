@@ -8,12 +8,24 @@ as they are currently, if you want to modify prefab, its spriteBuild.js
 */
 
 
-var PlayOver = function(game) {};
+var PlayOver = function(game) {
+   var map, layer1, layer2, layer3;
+};
 PlayOver.prototype = {
    create: function() {
       console.log("PlayOver: create");
-      this.background = game.add.image(0, 0, 'obg');
-     
+      //this.background = game.add.image(0, 0, 'obg');
+      
+      //TILEMAP SETUP
+      map = game.add.tilemap('oworld');
+      
+      map.addTilesetImage('oworld-tile','oworld-tile');
+      
+      layer1 = map.createLayer('base');
+      layer2 = map.createLayer('overlay');
+      
+      layer1.resizeWorld();
+      
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
       //parameters: (this.game,scaleX,scaleY,X position,Y position, asset key)

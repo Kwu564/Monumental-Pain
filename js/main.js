@@ -21,4 +21,5 @@ window.onload = function() {
    game.state.add('PlayOver', PlayOver);
    game.state.add('PlayPlatform', PlayPlatform);
    game.state.start('Load'); // in final build, should say 'Boot'
+   
 }
