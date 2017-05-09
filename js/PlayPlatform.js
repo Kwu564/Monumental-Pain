@@ -7,45 +7,41 @@ Updated to include prefab with instantiated controls for sideview, described inp
 as they are currently, if you want to modify prefab, its spriteBuild.js. THIS DOES NOT CURRENTLY WORK WITH 
 JUMPING, I had issues setting up collision with the prefab
 */
+/* 5/9/2017, KIEFER
+Fixed the collision issues. Added player and ground as vars within the scope of PlayPlatform, so the hitGround check can find both objects. I also added gravity, because that wasn't implemented before.
+*/
 
-var PlayPlatform = function(game) {};
+var PlayPlatform = function(game) {
+    var player, ground;
+};
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
       this.background = game.add.image(0, 0, 'pbg');
+      this.world.width = 1600;
 
-      this.ground = game.add.sprite(0, 400, 'platform');
-      this.ground.scale.setTo(2,1);
-      game.physics.enable(this.ground, Phaser.Physics.ARCADE);
-      this.ground.body.immovable = true;
-      this.ground.alpha = 0; // make ground invisible so that player is pbg image
+      ground = game.add.sprite(0, 400, 'platform');
+      ground.scale.setTo(2,1);
+      game.physics.enable(ground, Phaser.Physics.ARCADE);
+      ground.body.immovable = true;
+      ground.alpha = 0; // make ground invisible so that player is pbg image
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
-      var player = new spriteBuild(this.game,1,1,400,300,'platHero');
+      player = new spriteBuild(this.game,1,1,400,300,'platHero');
       playerGroup.add(player);
-      spriteBuild.prototype.update = function(){
-         //this is still iffy, but instantiated controls for platformer
-         //hitGround = game.physics.arcade.collide(this.body, this.ground);
-         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-            this.body.velocity.x = 150;
-         } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-            this.body.velocity.x = -150;
-         } else {
-            this.body.velocity.x = 0;
-         }
-
-         if(game.input.keyboard.isDown(Phaser.Keyboard.UP) && hitGround){
-         this.body.velocity.y = -350;
-         }
-      }
+      
+      player.body.gravity.y = 600;
+      
+      game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
+      
       this.instructions = game.add.text(400, 32, "Arrow Keys to move, 'R' to switch states", {fontSize: "16px", fill: '#000'});
       this.instructions.anchor.set(0.5);
 
    },
    update: function() {
       //unable to put this line into prefab, still figuring it out
-      hitGround = game.physics.arcade.collide(this.player, this.ground);
+      hitGround = game.physics.arcade.collide(player, ground);
       if(game.input.keyboard.isDown(Phaser.Keyboard.R)){
          game.state.start('PlayOver');
       }

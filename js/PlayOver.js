@@ -9,7 +9,7 @@ as they are currently, if you want to modify prefab, its spriteBuild.js
 
 
 var PlayOver = function(game) {
-   var map, layer1, layer2, layer3;
+   var map, layer1, layer2, layer3, player;
 };
 PlayOver.prototype = {
    create: function() {
@@ -29,27 +29,11 @@ PlayOver.prototype = {
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
       //parameters: (this.game,scaleX,scaleY,X position,Y position, asset key)
-      var player = new spriteBuild(this.game,1,1,400,300,'hero');
+      player = new spritePlayOver(this.game,400,300,'hero');
       //this line adds the player onto the screen
       playerGroup.add(player);
-      //instantiated controls for players prototype, update
-      spriteBuild.prototype.update = function(){
-         if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
-         // console.log("up"); // Do not use unless keyboard is not responding
-            this.body.velocity.y = -150;
-         } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-           this.body.velocity.y = 150;
-         } else{
-           this.body.velocity.y = 0;
-         }
-         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-            this.body.velocity.x = 150;
-         } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-            this.body.velocity.x = -150;
-         } else {
-            this.body.velocity.x = 0;
-         }
-      }
+      
+      game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, .3, .3);
 
       this.instructions = game.add.text(400, 32, "Arrow Keys to move, 'R' to switch states", {fontSize: "16px", fill: '#fff'});
       this.instructions.anchor.set(0.5);

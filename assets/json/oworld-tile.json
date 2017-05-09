@@ -25,7 +25,7 @@
         {
          "draworder":"topdown",
          "height":50,
-         "name":"Object Layer 1",
+         "name":"collisions",
          "objects":[
                 {
                  "height":0,
