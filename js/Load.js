@@ -20,7 +20,7 @@ Load.prototype = {
       game.load.path = './assets/' // should probably split directory to img and audio
       game.load.image('pbg', 'img/battle-background.jpg'); // pbg stands for platformer background
       game.load.image('hero', 'img/hero.png');
-      game.load.image('platHero', 'img/OneArmedHero.png');
+      game.load.image('platHero', 'img/hero-tall.png');
       game.load.image('obg', 'img/overworld.jpg'); // obg = overworld background
       game.load.image('platform', 'img/platform.png');
       game.load.tilemap('oworld', 'json/oworld-tile.json', null, Phaser.Tilemap.TILED_JSON); //json data for map tiles
