@@ -14,7 +14,7 @@
 var game;
 
 window.onload = function() {
-   game =  new Phaser.Game(800, 600, Phaser.AUTO);
+   game =  new Phaser.Game(600, 400, Phaser.AUTO);
    // define states
    // Add boot, title, and gameOver states later
    game.state.add('Load', Load);
