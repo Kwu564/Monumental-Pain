@@ -25,7 +25,15 @@ Load.prototype = {
       game.load.image('platform', 'img/platform.png');
       game.load.tilemap('oworld', 'json/oworld-tile.json', null, Phaser.Tilemap.TILED_JSON); //json data for map tiles
       game.load.image('oworld-tile', 'img/oworld-tile.png');
+      
+      // scale the game 2x
+      game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+      game.scale.setUserScale(2, 2);
 
+      // enable crisp rendering
+      game.renderer.renderSession.roundPixels = true;
+      Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+      
       // load audio assets here
    },
    create: function() {
