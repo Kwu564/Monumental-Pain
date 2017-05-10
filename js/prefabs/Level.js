@@ -1,10 +1,10 @@
 
 
 var Level = function(game, array, id) {
-    width: array[id];
-    height: array[id+1];
+    width: array[id].width;
+    height: array[id].height;
     
-    tileset: array[id+2];
+    tilemap: array[id].key;
     
-    type: array[id+3];
+    type: array[id].type;
 }

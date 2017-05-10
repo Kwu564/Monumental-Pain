@@ -1,8 +1,10 @@
 //A global array that stores static data for map loading
 
 var mapArray = [
-    800, //width
-    600, //height
-    //['overworld1.json'] //array of keys for tilesets
-    0 //means overworld
+   {
+    width: 800, //width
+    height: 600, //height
+    //key: 'overworld1.json'; //key for tilemap
+    type: 0 //means overworld
+   }
 ]
