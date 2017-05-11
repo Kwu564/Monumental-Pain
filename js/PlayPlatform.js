@@ -47,8 +47,10 @@ PlayPlatform.prototype = {
       
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
       
-      this.instructions = game.add.text(400, 32, "Arrow Keys to move, reach far right to return to world map", {fontSize: "16px", fill: '#000'});
+      this.instructions = game.add.text(400, 32, "Arrow Keys to move, reach far right to return to world map", {fontSize: "12px", fill: '#000'});
       this.instructions.anchor.set(0.5);
+      this.instructions.fixedToCamera = true;
+      this.instructions.cameraOffset.setTo(300, 32);
 
    },
    update: function() {

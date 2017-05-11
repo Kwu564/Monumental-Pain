@@ -47,8 +47,10 @@ PlayOver.prototype = {
       
       game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, .3, .3);
 
-      this.instructions = game.add.text(400, 32, "Arrow Keys to move, enter town to see a new perspective", {fontSize: "16px", fill: '#fff'});
+      this.instructions = game.add.text(400, 32, "Arrow Keys to move, enter town to see a new perspective", {fontSize: "12px", fill: '#fff'});
       this.instructions.anchor.set(0.5);
+      this.instructions.fixedToCamera = true;
+      this.instructions.cameraOffset.setTo(300, 32);
    },
    update: function() {
       // console.log("PlayOver: update"); // Do not use unless update is not running
