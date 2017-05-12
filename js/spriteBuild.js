@@ -30,8 +30,8 @@ spriteBuild.prototype.update = function(){
          }
 
          if(game.input.keyboard.isDown(Phaser.Keyboard.UP)
-         && player.body.touching.down){
-         this.body.velocity.y = -350;
+           && player.body.onFloor()){
+            this.body.velocity.y = -500;
          }
 
 }

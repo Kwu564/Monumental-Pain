@@ -17,6 +17,9 @@ PlayOver.prototype = {
    create: function() {
       console.log("PlayOver: create");
       //this.background = game.add.image(0, 0, 'obg');
+      console.log("Test Global: "+global_destination);
+      global_destination = 1;
+      console.log("Test Global: "+global_destination);
       
       //TILEMAP SETUP
       map = game.add.tilemap('oworld');
