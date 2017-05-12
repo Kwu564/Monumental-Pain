@@ -20,28 +20,35 @@ var PlayPlatform = function(game) {
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
+
       //this.background = game.add.image(0, 0, 'pbg');
       //this.world.width = 1600;
 
       //TILEMAP SETUP
-      map = game.add.tilemap('forestbattle');
+      if (global_destination === 0){
+         map = game.add.tilemap('forestbattle');
       
-      map.addTilesetImage('forest-tile','forest-tile');
+         map.addTilesetImage('forest-tile','forest-tile');
       
-      layer1 = map.createLayer('sky');
-      layer2 = map.createLayer('trees');
-      layer3 = map.createLayer('Tile Layer 1');
+         layer1 = map.createLayer('sky');
+         layer2 = map.createLayer('trees');
+         layer3 = map.createLayer('Tile Layer 1');
       
       //WALLMAP SETUP
-      map.setCollisionByExclusion([], true, layer3);
+         map.setCollisionByExclusion([], true, layer3);
+      }
       
-      /*
-      ground = game.add.sprite(0, 400, 'platform');
-      ground.scale.setTo(this.world.width/400, 1);
-      game.physics.enable(ground, Phaser.Physics.ARCADE);
-      ground.body.immovable = true;
-      ground.alpha = 0; // make ground invisible so that player is pbg image
-      */
+      else if (global_destination === 1){
+         this.background = game.add.image(0, 0, 'pbg');
+         this.world.width = 1600;
+         ground = game.add.sprite(0, 400, 'platform');
+         ground.scale.setTo(this.world.width/400, 1);
+         game.physics.enable(ground, Phaser.Physics.ARCADE);
+         ground.body.allowGravity = false;
+         ground.body.immovable = true;
+         ground.alpha = 0; // make ground invisible so that player is pbg image
+      }
+      
 
       // EXIT GATE
       exit = new spriteBuild(this.game, 1, 6.25, 1550, 200, 'platHero');
@@ -67,7 +74,12 @@ PlayPlatform.prototype = {
 
    },
    update: function() {
-      game.physics.arcade.collide(player, layer3);
+      if (global_destination === 0) {
+         game.physics.arcade.collide(player, layer3);
+      }
+      else if(global_destination === 1){
+         game.physics.arcade.collide(player, ground);
+      }
       
       // demonstration of another method of implementing gates
       var hitExit = game.physics.arcade.collide(player, exit);
