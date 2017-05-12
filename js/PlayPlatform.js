@@ -15,19 +15,33 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, ground, exit;
+    var player, ground, exit, map, layer1, layer2, layer3;
 };
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
-      this.background = game.add.image(0, 0, 'pbg');
-      this.world.width = 1600;
+      //this.background = game.add.image(0, 0, 'pbg');
+      //this.world.width = 1600;
 
+      //TILEMAP SETUP
+      map = game.add.tilemap('forestbattle');
+      
+      map.addTilesetImage('forest-tile','forest-tile');
+      
+      layer1 = map.createLayer('sky');
+      layer2 = map.createLayer('trees');
+      layer3 = map.createLayer('Tile Layer 1');
+      
+      //WALLMAP SETUP
+      map.setCollisionByExclusion([], true, layer3);
+      
+      /*
       ground = game.add.sprite(0, 400, 'platform');
       ground.scale.setTo(this.world.width/400, 1);
       game.physics.enable(ground, Phaser.Physics.ARCADE);
       ground.body.immovable = true;
       ground.alpha = 0; // make ground invisible so that player is pbg image
+      */
 
       // EXIT GATE
       exit = new spriteBuild(this.game, 1, 6.25, 1550, 200, 'platHero');
@@ -35,7 +49,6 @@ PlayPlatform.prototype = {
       exit.body.allowGravity = false;
       exit.body.immovable = true;
       exit.alpha = 0;
-
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
@@ -54,8 +67,8 @@ PlayPlatform.prototype = {
 
    },
    update: function() {
-      game.physics.arcade.collide(player, ground);
-      game.physics.arcade.collide(player, ground);
+      game.physics.arcade.collide(player, layer3);
+      
       // demonstration of another method of implementing gates
       var hitExit = game.physics.arcade.collide(player, exit);
       if (hitExit){

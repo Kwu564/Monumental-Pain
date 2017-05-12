@@ -24,7 +24,9 @@ Load.prototype = {
       game.load.image('obg', 'img/overworld.jpg'); // obg = overworld background
       game.load.image('platform', 'img/platform.png');
       game.load.tilemap('oworld', 'json/oworld-tile.json', null, Phaser.Tilemap.TILED_JSON); //json data for map tiles
+      game.load.tilemap('forestbattle', 'json/forest-battle.json', null, Phaser.Tilemap.TILED_JSON); 
       game.load.image('oworld-tile', 'img/oworld-tile.png');
+      game.load.image('forest-tile', 'img/forest-tile.png');
       
       // scale the game 2x
       game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
