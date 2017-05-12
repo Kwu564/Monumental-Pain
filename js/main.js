@@ -12,7 +12,7 @@
 // removed header tag, and centered the game canvas onto the webpage
 
 var game;
-var global_destination = 0;  // Use this variable to set where we are going
+var global_destination;  // Use this variable to set where we are going
 window.onload = function() {
    game =  new Phaser.Game(600, 400, Phaser.AUTO);
    // define states

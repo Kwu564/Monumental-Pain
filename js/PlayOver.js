@@ -17,9 +17,6 @@ PlayOver.prototype = {
    create: function() {
       console.log("PlayOver: create");
       //this.background = game.add.image(0, 0, 'obg');
-      console.log("Test Global: "+global_destination);
-      global_destination = 1;
-      console.log("Test Global: "+global_destination);
       
       //TILEMAP SETUP
       map = game.add.tilemap('oworld');
@@ -57,12 +54,13 @@ PlayOver.prototype = {
    },
    update: function() {
       // console.log("PlayOver: update"); // Do not use unless update is not running
+
+      global_destination = player.y>300 ? 0 : 1;
       
       game.physics.arcade.collide(player, layer1);
       game.physics.arcade.collide(player, layer2);
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
       
-      // game.physics.arcade.overlap(player, town, this.enterTown, null, this); //Doesn't work
       
       // Uncomment below for quick state switching
       /*if(game.input.keyboard.isDown(Phaser.Keyboard.R)){
@@ -70,6 +68,6 @@ PlayOver.prototype = {
       }*/
    },
    enterTown: function() {
-      game.state.start('PlayPlatform'); //doesn't work
+      game.state.start('PlayPlatform');
    }
 }
