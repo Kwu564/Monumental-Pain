@@ -9,15 +9,23 @@
  * Update so that entering town will start PlayPlatform state
 */
 
+var canEnter = false; // Can someone look into to how to make this variable not global?
 
 var PlayOver = function(game) {
-   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup;
+   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer;
+
 };
 PlayOver.prototype = {
    create: function() {
       console.log("PlayOver: create");
       //this.background = game.add.image(0, 0, 'obg');
-      
+      // TIMER SETUP
+      timer = game.time.create(); // this timer will prevent player from immediately re-entering a city by accident
+      timer.add(1000, function(){
+         console.log('canEnter = true at: '+timer.ms);
+         canEnter = true;
+      }, this);
+      timer.start();
       //TILEMAP SETUP
       map = game.add.tilemap('oworld');
       
@@ -35,13 +43,14 @@ PlayOver.prototype = {
       townGroup.enableBody = true;
       town = map.createFromTiles([3], null, 'hero', layer2, townGroup); // Uses hero because it is the exact size of a tile
       townGroup.alpha = 0;
+      townGroup.setAll('body.immovable', true);
 
       layer1.resizeWorld();
       
       //PREFAB SETUP
       playerGroup = this.game.add.group();
       //parameters: (this.game,scaleX,scaleY,X position,Y position, asset key)
-      player = new spritePlayOver(this.game,400,300,'hero');
+      player = new spritePlayOver(this.game,global_x,global_y,'hero');
       //this line adds the player onto the screen
       playerGroup.add(player);
       
@@ -55,11 +64,12 @@ PlayOver.prototype = {
    update: function() {
       // console.log("PlayOver: update"); // Do not use unless update is not running
 
-      global_destination = player.y>300 ? 0 : 1;
+      global_destination = player.y>350 ? 0 : 1;
       
       game.physics.arcade.collide(player, layer1);
       game.physics.arcade.collide(player, layer2);
-      game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
+      if(canEnter){ game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);}
+      else {game.physics.arcade.collide(player, townGroup);}
       
       
       // Uncomment below for quick state switching
@@ -68,6 +78,9 @@ PlayOver.prototype = {
       }*/
    },
    enterTown: function() {
+      global_x = player.x;
+      global_y = player.y;
+      canEnter = false; // reset town entrence delay
       game.state.start('PlayPlatform');
    }
 }
