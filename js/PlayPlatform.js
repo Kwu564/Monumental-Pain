@@ -67,6 +67,10 @@ PlayPlatform.prototype = {
       
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
       
+      //play music
+      song = this.add.audio('battle-song');
+      song.play('', 0, 1, true);
+      
       this.instructions = game.add.text(400, 32, "Arrow Keys to move, reach far right to return to world map", {fontSize: "12px", fill: '#000'});
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
@@ -84,6 +88,10 @@ PlayPlatform.prototype = {
       // demonstration of another method of implementing gates
       var hitExit = game.physics.arcade.collide(player, exit);
       if (hitExit){
+         
+         //stops all sounds
+         game.sound.stopAll();
+         
          game.state.start('PlayOver');
       }
       /*if(game.input.keyboard.isDown(Phaser.Keyboard.R)){

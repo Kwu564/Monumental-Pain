@@ -12,7 +12,7 @@
 var canEnter = false; // Can someone look into to how to make this variable not global?
 
 var PlayOver = function(game) {
-   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer;
+   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song;
 
 };
 PlayOver.prototype = {
@@ -55,6 +55,10 @@ PlayOver.prototype = {
       playerGroup.add(player);
       
       game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, .3, .3);
+      
+      //play music
+      song = this.add.audio('oworld-song');
+      song.play('', 0, 1, true);
 
       this.instructions = game.add.text(400, 32, "Arrow Keys to move, enter town to see a new perspective", {fontSize: "12px", fill: '#fff'});
       this.instructions.anchor.set(0.5);
@@ -81,6 +85,10 @@ PlayOver.prototype = {
       global_x = player.x;
       global_y = player.y;
       canEnter = false; // reset town entrence delay
+      
+      //stops all sounds
+      game.sound.stopAll();
+      
       game.state.start('PlayPlatform');
    }
 }
