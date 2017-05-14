@@ -28,6 +28,10 @@ Load.prototype = {
       game.load.image('oworld-tile', 'img/oworld-tile.png');
       game.load.image('forest-tile', 'img/forest-tile.png');
       
+      // load audio assets here
+      game.load.audio('oworld-song','audio/overworld.ogg');
+      game.load.audio('battle-song','audio/engage.ogg');
+      
       // scale the game 2x
       game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
       game.scale.setUserScale(2, 2);
@@ -35,11 +39,14 @@ Load.prototype = {
       // enable crisp rendering
       game.renderer.renderSession.roundPixels = true;
       Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
-      
-      // load audio assets here
    },
    create: function() {
       console.log("Load: create");
-      game.state.start('PlayOver'); // in final build, goes to title screen
+   },
+   update: function() {
+      //wait for songs to decode
+      if(this.cache.isSoundDecoded('battle-song')) {
+         game.state.start('PlayOver'); // in final build, goes to title screen
+      }
    }
 }
