@@ -13,8 +13,9 @@
 
 var game;
 var global_destination;  // Use this variable to set where we are going
-var global_x = 400;
-var global_y = 300;
+var global_x;
+var global_y;
+
 window.onload = function() {
    game =  new Phaser.Game(600, 400, Phaser.AUTO);
    // define states

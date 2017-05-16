@@ -13,7 +13,7 @@ var canEnter = false; // Can someone look into to how to make this variable not 
 
 var PlayOver = function(game) {
    var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song;
-
+   var mapData;
 };
 PlayOver.prototype = {
    create: function() {
@@ -26,10 +26,13 @@ PlayOver.prototype = {
          canEnter = true;
       }, this);
       timer.start();
-      //TILEMAP SETUP
-      map = game.add.tilemap('oworld');
       
-      map.addTilesetImage('oworld-tile','oworld-tile');
+      mapData = GLOBAL_MAP_DATA[O_WORLD];
+      
+      //TILEMAP SETUP
+      map = game.add.tilemap(mapData.mapKey);
+      
+      map.addTilesetImage(mapData.setKey,mapData.setKey);
       
       layer1 = map.createLayer('base');
       layer2 = map.createLayer('overlay');
@@ -38,19 +41,36 @@ PlayOver.prototype = {
       map.setCollisionByExclusion([1], true, layer1);
       map.setCollisionByExclusion([3], true, layer2);
       
-      // town = map.searchTileIndex(3, 0, false, layer2); //Doesn't work
+      layer1.resizeWorld();
+      
+      /*// town = map.searchTileIndex(3, 0, false, layer2); //Doesn't work
       townGroup = this.game.add.group();
       townGroup.enableBody = true;
       town = map.createFromTiles([3], null, 'hero', layer2, townGroup); // Uses hero because it is the exact size of a tile
       townGroup.alpha = 0;
       townGroup.setAll('body.immovable', true);
+      */
 
-      layer1.resizeWorld();
+      //CREATE DOORS
+      townGroup = this.game.add.group();
+      townGroup.enableBody = true;
+      
+      var doors = map.objects.towns;
+      console.log(doors);
+      for(let i = 0; i < doors.length; i++) {
+         let obj = doors[i];
+         
+         town = new Door(game,obj.x,obj.y,'hero',0,obj.type);
+         townGroup.add(town);
+      }
+      
+      townGroup.alpha = 0;
+      townGroup.setAll('body.immovable', true);
       
       //PREFAB SETUP
       playerGroup = this.game.add.group();
-      //parameters: (this.game,scaleX,scaleY,X position,Y position, asset key)
-      player = new spritePlayOver(this.game,global_x,global_y,'hero');
+      
+      player = new spritePlayOver(this.game,mapData.retX,mapData.retY,'hero');
       //this line adds the player onto the screen
       playerGroup.add(player);
       
@@ -68,12 +88,14 @@ PlayOver.prototype = {
    update: function() {
       // console.log("PlayOver: update"); // Do not use unless update is not running
 
-      global_destination = player.y>350 ? 0 : 1;
+      //global_destination = player.y>350 ? 0 : 1;
       
       game.physics.arcade.collide(player, layer1);
       game.physics.arcade.collide(player, layer2);
-      if(canEnter){ game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);}
-      else {game.physics.arcade.collide(player, townGroup);}
+      
+      game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
+      //if(canEnter){ game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);}
+      //else {game.physics.arcade.collide(player, townGroup);}
       
       
       // Uncomment below for quick state switching
@@ -81,10 +103,13 @@ PlayOver.prototype = {
          game.state.start('PlayPlatform');
       }*/
    },
-   enterTown: function() {
-      global_x = player.x;
+   enterTown: function(player, townGroup) {
+      /*global_x = player.x;
       global_y = player.y;
       canEnter = false; // reset town entrence delay
+      */
+      
+      global_destination = townGroup.destination;
       
       //stops all sounds
       game.sound.stopAll();

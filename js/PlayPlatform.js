@@ -25,7 +25,7 @@ PlayPlatform.prototype = {
       //this.world.width = 1600;
 
       //TILEMAP SETUP
-      if (global_destination === 0){
+      if (global_destination == 'KEVN_1'){
          map = game.add.tilemap('forestbattle');
       
          map.addTilesetImage('forest-tile','forest-tile');
@@ -38,7 +38,7 @@ PlayPlatform.prototype = {
          map.setCollisionByExclusion([], true, layer3);
       }
       
-      else if (global_destination === 1){
+      else if (global_destination == 'HATU_1'){
          this.background = game.add.image(0, 0, 'pbg');
          this.world.width = 1600;
          ground = game.add.sprite(0, 400, 'platform');
