@@ -15,15 +15,12 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, ground, exit, map, layer1, layer2, layer3;
+    var player, enemy, swordHit, ground, exit, map, layer1, layer2, layer3;
+    var onHitKey = 0;
 };
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
-
-      //this.background = game.add.image(0, 0, 'pbg');
-      //this.world.width = 1600;
-
       //TILEMAP SETUP
       if (global_destination == 'KEVN_1'){
          map = game.add.tilemap('forestbattle');
@@ -61,12 +58,30 @@ PlayPlatform.prototype = {
       var playerGroup = this.game.add.group();
       player = new spriteBuild(this.game,1,1,400,300,'platHero');
       playerGroup.add(player);
-      
       player.body.gravity.y = 600;
       player.body.collideWorldBounds = true;
-      
+      //creates sword hitbox using player prefab, scaled and properly positioned
+      swordHit = new spriteBuild(this.game,1.4,.2,player.body.position.x+16,player.body.position.y+32,'platHero');
+      playerGroup.add(swordHit);
+
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
       
+
+
+      //
+      //TESTING BLOCK, ENEMY SPAWN
+      //
+
+      enemy = new enemyBuild(this.game,1,1,600,300,'platHero');
+      var enemyGroup = this.game.add.group();
+      enemyGroup.add(enemy);
+      enemy.alpha = .4;
+      enemy.body.gravity.y = 900;
+      enemy.body.collideWorldBounds = true;
+      //
+      //END TESTING BLOCK, ENEMY SPAWN
+      //
+
       //play music
       song = this.add.audio('battle-song');
       song.play('', 0, 1, true);
@@ -78,11 +93,28 @@ PlayPlatform.prototype = {
 
    },
    update: function() {
+      //keeps swordHitbox on player at correct position
+      swordHit.body.position.x = player.body.position.x+16;
+      swordHit.body.position.y = player.body.position.y+32;
+      //updates collision physics
+      enemyisHit = game.physics.arcade.overlap(swordHit,enemy);
+      //checks mouse pressed and overlap, kills the enemy if true.
+      if(game.input.mousePointer.isDown && this.onHitKey == 0){
+         if(enemyisHit){
+            enemy.kill();
+         }
+         this.onHitKey = 1;
+      }
+      if(game.input.mousePointer.isUp){
+         this.onHitKey = 0;
+      }
       if (global_destination === 0) {
          game.physics.arcade.collide(player, layer3);
+         game.physics.arcade.collide(enemy, layer3);
       }
       else if(global_destination === 1){
          game.physics.arcade.collide(player, ground);
+         game.physics.arcade.collide(enemy, ground);
       }
       
       // demonstration of another method of implementing gates
@@ -94,8 +126,5 @@ PlayPlatform.prototype = {
          
          game.state.start('PlayOver');
       }
-      /*if(game.input.keyboard.isDown(Phaser.Keyboard.R)){
-         game.state.start('PlayOver');
-      }*/
    }
 }
