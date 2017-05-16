@@ -21,31 +21,24 @@ var PlayPlatform = function(game) {
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
+      
+      //acces the appropriate index of GLOBAL_MAP_DATA based on the
+      //global variable set by the Door in Overworld state
+      
+      var mapObj = GLOBAL_MAP_DATA[global_destination];
+      
       //TILEMAP SETUP
-      if (global_destination === 0){
-         map = game.add.tilemap('forestbattle');
+      map = game.add.tilemap(mapObj.mapKey);
       
-         map.addTilesetImage('forest-tile','forest-tile');
+      map.addTilesetImage(mapObj.setKey, mapObj.setKey);
       
-         layer1 = map.createLayer('sky');
-         layer2 = map.createLayer('trees');
-         layer3 = map.createLayer('Tile Layer 1');
+      layer1 = map.createLayer('bg');
+      layer2 = map.createLayer('ground');
+      layer3 = map.createLayer('passable');
       
-      //WALLMAP SETUP
-         map.setCollisionByExclusion([], true, layer3);
-      }
+      map.setCollisionByExclusion([],true,layer2);
       
-      else if (global_destination === 1){
-         this.background = game.add.image(0, 0, 'pbg');
-         this.world.width = 1600;
-         ground = game.add.sprite(0, 400, 'platform');
-         ground.scale.setTo(this.world.width/400, 1);
-         game.physics.enable(ground, Phaser.Physics.ARCADE);
-         ground.body.allowGravity = false;
-         ground.body.immovable = true;
-         ground.alpha = 0; // make ground invisible so that player is pbg image
-      }
-      
+      layer1.resizeWorld();
 
       // EXIT GATE
       exit = new spriteBuild(this.game, 1, 6.25, 1550, 200, 'platHero');
@@ -84,7 +77,7 @@ PlayPlatform.prototype = {
 
       //play music
       song = this.add.audio('battle-song');
-      song.play('', 0, 1, true);
+      //song.play('', 0, 1, true);
       
       this.instructions = game.add.text(400, 32, "Arrow Keys to move, reach far right to return to world map", {fontSize: "12px", fill: '#000'});
       this.instructions.anchor.set(0.5);
@@ -108,14 +101,8 @@ PlayPlatform.prototype = {
       if(game.input.mousePointer.isUp){
          this.onHitKey = 0;
       }
-      if (global_destination === 0) {
-         game.physics.arcade.collide(player, layer3);
-         game.physics.arcade.collide(enemy, layer3);
-      }
-      else if(global_destination === 1){
-         game.physics.arcade.collide(player, ground);
-         game.physics.arcade.collide(enemy, ground);
-      }
+      game.physics.arcade.collide(player, layer2);
+      game.physics.arcade.collide(enemy, layer2);
       
       // demonstration of another method of implementing gates
       var hitExit = game.physics.arcade.collide(player, exit);
