@@ -99,8 +99,14 @@ PlayPlatform.prototype = {
       //updates collision physics
       enemyisHit = game.physics.arcade.overlap(swordHit,enemy);
       //checks mouse pressed and overlap, kills the enemy if true.
-      if(enemyisHit && game.input.mousePointer.isDown){
-         enemy.kill();
+      if(game.input.mousePointer.isDown && this.onHitKey == 0){
+         if(enemyisHit){
+            enemy.kill();
+         }
+         this.onHitKey = 1;
+      }
+      if(game.input.mousePointer.isUp){
+         this.onHitKey = 0;
       }
       if (global_destination === 0) {
          game.physics.arcade.collide(player, layer3);
