@@ -16,14 +16,11 @@ Added invisible gate at far left of world to return to the overworld
 
 var PlayPlatform = function(game) {
     var player, enemy, swordHit, ground, exit, map, layer1, layer2, layer3;
+    var onHitKey = 0;
 };
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
-
-      //this.background = game.add.image(0, 0, 'pbg');
-      //this.world.width = 1600;
-
       //TILEMAP SETUP
       if (global_destination === 0){
          map = game.add.tilemap('forestbattle');
@@ -100,9 +97,16 @@ PlayPlatform.prototype = {
       swordHit.body.position.x = player.body.position.x+16;
       swordHit.body.position.y = player.body.position.y+32;
       //updates collision physics
-      enemyisHit = game.physics.arcade.collide(swordHit,enemy);
-      if(enemyisHit){
-         enemy.kill();
+      enemyisHit = game.physics.arcade.overlap(swordHit,enemy);
+      //checks mouse pressed and overlap, kills the enemy if true.
+      if(game.input.mousePointer.isDown && this.onHitKey == 0){
+         if(enemyisHit){
+            enemy.kill();
+         }
+         this.onHitKey = 1;
+      }
+      if(game.input.mousePointer.isUp){
+         this.onHitKey = 0;
       }
       if (global_destination === 0) {
          game.physics.arcade.collide(player, layer3);
