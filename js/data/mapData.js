@@ -24,7 +24,8 @@ GLOBAL_MAP_DATA = [
    {
        //Kevn map definition
        //TILEMAP FILES
-       key: 'forest-tile', //key for tilemap
+       mapKey: 'forestbattle',
+       setKey: 'forest-tile', //key for tilemap
        
        //SPAWN LOCATION IN PLATFORM
        spawnX: 100,
@@ -40,7 +41,8 @@ GLOBAL_MAP_DATA = [
    {
        //Hatu map definition
        //TILEMAP FILES
-       key: 'forest-tile', //key for tilemap
+       mapKey: 'forestbattle2',
+       setKey: 'forest-tile', //key for tilemap
        
        //SPAWN LOCATION IN PLATFORM
        spawnX: 100,
@@ -58,24 +60,3 @@ GLOBAL_MAP_DATA = [
 const O_WORLD = 0;
 const KEVN_1 = 1;
 const HATU_1 = 2;
-
-
-
-
-
-
-
-
-
-
-GLOBAL_TEXT_DATA = [
-   {
-      text: [
-         "text1",
-         "text2"
-      ],
-      
-      type: 
-      after: null //function goes here
-   }
-]
