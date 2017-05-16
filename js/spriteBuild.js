@@ -19,20 +19,19 @@ spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
 spriteBuild.prototype.constructor = spriteBuild;
 
 spriteBuild.prototype.update = function(){
-	/*if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
-         // console.log("up"); // Do not use unless keyboard is not responding
-         this.body.velocity.y = -150;
-      } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-         this.body.velocity.y = 150;
-      } else{
-         this.body.velocity.y = 0;
-      }
-      if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-         this.body.velocity.x = 150;
-      } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-         this.body.velocity.x = -150;
-      } else {
-         this.body.velocity.x = 0;
-      }*/
+	//this is still iffy, but instantiated controls for platformer
+         //hitGround = game.physics.arcade.collide(this.body, this.ground);
+         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+            this.body.velocity.x = 150;
+         } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+            this.body.velocity.x = -150;
+         } else {
+            this.body.velocity.x = 0;
+         }
+
+         if(game.input.keyboard.isDown(Phaser.Keyboard.UP)
+           && (player.body.onFloor() || player.body.touching.down)){
+            this.body.velocity.y = -500;
+         }
 
 }
