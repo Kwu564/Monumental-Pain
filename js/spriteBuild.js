@@ -13,6 +13,11 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
 	this.game.physics.arcade.enableBody(this);
+    
+    //add child sprite for sword
+    this.sword = this.addChild(game.make.sprite(0, 0, 'platHero'));
+    this.sword.scale.set(1.4,.2);
+    game.physics.arcade.enable(this.sword);
 };
 
 spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);

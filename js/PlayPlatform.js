@@ -55,14 +55,9 @@ PlayPlatform.prototype = {
       playerGroup.add(player);
       player.body.gravity.y = 1500;
       player.body.collideWorldBounds = true;
-      
-      let x = player.body.position.x, y = player.body.position.y;
-      //creates sword hitbox using player prefab, scaled and properly positioned
-      //swordHit = new spriteBuild(this.game,1.4,.2,x+16,y+32,'platHero');
-      //playerGroup.add(swordHit);
-      swordHit = player.addChild(game.make.sprite(0, 0, 'platHero'));
-      swordHit.scale.set(1.4,.2);
-      game.physics.arcade.enable(swordHit);
+
+      //Sword is child sprite of player 
+      swordHit = player.sword;
 
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
       
