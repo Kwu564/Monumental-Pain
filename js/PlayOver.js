@@ -9,7 +9,8 @@
  * Update so that entering town will start PlayPlatform state
 */
 
-var canEnter = false; // Can someone look into to how to make this variable not global?
+var canEnter; // Can someone look into to how to make this variable not global?
+//A: No, it's global so that the player prefab can use it
 
 var PlayOver = function(game) {
    var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song;
@@ -18,10 +19,12 @@ var PlayOver = function(game) {
 PlayOver.prototype = {
    create: function() {
       console.log("PlayOver: create");
-      //this.background = game.add.image(0, 0, 'obg');
+      
+      canEnter = false;
       // TIMER SETUP
       timer = game.time.create(); // this timer will prevent player from immediately re-entering a city by accident
-      timer.add(1000, function(){
+      //timer repurposed to prevent player from moving immediately after leaving town
+      timer.add(600, function(){
          console.log('canEnter = true at: '+timer.ms);
          canEnter = true;
       }, this);
@@ -42,14 +45,6 @@ PlayOver.prototype = {
       map.setCollisionByExclusion([3], true, layer2);
       
       layer1.resizeWorld();
-      
-      /*// town = map.searchTileIndex(3, 0, false, layer2); //Doesn't work
-      townGroup = this.game.add.group();
-      townGroup.enableBody = true;
-      town = map.createFromTiles([3], null, 'hero', layer2, townGroup); // Uses hero because it is the exact size of a tile
-      townGroup.alpha = 0;
-      townGroup.setAll('body.immovable', true);
-      */
 
       //CREATE DOORS
       townGroup = this.game.add.group();
@@ -70,7 +65,7 @@ PlayOver.prototype = {
       //PREFAB SETUP
       playerGroup = this.game.add.group();
       
-      player = new spritePlayOver(this.game,mapData.retX,mapData.retY,'hero');
+      player = new spritePlayOver(this.game,global_x,global_y,'hero');
       //this line adds the player onto the screen
       playerGroup.add(player);
       
@@ -94,21 +89,8 @@ PlayOver.prototype = {
       game.physics.arcade.collide(player, layer2);
       
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
-      //if(canEnter){ game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);}
-      //else {game.physics.arcade.collide(player, townGroup);}
-      
-      
-      // Uncomment below for quick state switching
-      /*if(game.input.keyboard.isDown(Phaser.Keyboard.R)){
-         game.state.start('PlayPlatform');
-      }*/
    },
    enterTown: function(player, townGroup) {
-      /*global_x = player.x;
-      global_y = player.y;
-      canEnter = false; // reset town entrence delay
-      */
-      
       global_destination = townGroup.destination;
       
       //stops all sounds
