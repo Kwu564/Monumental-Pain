@@ -28,12 +28,12 @@ GLOBAL_MAP_DATA = [
        setKey: 'forest-tile', //key for tilemap
        
        //SPAWN LOCATION IN PLATFORM
-       spawnX: 100,
-       spawnY: 200,
+       spawnX: 640,
+       spawnY: 320,
        
        //LOCATION TO RETURN TO IN OVERWORLD
-       retX: 18 * TILE_SIZE,
-       retY: 10 * TILE_SIZE
+       retX: (18 * TILE_SIZE) + 16,
+       retY: (10 * TILE_SIZE) + 16
        
        //NPC DEFINITIONS
        //NPCs = [];
@@ -45,12 +45,12 @@ GLOBAL_MAP_DATA = [
        setKey: 'forest-tile', //key for tilemap
        
        //SPAWN LOCATION IN PLATFORM
-       spawnX: 100,
-       spawnY: 200,
+       spawnX: 1792,
+       spawnY: 384,
        
        //LOCATION TO RETURN TO IN OVERWORLD
-       retX: 18 * TILE_SIZE,
-       retY: 10 * TILE_SIZE
+       retX: (9 * TILE_SIZE) + 16,
+       retY: (13 * TILE_SIZE) + 16
        
        //NPC DEFINITIONS
        //NPCs = [];

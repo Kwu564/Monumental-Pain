@@ -33,6 +33,7 @@ Load.prototype = {
       game.load.audio('oworld-song','audio/overworld.ogg');
       game.load.audio('battle-song','audio/engage.ogg');
       
+       /*
       // scale the game 2x
       game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
       game.scale.setUserScale(2, 2);
@@ -40,6 +41,7 @@ Load.prototype = {
       // enable crisp rendering
       game.renderer.renderSession.roundPixels = true;
       Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+        */
    },
    create: function() {
       console.log("Load: create");
