@@ -84,17 +84,17 @@ PlayPlatform.prototype = {
       song = this.add.audio('battle-song');
       //song.play('', 0, 1, true);
       
-      this.instructions = game.add.text(400, 32, "Arrow Keys to move, reach end of screen to return to world map", {fontSize: "12px", fill: '#000'});
+      this.instructions = game.add.text(400, 32, "WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, and reach end of screen to return to world map", {fontSize: "12px", fill: '#000'});
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
-      this.instructions.cameraOffset.setTo(300, 32);
+      this.instructions.cameraOffset.setTo(400, 32);
 
    },
    update: function() {
       
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
-      if(game.input.mousePointer.isDown && this.onHitKey == 0){
+      if ( game.input.mousePointer.isDown && this.onHitKey == 0 ) {
          this.swordAttack(swordHit, enemy);
          this.onHitKey = 1;
       } else {
@@ -105,7 +105,7 @@ PlayPlatform.prototype = {
       
       // demonstration of another method of implementing gates
       var hitExit = game.physics.arcade.collide(player, exit);
-      if (hitExit){
+      if ( hitExit ){
          
          //stops all sounds
          game.sound.stopAll();
@@ -116,7 +116,7 @@ PlayPlatform.prototype = {
    swordAttack: function(swordHit, enemy) {
       let enemyIsHit = game.physics.arcade.overlap(swordHit,enemy);
       
-      if(enemyIsHit) {
+      if ( enemyIsHit ) {
          enemy.kill();
       }
    }
