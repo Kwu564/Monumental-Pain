@@ -120,10 +120,18 @@ Weapon.SingleBullet.prototype.fire = function(source) {
   this.nextFire = this.game.time.time + this.fireRate;
 
 };
+//function creates a jump delay
+var onJump = function(noJump){
+    this.noJump = 0;
+};
 
 var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	console.log("spriteBuild: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
+  //creates timer inside sprite
+  var spriteTimer = game.time.create();
+  //flag to pass into onJump, allows for delay
+  this.noJump = 0;
 
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
@@ -154,8 +162,11 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.animations.add('SheathedWalkLeft', [4, 5, 6, 7], 10, true);
     this.animations.add('SwordWalkRight', [8, 9, 10, 11], 10, true);
     this.animations.add('SwordWalkLeft', [12, 13, 14, 15], 10, true);
-    this.animations.add('SwordSlashRight', [16, 17, 18], 10, true);
-    this.animations.add('SwordSlashLeft', [19, 20, 21], 10, true);
+    //TWEEKED ANIMATION TO SEE HOW IT FEELS
+    //DEFAULT IS [16,17,18],10,true
+    this.animations.add('SwordSlashRight', [16, 16, 16, 16, 17, 17, 18, 18, 18], 25, true);
+    //DEFAULT IS [19,20,21],10,true
+    this.animations.add('SwordSlashLeft', [19, 19, 19, 19, 20, 20, 21, 21, 21], 25, true);
     this.animations.add('CrossbowWalkRight', [22, 23, 24, 25], 10, true);
     this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);     
 };
@@ -250,8 +261,11 @@ spriteBuild.prototype.update = function() {
     }
 
     //JUMPING
-    if ( game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.onFloor() ){
+    if ( game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.onFloor() && this.noJump == 0){
+      console.log("noJump"+this.noJump);
         this.body.velocity.y = -660;
+        this.noJump = 1;
+        game.time.events.add(1200,onJump,this,this.noJump);
     }
 
     if ( game.input.keyboard.isDown(Phaser.Keyboard.ONE) ) {
