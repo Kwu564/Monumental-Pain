@@ -14,11 +14,13 @@ var canEnter; // Can someone look into to how to make this variable not global?
 
 var PlayOver = function(game) {
    var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song;
-   var mapData;
 };
 PlayOver.prototype = {
    create: function() {
       console.log("PlayOver: create");
+      
+      //fade camera instantly, makes screen black while creating things
+      game.camera.fade(0x000000, 1);
       
       canEnter = false;
       // TIMER SETUP
@@ -30,7 +32,7 @@ PlayOver.prototype = {
       }, this);
       timer.start();
       
-      mapData = GLOBAL_MAP_DATA[O_WORLD];
+      var mapData = GLOBAL_MAP_DATA[O_WORLD];
       
       //TILEMAP SETUP
       map = game.add.tilemap(mapData.mapKey);
@@ -55,7 +57,7 @@ PlayOver.prototype = {
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         town = new Door(game,obj.x,obj.y,'hero',0,obj.type,obj.x,obj.y);
+         town = new Door(game,obj.x,obj.y,'collider',0,obj.type,32,32);
          townGroup.add(town);
       }
       
@@ -79,6 +81,10 @@ PlayOver.prototype = {
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(game.camera.width/2, 32);
+      
+      //fades camera back in
+      game.camera.resetFX();
+      game.camera.flash(0x000000, 500);
    },
    update: function() {
       game.physics.arcade.collide(player, layer1);
@@ -91,9 +97,19 @@ PlayOver.prototype = {
       global_x = townGroup.retX;
       global_y = townGroup.retY;
       
+      canEnter = false; //prevents player from moving
+      player.body.velocity.set(0,0);
+      
       //stops all sounds
       game.sound.stopAll();
       
-      game.state.start('PlayPlatform');
+      game.camera.fade();
+      timer = game.time.create();
+      timer.add(480, function() {
+         game.state.start('PlayPlatform');
+      }, this);
+      timer.start();
+      
+      //game.state.start('PlayPlatform');
    }
 }

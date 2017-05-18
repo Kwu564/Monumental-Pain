@@ -146,7 +146,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     // add child sprite for sword
     this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
     this.sword.scale.set(30, 49);
-    this.sword.alpha = .08;
+    this.sword.alpha = 0;
     game.physics.arcade.enable(this.sword);
 
     this.weapons = [];
@@ -175,8 +175,9 @@ spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
 spriteBuild.prototype.constructor = spriteBuild;
 
 spriteBuild.prototype.update = function() {
+   if(canEnter) { //only allow input if the 
     //this is still iffy, but instantiated controls for platformer
-    //hitGround = game.physics.arcade.collide(this.body, this.ground);      
+    //hitGround = game.physics.arcade.collide(this.body, this.ground); 
     if ( game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ) {
         // stop the player and attack
         if ( weapon == 'sword' ) {
@@ -274,4 +275,6 @@ spriteBuild.prototype.update = function() {
     } else if ( game.input.keyboard.isDown(Phaser.Keyboard.THREE) ) {
         weapon = 'sheathed';
     }
+      
+   }
 }
