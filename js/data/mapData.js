@@ -14,10 +14,6 @@ GLOBAL_MAP_DATA = [
        spawnX: 0,
        spawnY: 0,
        
-       //LOCATION TO RETURN TO IN OVERWORLD
-       retX: 400,
-       retY: 300
-       
        //NPC DEFINITIONS
        //NPCs = [];
    },
@@ -31,10 +27,6 @@ GLOBAL_MAP_DATA = [
        spawnX: 640,
        spawnY: 320,
        
-       //LOCATION TO RETURN TO IN OVERWORLD
-       retX: (18 * TILE_SIZE) + 16,
-       retY: (10 * TILE_SIZE) + 16
-       
        //NPC DEFINITIONS
        //NPCs = [];
    },
@@ -47,10 +39,6 @@ GLOBAL_MAP_DATA = [
        //SPAWN LOCATION IN PLATFORM
        spawnX: 1792,
        spawnY: 384,
-       
-       //LOCATION TO RETURN TO IN OVERWORLD
-       retX: (9 * TILE_SIZE) + 16,
-       retY: (13 * TILE_SIZE) + 16
        
        //NPC DEFINITIONS
        //NPCs = [];

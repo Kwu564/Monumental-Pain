@@ -22,6 +22,9 @@ PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
       
+      //fades camera instantly, black while creating things
+      game.camera.fade(0x000000, 1);
+      
       //acces the appropriate index of GLOBAL_MAP_DATA based on the
       //global variable set by the Door in Overworld state
       
@@ -53,7 +56,7 @@ PlayPlatform.prototype = {
          screenEdges.add(door);
       }
       
-      screenEdges.alpha = .2;
+      screenEdges.alpha = 0;
       screenEdges.setAll('immovable',true);
       
       /*
@@ -99,6 +102,13 @@ PlayPlatform.prototype = {
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(400, 32);
+      
+      //fades camera back in
+      game.camera.resetFX();
+      game.camera.flash(0x000000, 500);
+      
+      //allow player to move
+      canEnter = true;
 
    },
    update: function() {
@@ -127,6 +137,14 @@ PlayPlatform.prototype = {
    enterDoor: function() {
       game.sound.stopAll();
       
-      game.state.start('PlayOver');
+      canEnter = false;
+      player.body.collideWorldBounds = false;
+      
+      game.camera.fade();
+      let timer = game.time.create();
+      timer.add(480, function() {
+         game.state.start('PlayOver');
+      }, this);
+      timer.start();
    }
 }
