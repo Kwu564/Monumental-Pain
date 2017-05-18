@@ -18,7 +18,7 @@ var global_y = 300;
 
 window.onload = function() {
     //scaled dimensions: 600, 400
-   game =  new Phaser.Game(800, 600, Phaser.AUTO);
+   game =  new Phaser.Game(800, 600, Phaser.CANVAS);
    // define states
    // Add boot, title, and gameOver states later
    game.state.add('Load', Load);
