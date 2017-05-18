@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, enemy, swordHit, ground, exit, map, layer1, layer2, layer3;
+    var player, enemy, swordHit, ground, exit, map, layer1, layer2, layer3, gates, doors, door;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -41,13 +41,29 @@ PlayPlatform.prototype = {
       layer1.resizeWorld();
 
       // EXIT GATE
+      screenEdges = this.game.add.group();
+      screenEdges.enableBody = true;
+      
+      doors = map.objects.doors;
+      
+      for(let i = 0; i < doors.length; i++) {
+         let obj = doors[i];
+         
+         door = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
+         screenEdges.add(door);
+      }
+      
+      screenEdges.alpha = .2;
+      screenEdges.setAll('immovable',true);
+      
+      /*
       exit = this.add.sprite(1550,200,'platHero');
       exit.scale.set(1,6.25);
       game.physics.arcade.enable(exit);
       exit.anchor.setTo(0, 0);
       exit.body.allowGravity = false;
       exit.body.immovable = true;
-      exit.alpha = .02;
+      exit.alpha = .02;*/
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
@@ -98,15 +114,8 @@ PlayPlatform.prototype = {
       game.physics.arcade.collide(player, layer2);
       game.physics.arcade.collide(enemy, layer2);
       
-      // demonstration of another method of implementing gates
-      var hitExit = game.physics.arcade.collide(player, exit);
-      if ( hitExit ){
-         
-         //stops all sounds
-         game.sound.stopAll();
-         
-         game.state.start('PlayOver');
-      }
+      //doors
+      game.physics.arcade.overlap(player, screenEdges, this.enterDoor, null, this);
    },
    swordAttack: function(swordHit, enemy) {
       let enemyIsHit = game.physics.arcade.overlap(swordHit,enemy);
@@ -114,5 +123,10 @@ PlayPlatform.prototype = {
       if ( enemyIsHit ) {
          enemy.kill();
       }
+   },
+   enterDoor: function() {
+      game.sound.stopAll();
+      
+      game.state.start('PlayOver');
    }
 }
