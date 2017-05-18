@@ -59,16 +59,6 @@ PlayPlatform.prototype = {
       
       screenEdges.alpha = 0;
       screenEdges.setAll('immovable',true);
-      
-      /*
-      exit = this.add.sprite(1550,200,'platHero');
-      exit.scale.set(1,6.25);
-      game.physics.arcade.enable(exit);
-      exit.anchor.setTo(0, 0);
-      exit.body.allowGravity = false;
-      exit.body.immovable = true;
-      exit.alpha = .02;
-      */
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
@@ -89,7 +79,6 @@ PlayPlatform.prototype = {
       enemy = new enemyBuild(this.game,1,1,600,300,'baddie');
       var enemyGroup = this.game.add.group();
       enemyGroup.add(enemy);
-      //enemy.alpha = .6;
       enemy.body.gravity.y = 1500;
       enemy.body.collideWorldBounds = true;
       //
@@ -127,14 +116,7 @@ PlayPlatform.prototype = {
       game.physics.arcade.collide(enemy, layer2);
       
       // demonstration of another method of implementing gates
-      var hitExit = game.physics.arcade.collide(player, exit);
-      if ( hitExit ){
-         
-         //stops all sounds
-         game.sound.stopAll();
-         
-         game.state.start('PlayOver');
-      }
+      game.physics.arcade.overlap(player, screenEdges, this.enterDoor, null, this);
    },
    swordAttack: function(swordHit, enemy) {
       let enemyIsHit = game.physics.arcade.overlap(swordHit,enemy);
@@ -155,6 +137,7 @@ PlayPlatform.prototype = {
          game.state.start('PlayOver');
       }, this);
       timer.start();
+   },
    render: function() {
       //uncomment to view player collision info in platform
       //game.debug.bodyInfo(player, 64, 64);
