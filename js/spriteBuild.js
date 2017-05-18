@@ -165,7 +165,7 @@ spriteBuild.prototype.constructor = spriteBuild;
 
 spriteBuild.prototype.update = function() {
     //this is still iffy, but instantiated controls for platformer
-    //hitGround = game.physics.arcade.collide(this.body, this.ground);
+    //hitGround = game.physics.arcade.collide(this.body, this.ground);      
     if ( game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ) {
         // stop the player and attack
         if ( weapon == 'sword' ) {
