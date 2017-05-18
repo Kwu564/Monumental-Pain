@@ -63,8 +63,8 @@ PlayPlatform.prototype = {
       
       
       //SET RETURN GLOBALS
-      global_x = mapObj.retX;
-      global_y = mapObj.retY;
+      //global_x = mapObj.retX;
+      //global_y = mapObj.retY;
 
       //
       //TESTING BLOCK, ENEMY SPAWN

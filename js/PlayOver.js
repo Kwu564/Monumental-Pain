@@ -41,8 +41,8 @@ PlayOver.prototype = {
       layer2 = map.createLayer('overlay');
       
       //WALLMAP SETUP
-      map.setCollisionByExclusion([1], true, layer1);
-      map.setCollisionByExclusion([3], true, layer2);
+      map.setCollisionByExclusion([1,6,21], true, layer1);
+      map.setCollisionByExclusion([3,5], true, layer2);
       
       layer1.resizeWorld();
 
@@ -55,7 +55,7 @@ PlayOver.prototype = {
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         town = new Door(game,obj.x,obj.y,'hero',0,obj.type);
+         town = new Door(game,obj.x,obj.y,'hero',0,obj.type,obj.x,obj.y);
          townGroup.add(town);
       }
       
@@ -81,10 +81,6 @@ PlayOver.prototype = {
       this.instructions.cameraOffset.setTo(300, 32);
    },
    update: function() {
-      // console.log("PlayOver: update"); // Do not use unless update is not running
-
-      //global_destination = player.y>350 ? 0 : 1;
-      
       game.physics.arcade.collide(player, layer1);
       game.physics.arcade.collide(player, layer2);
       
@@ -92,6 +88,8 @@ PlayOver.prototype = {
    },
    enterTown: function(player, townGroup) {
       global_destination = townGroup.destination;
+      global_x = townGroup.retX;
+      global_y = townGroup.retY;
       
       //stops all sounds
       game.sound.stopAll();

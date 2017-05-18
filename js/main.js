@@ -13,8 +13,8 @@
 
 var game;
 var global_destination;  // Use this variable to set where we are going
-var global_x = 400;
-var global_y = 300;
+var global_x = 592;
+var global_y = 768;
 
 window.onload = function() {
     //scaled dimensions: 600, 400
