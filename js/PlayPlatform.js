@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, enemy, swordHit, ground, exit, map, layer1, layer2, layer3, gates, doors, door;
+    var player, enemy, swordHit, ground, exit, map, layer1, layer2, layer3;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -66,7 +66,8 @@ PlayPlatform.prototype = {
       exit.anchor.setTo(0, 0);
       exit.body.allowGravity = false;
       exit.body.immovable = true;
-      exit.alpha = .02;*/
+      exit.alpha = .02;
+      */
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
@@ -111,8 +112,7 @@ PlayPlatform.prototype = {
       canEnter = true;
 
    },
-   update: function() {
-      
+   update: function() {      
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
       if ( game.input.mousePointer.isDown && this.onHitKey == 0 ) {
@@ -124,8 +124,15 @@ PlayPlatform.prototype = {
       game.physics.arcade.collide(player, layer2);
       game.physics.arcade.collide(enemy, layer2);
       
-      //doors
-      game.physics.arcade.overlap(player, screenEdges, this.enterDoor, null, this);
+      // demonstration of another method of implementing gates
+      var hitExit = game.physics.arcade.collide(player, exit);
+      if ( hitExit ){
+         
+         //stops all sounds
+         game.sound.stopAll();
+         
+         game.state.start('PlayOver');
+      }
    },
    swordAttack: function(swordHit, enemy) {
       let enemyIsHit = game.physics.arcade.overlap(swordHit,enemy);
@@ -146,5 +153,9 @@ PlayPlatform.prototype = {
          game.state.start('PlayOver');
       }, this);
       timer.start();
+   render: function() {
+      //uncomment to view player collision info in platform
+      //game.debug.bodyInfo(player, 64, 64);
+      //game.debug.body(player);
    }
 }

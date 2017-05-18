@@ -164,8 +164,9 @@ spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
 spriteBuild.prototype.constructor = spriteBuild;
 
 spriteBuild.prototype.update = function() {
-   if(canEnter) { //only allow input if the game says you can move
-      
+   if(canEnter) { //only allow input if the 
+    //this is still iffy, but instantiated controls for platformer
+    //hitGround = game.physics.arcade.collide(this.body, this.ground); 
     if ( game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ) {
         // stop the player and attack
         if ( weapon == 'sword' ) {

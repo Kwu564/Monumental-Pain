@@ -57,7 +57,7 @@ PlayOver.prototype = {
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         town = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
+         town = new Door(game,obj.x,obj.y,'hero',0,obj.type,obj.x,obj.y);
          townGroup.add(town);
       }
       
