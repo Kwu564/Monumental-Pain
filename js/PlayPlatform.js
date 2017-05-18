@@ -65,10 +65,10 @@ PlayPlatform.prototype = {
       //TESTING BLOCK, ENEMY SPAWN
       //
 
-      enemy = new enemyBuild(this.game,1,1,600,300,'platHero');
+      enemy = new enemyBuild(this.game,1,1,600,300,'baddie');
       var enemyGroup = this.game.add.group();
       enemyGroup.add(enemy);
-      enemy.alpha = .6;
+      //enemy.alpha = .6;
       enemy.body.gravity.y = 1500;
       enemy.body.collideWorldBounds = true;
       //

@@ -20,6 +20,7 @@ Load.prototype = {
       game.load.path = './assets/' // should probably split directory to img and audio
       game.load.image('pbg', 'img/battle-background.jpg'); // pbg stands for platformer background
       game.load.image('hero', 'img/hero.png');
+      game.load.image('baddie', 'img/Militant.png');
       game.load.image('arrow', 'img/crossbowBolt.png');
       game.load.spritesheet('platHero', 'img/hero-tall.png', 64, 64);
       game.load.image('collider', 'img/collider.png'); // obg = overworld background
