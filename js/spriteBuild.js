@@ -127,11 +127,18 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
 
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
-	this.game.physics.arcade.enableBody(this);   
+	this.game.physics.arcade.enableBody(this);
+    
+    //change collision box
+    this.body.setSize(22, 49, 19, 14); //(width, height, offsetX, offsetY)
+    
+    //direction value: positive is right, negative is left
+    this.direction = 1;
     
     // add child sprite for sword
-    this.sword = this.addChild(game.make.sprite(0, 0, 'platHero'));
-    this.sword.scale.set(1.4,.2);
+    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+    this.sword.scale.set(30, 49);
+    this.sword.alpha = .08;
     game.physics.arcade.enable(this.sword);
 
     this.weapons = [];
@@ -183,7 +190,15 @@ spriteBuild.prototype.update = function() {
         } // do nothing if weapon == 'sheathed'
     } else if ( game.input.keyboard.isDown(Phaser.Keyboard.D) ) {
         fireAngle = 0;
+        
+        //make sure the sword hitbox is on the right side of the player
+        if(this.direction < 0) {
+            this.sword.position.x = 8;
+            this.direction = 1;
+        }
+        //move player
         this.body.velocity.x = 180;
+        //play right animation
         if ( weapon == 'sword' ) {
             this.animations.play('SwordWalkRight');
         } else if ( weapon == 'crossbow' ) {
@@ -193,7 +208,15 @@ spriteBuild.prototype.update = function() {
         }
     } else if ( game.input.keyboard.isDown(Phaser.Keyboard.A) ) {
         fireAngle = 180;
+        
+        //make sure the sword hitbox is on the right side of the player
+        if(this.direction > 0) {
+            this.sword.position.x = (-18) - this.sword.width;
+            this.direction = -1;
+        }
+        //move player
         this.body.velocity.x = -180;
+        //play right animation
         if ( weapon == 'sword' ) {
             this.animations.play('SwordWalkLeft');
         } else if ( weapon == 'crossbow' ) {
@@ -216,7 +239,7 @@ spriteBuild.prototype.update = function() {
             } else if ( fireAngle == 180 ) {
                 player.frame = 26;
             }      
-        } else if ( weapon == 'sheathed' ) {
+        } else if ( weapon == 'sheathed' ) { //I read this as "sheat hed" and thought it was hilarious
             if ( fireAngle == 0 ) {
                 player.frame = 0;
             } else if ( fireAngle == 180 ) {
@@ -225,6 +248,7 @@ spriteBuild.prototype.update = function() {
         }
     }
 
+    //JUMPING
     if ( game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.onFloor() ){
         this.body.velocity.y = -660;
     }

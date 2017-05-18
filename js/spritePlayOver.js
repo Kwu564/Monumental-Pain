@@ -20,17 +20,17 @@ spritePlayOver.prototype.update = function(){
     if(canEnter) { //only allow the player to move after they've been allowed to
        
     //Vertical movement checks
-    if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+    if(game.input.keyboard.isDown(Phaser.Keyboard.W)){
         this.body.velocity.y = -90;
-    } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+    } else if (game.input.keyboard.isDown(Phaser.Keyboard.S)){
         this.body.velocity.y = 90;
     } else{
         this.body.velocity.y = 0;
     }
     //Horizontal movement checks
-    if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+    if(game.input.keyboard.isDown(Phaser.Keyboard.D)){
         this.body.velocity.x = 90;
-    } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+    } else if (game.input.keyboard.isDown(Phaser.Keyboard.A)){
         this.body.velocity.x = -90;
     } else {
         this.body.velocity.x = 0;

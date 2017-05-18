@@ -57,14 +57,14 @@ PlayPlatform.prototype = {
       player.body.collideWorldBounds = true;
 
       //Sword is child sprite of player 
-      swordHit = player.sword;
+      //swordHit = player.sword;
 
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
       
       
       //SET RETURN GLOBALS
-      global_x = mapObj.retX;
-      global_y = mapObj.retY;
+      //global_x = mapObj.retX;
+      //global_y = mapObj.retY;
 
       //
       //TESTING BLOCK, ENEMY SPAWN
@@ -95,7 +95,7 @@ PlayPlatform.prototype = {
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
       if ( game.input.mousePointer.isDown && this.onHitKey == 0 ) {
-         this.swordAttack(swordHit, enemy);
+         this.swordAttack(player.sword, enemy);
          this.onHitKey = 1;
       } else {
          this.onHitKey = 0;

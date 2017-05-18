@@ -22,8 +22,8 @@ Load.prototype = {
       game.load.image('hero', 'img/hero.png');
       game.load.image('arrow', 'img/crossbowBolt.png');
       game.load.spritesheet('platHero', 'img/hero-tall.png', 64, 64);
-      game.load.image('obg', 'img/overworld.jpg'); // obg = overworld background
-      game.load.image('platform', 'img/platform.png');
+      game.load.image('collider', 'img/collider.png'); // obg = overworld background
+      game.load.image('platform', 'img/platform.png'); //1x1 sprite for hitboxes
       game.load.tilemap('oworld', 'json/oworld-tile.json', null, Phaser.Tilemap.TILED_JSON); //json data for map tiles
       game.load.tilemap('forestbattle', 'json/forest-battle.json', null, Phaser.Tilemap.TILED_JSON); 
       game.load.tilemap('forestbattle2', 'json/forest-battle2.json', null, Phaser.Tilemap.TILED_JSON); 

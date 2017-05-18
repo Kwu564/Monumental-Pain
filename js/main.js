@@ -13,12 +13,12 @@
 
 var game;
 var global_destination;  // Use this variable to set where we are going
-var global_x = 400;
-var global_y = 300;
+var global_x = 592;
+var global_y = 768;
 
 window.onload = function() {
     //scaled dimensions: 600, 400
-   game =  new Phaser.Game(800, 600, Phaser.AUTO);
+   game =  new Phaser.Game(800, 600, Phaser.CANVAS);
    // define states
    // Add boot, title, and gameOver states later
    game.state.add('Load', Load);
