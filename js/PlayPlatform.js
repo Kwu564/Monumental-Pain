@@ -60,11 +60,6 @@ PlayPlatform.prototype = {
       //swordHit = player.sword;
 
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
-      
-      
-      //SET RETURN GLOBALS
-      //global_x = mapObj.retX;
-      //global_y = mapObj.retY;
 
       //
       //TESTING BLOCK, ENEMY SPAWN
@@ -73,7 +68,7 @@ PlayPlatform.prototype = {
       enemy = new enemyBuild(this.game,1,1,600,300,'platHero');
       var enemyGroup = this.game.add.group();
       enemyGroup.add(enemy);
-      enemy.alpha = .4;
+      enemy.alpha = .6;
       enemy.body.gravity.y = 1500;
       enemy.body.collideWorldBounds = true;
       //
