@@ -21,62 +21,55 @@ var PlayPlatform = function(game) {
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
+      
+      //acces the appropriate index of GLOBAL_MAP_DATA based on the
+      //global variable set by the Door in Overworld state
+      
+      var mapObj = GLOBAL_MAP_DATA[global_destination];
+      
       //TILEMAP SETUP
-      if (global_destination === 0){
-         map = game.add.tilemap('forestbattle');
+      map = game.add.tilemap(mapObj.mapKey);
       
-         map.addTilesetImage('forest-tile','forest-tile');
+      map.addTilesetImage(mapObj.setKey, mapObj.setKey);
       
-         layer1 = map.createLayer('sky');
-         layer2 = map.createLayer('trees');
-         layer3 = map.createLayer('Tile Layer 1');
+      layer1 = map.createLayer('bg');
+      layer2 = map.createLayer('ground');
+      layer3 = map.createLayer('passable');
       
-      //WALLMAP SETUP
-         map.setCollisionByExclusion([], true, layer3);
-      }
+      map.setCollisionByExclusion([],true,layer2);
       
-      else if (global_destination === 1){
-         this.background = game.add.image(0, 0, 'pbg');
-         this.world.width = 1600;
-         ground = game.add.sprite(0, 400, 'platform');
-         ground.scale.setTo(this.world.width/400, 1);
-         game.physics.enable(ground, Phaser.Physics.ARCADE);
-         ground.body.allowGravity = false;
-         ground.body.immovable = true;
-         ground.alpha = 0; // make ground invisible so that player is pbg image
-      }
-      
+      layer1.resizeWorld();
 
       // EXIT GATE
-      exit = new spriteBuild(this.game, 1, 6.25, 1550, 200, 'platHero');
+      exit = this.add.sprite(1550,200,'platHero');
+      exit.scale.set(1,6.25);
+      game.physics.arcade.enable(exit);
       exit.anchor.setTo(0, 0);
       exit.body.allowGravity = false;
       exit.body.immovable = true;
-      exit.alpha = 0;
+      exit.alpha = .02;
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
-      player = new spriteBuild(this.game,1,1,400,300,'platHero');
+      player = new spriteBuild(this.game,1,1,mapObj.spawnX,mapObj.spawnY,'platHero');
       playerGroup.add(player);
-      player.body.gravity.y = 600;
+      player.body.gravity.y = 1500;
       player.body.collideWorldBounds = true;
-      //creates sword hitbox using player prefab, scaled and properly positioned
-      swordHit = new spriteBuild(this.game,1.4,.2,player.body.position.x+16,player.body.position.y+32,'platHero');
-      playerGroup.add(swordHit);
+
+      //Sword is child sprite of player 
+      //swordHit = player.sword;
 
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
-      
-
 
       //
       //TESTING BLOCK, ENEMY SPAWN
       //
 
-      enemy = new enemyBuild(this.game,1,1,600,300,'platHero');
+      enemy = new enemyBuild(this.game,1,1,600,300,'baddie');
       var enemyGroup = this.game.add.group();
       enemyGroup.add(enemy);
-      enemy.alpha = .4;
-      enemy.body.gravity.y = 900;
+      //enemy.alpha = .6;
+      enemy.body.gravity.y = 1500;
       enemy.body.collideWorldBounds = true;
       //
       //END TESTING BLOCK, ENEMY SPAWN
@@ -84,47 +77,46 @@ PlayPlatform.prototype = {
 
       //play music
       song = this.add.audio('battle-song');
-      song.play('', 0, 1, true);
+      //song.play('', 0, 1, true);
       
-      this.instructions = game.add.text(400, 32, "Arrow Keys to move, reach far right to return to world map", {fontSize: "12px", fill: '#000'});
+      this.instructions = game.add.text(400, 32, "WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, and reach end of screen to return to world map", {fontSize: "12px", fill: '#000'});
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
-      this.instructions.cameraOffset.setTo(300, 32);
+      this.instructions.cameraOffset.setTo(400, 32);
 
    },
-   update: function() {
-      //keeps swordHitbox on player at correct position
-      swordHit.body.position.x = player.body.position.x+16;
-      swordHit.body.position.y = player.body.position.y+32;
+   update: function() {      
       //updates collision physics
-      enemyisHit = game.physics.arcade.overlap(swordHit,enemy);
       //checks mouse pressed and overlap, kills the enemy if true.
-      if(game.input.mousePointer.isDown && this.onHitKey == 0){
-         if(enemyisHit){
-            enemy.kill();
-         }
+      if ( game.input.mousePointer.isDown && this.onHitKey == 0 ) {
+         this.swordAttack(player.sword, enemy);
          this.onHitKey = 1;
-      }
-      if(game.input.mousePointer.isUp){
+      } else {
          this.onHitKey = 0;
       }
-      if (global_destination === 0) {
-         game.physics.arcade.collide(player, layer3);
-         game.physics.arcade.collide(enemy, layer3);
-      }
-      else if(global_destination === 1){
-         game.physics.arcade.collide(player, ground);
-         game.physics.arcade.collide(enemy, ground);
-      }
+      game.physics.arcade.collide(player, layer2);
+      game.physics.arcade.collide(enemy, layer2);
       
       // demonstration of another method of implementing gates
       var hitExit = game.physics.arcade.collide(player, exit);
-      if (hitExit){
+      if ( hitExit ){
          
          //stops all sounds
          game.sound.stopAll();
          
          game.state.start('PlayOver');
       }
+   },
+   swordAttack: function(swordHit, enemy) {
+      let enemyIsHit = game.physics.arcade.overlap(swordHit,enemy);
+      
+      if ( enemyIsHit ) {
+         enemy.kill();
+      }
+   },
+   render: function() {
+      //uncomment to view player collision info in platform
+      //game.debug.bodyInfo(player, 64, 64);
+      //game.debug.body(player);
    }
 }

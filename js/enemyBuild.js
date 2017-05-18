@@ -12,7 +12,9 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
 
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
-	this.game.physics.arcade.enableBody(this);
+	game.physics.arcade.enableBody(this);
+    
+    this.direction = -1; //positive = right, negative = left
 };
 
 enemyBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -27,6 +29,22 @@ enemyBuild.prototype.update = function(){
             }else{
                this.body.velocity.x = 100;
             }
-         }
-*/
+         }*/
+    if(this.body.blocked.right || this.body.blocked.left) {
+        this.switchDir();
+    }
+    if(this.direction < 0) {
+        this.body.velocity.x = -100;
+    } else {
+        this.body.velocity.x = 100;
+    }
+}
+enemyBuild.prototype.switchDir = function() {
+    if(this.direction < 0) {
+        this.direction = 1;
+        this.body.position.x += 1;
+    } else{
+        this.direction = -1;
+        this.body.position.x -= 1;
+    }
 }
