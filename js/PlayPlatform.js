@@ -15,12 +15,13 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, enemy, swordHit, ground, exit, map, layer1, layer2, layer3;
+    var player, enemy, swordHit, timer, ground, exit, map, layer1, layer2, layer3;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
    create: function() {
       console.log("PlayPlatform: create");
+      timer = game.time.create();
       
       //acces the appropriate index of GLOBAL_MAP_DATA based on the
       //global variable set by the Door in Overworld state
@@ -88,8 +89,9 @@ PlayPlatform.prototype = {
    update: function() {      
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
-      if ( game.input.mousePointer.isDown && this.onHitKey == 0 ) {
-         this.swordAttack(player.sword, enemy);
+      if ( game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {
+         game.time.events.add(340,this.swordAttack,this,player.sword,enemy);
+         //this.swordAttack(player.sword, enemy);
          this.onHitKey = 1;
       } else {
          this.onHitKey = 0;
