@@ -87,7 +87,7 @@ PlayPlatform.prototype = {
 
       //play music
       song = this.add.audio('battle-song');
-      //song.play('', 0, 1, true);
+      song.play('', 0, 1, true);
       
       this.instructions = game.add.text(400, 32, "WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, and reach end of screen to return to world map", {fontSize: "12px", fill: '#000'});
       this.instructions.anchor.set(0.5);
