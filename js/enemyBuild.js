@@ -48,3 +48,19 @@ enemyBuild.prototype.switchDir = function() {
         this.body.position.x -= 1;
     }
 }
+
+
+//////////////////////////////////////////////
+// Specific enemies
+//////////////////////////////////////////////
+
+var Goomba = function(game,scaleX,scaleY,x,y,src,frame) {
+   enemyBuild.call(game,scaleX,scaleY,x,y,src,frame);
+}
+
+
+
+
+
+
+

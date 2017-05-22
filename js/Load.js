@@ -18,7 +18,7 @@ Load.prototype = {
       
       // load graphics assets
       game.load.path = './assets/' // should probably split directory to img and audio
-      game.load.image('pbg', 'img/battle-background.jpg'); // pbg stands for platformer background
+      game.load.image('kevn-bg', 'img/kevn-bg.png'); // pbg stands for platformer background
       game.load.image('hero', 'img/hero.png');
       game.load.image('baddie', 'img/Militant.png');
       game.load.image('arrow', 'img/crossbowBolt.png');
@@ -34,6 +34,7 @@ Load.prototype = {
       // load audio assets here
       game.load.audio('oworld-song','audio/overworld.ogg');
       game.load.audio('battle-song','audio/engage.ogg');
+      game.load.audio('bump','audio/sfx/collide.ogg');
       
       //Scale the game based on window size
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
