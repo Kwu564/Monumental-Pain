@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, enemy, swordHit, timer, ground, exit, map, layer1, layer2, layer3;
+    var player, enemy, swordHit, timer, ground, exit, map, bg, layer1, layer2, layer3;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -36,9 +36,9 @@ PlayPlatform.prototype = {
       
       map.addTilesetImage(mapObj.setKey, mapObj.setKey);
       
-      layer1 = this.add.sprite(0,0,'kevn-bg'); //static bg
-      layer1.fixedToCamera = true;
-      //layer1 = map.createLayer('bg');
+      bg = this.add.sprite(0,0,'kevn-bg'); //static bg
+      bg.fixedToCamera = true;
+      layer1 = map.createLayer('bg');
       layer2 = map.createLayer('ground');
       layer3 = map.createLayer('passable');
       
