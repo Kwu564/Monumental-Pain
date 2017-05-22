@@ -16,25 +16,43 @@ Load.prototype = {
       game.scale.pageAlignHorizontally = true;
       game.scale.pageAlignVertically = true;
       
-      // load graphics assets
-      game.load.path = './assets/' // should probably split directory to img and audio
-      game.load.image('kevn-bg', 'img/kevn-bg.png'); // pbg stands for platformer background
-      game.load.image('hero', 'img/hero.png');
-      game.load.image('baddie', 'img/Militant.png');
-      game.load.image('arrow', 'img/crossbowBolt.png');
-      game.load.spritesheet('platHero', 'img/hero-tall.png', 64, 64);
-      game.load.image('collider', 'img/collider.png'); // obg = overworld background
-      game.load.image('platform', 'img/platform.png'); //1x1 sprite for hitboxes
-      game.load.tilemap('oworld', 'json/oworld-tile.json', null, Phaser.Tilemap.TILED_JSON); //json data for map tiles
-      game.load.tilemap('forestbattle', 'json/forest-battle.json', null, Phaser.Tilemap.TILED_JSON); 
-      game.load.tilemap('forestbattle2', 'json/forest-battle2.json', null, Phaser.Tilemap.TILED_JSON); 
-      game.load.image('oworld-tile', 'img/oworld-tile.png');
-      game.load.image('forest-tile', 'img/forest-tile.png');
+      // an array of keys and files
+      let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png'];
+      let spriteList = ['arrow','crossbowBolt.png','hero','hero.png','baddie','Militant.png'];
+      let sheetList = ['platHero','hero-tall.png',64,64];
+      let tilesetList = ['oworld-tile','oworld-tile.png','forest-tile','forest-tile.png'];
+      let jsonList = ['oworld','oworld-tile.json','forestbattle','forest-battle.json','forestbattle2','forest-battle2.json'];
+      let musicList = ['oworld-song','overworld.ogg','battle-song','engage.ogg'];
+      let sfxList = ['bump','collide.ogg','attackSound','attack.ogg','jumpSound','jump.ogg'];
       
-      // load audio assets here
-      game.load.audio('oworld-song','audio/overworld.ogg');
-      game.load.audio('battle-song','audio/engage.ogg');
-      game.load.audio('bump','audio/sfx/collide.ogg');
+      // load backgrounds and stuff
+      game.load.path = 'assets/img/';
+      for(let i=0; i<imgList.length; i+= 2) {game.load.image(imgList[i],imgList[i+1]);}
+      
+      // load sprite graphics
+      game.load.path = 'assets/img/sprites/';
+      for(let i=0; i<spriteList.length; i+= 2) {game.load.image(spriteList[i],spriteList[i+1]);}
+      for(let i=0; i<sheetList.length; i+= 4) {
+         game.load.spritesheet(sheetList[i],sheetList[i+1],sheetList[i+2],sheetList[i+3]);
+      }
+      
+      // load tilesets
+      game.load.path = 'assets/img/tilesets/';
+      for(let i=0; i<tilesetList.length; i+= 2) {game.load.image(tilesetList[i],tilesetList[i+1]);}
+      
+      // load json data
+      game.load.path = 'assets/json/';
+      for(let i=0; i<jsonList.length; i+= 2) {
+         game.load.tilemap(jsonList[i],jsonList[i+1],null,Phaser.Tilemap.TILED_JSON);
+      }
+      
+      // load music
+      game.load.path = 'assets/audio/';
+      for(let i=0; i<musicList.length; i+= 2) {game.load.audio(musicList[i],musicList[i+1]);}
+      
+      // load sfx
+      game.load.path = 'assets/audio/sfx/';
+      for(let i=0; i<sfxList.length; i+= 2) {game.load.audio(sfxList[i],sfxList[i+1]);}
       
       //Scale the game based on window size
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
