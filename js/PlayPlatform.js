@@ -36,13 +36,15 @@ PlayPlatform.prototype = {
       
       map.addTilesetImage(mapObj.setKey, mapObj.setKey);
       
-      layer1 = map.createLayer('bg');
+      layer1 = this.add.sprite(0,0,'kevn-bg'); //static bg
+      layer1.fixedToCamera = true;
+      //layer1 = map.createLayer('bg');
       layer2 = map.createLayer('ground');
       layer3 = map.createLayer('passable');
       
       map.setCollisionByExclusion([],true,layer2);
       
-      layer1.resizeWorld();
+      layer2.resizeWorld();
 
       // EXIT GATE
       screenEdges = this.game.add.group();
@@ -87,7 +89,7 @@ PlayPlatform.prototype = {
 
       //play music
       song = this.add.audio('battle-song');
-      song.play('', 0, 1, true);
+      //song.play('', 0, 1, true);
       
       this.instructions = game.add.text(400, 32, "WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, and reach end of screen to return to world map", {fontSize: "12px", fill: '#000'});
       this.instructions.anchor.set(0.5);
