@@ -34,7 +34,7 @@ Load.prototype = {
       // load audio assets here
       game.load.audio('oworld-song','audio/overworld.ogg');
       game.load.audio('battle-song','audio/engage.ogg');
-      game.load.audio('bump','audio/sfx/collide.ogg');
+
       
       //Scale the game based on window size
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
