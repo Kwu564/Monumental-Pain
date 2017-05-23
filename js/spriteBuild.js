@@ -140,6 +140,9 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     //change collision box
     this.body.setSize(22, 49, 19, 14); //(width, height, offsetX, offsetY)
     
+    //sounds
+    this.bump = game.add.audio('bump');
+    
     //direction value: positive is right, negative is left
     this.direction = 1;
     
@@ -259,13 +262,19 @@ spriteBuild.prototype.update = function() {
             }            
         }
     }
-
+    
     //JUMPING
-    if ( game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.onFloor() && this.noJump == 0){
-      console.log("noJump"+this.noJump);
-        this.body.velocity.y = -660;
-        this.noJump = 1;
-        game.time.events.add(1200,onJump,this,this.noJump);
+    if (player.body.onFloor()){
+        if(this.noJump == 1) {
+            //landing
+            this.noJump = 0;
+            this.bump.play();
+        } else if(game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
+            //Jump up
+            this.body.velocity.y = -660;
+            this.noJump = 1;
+            //this.frame = this.correctFrame(); //get the right frame for weapon/direction
+        }
     }
 
     if ( game.input.keyboard.isDown(Phaser.Keyboard.ONE) ) {
