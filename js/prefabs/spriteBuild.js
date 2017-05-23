@@ -157,7 +157,7 @@ spriteBuild.prototype.update = function() {
     
     //JUMPING
     if(this.body.onFloor()) {
-        if(this.airTime > 60) {
+        if(this.airTime > 30) {
             this.bump.play();
             this.status = 'landing';
         }
@@ -170,7 +170,10 @@ spriteBuild.prototype.update = function() {
     }
     else {
         // If the body isn't onFloor, then it's in the air! -> add airtime!
-        this.airTime++;
+        if(this.body.velocity.y > 0) {
+            // Only add airtime if the player is *falling*, not rising
+            this.airTime++;
+        }
     }
 
     // EQUIP DIFFERENT WEAPONS
