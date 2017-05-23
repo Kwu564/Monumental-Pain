@@ -16,7 +16,7 @@ Load.prototype = {
       game.scale.pageAlignHorizontally = true;
       game.scale.pageAlignVertically = true;
       
-      // an array of keys and files
+      // an array of keys and files; listed in pairs
       let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png'];
       let spriteList = ['arrow','crossbowBolt.png','hero','hero.png','baddie','Militant.png'];
       let sheetList = ['platHero','hero-tall.png',64,64];
