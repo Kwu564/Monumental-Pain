@@ -23,6 +23,255 @@ var fireAngle = 0;
 // sheathed just means the character puts away all weapons
 var weapon = 'sword';
 
+
+//function creates a jump delay
+var onJump = function(noJump){
+    this.noJump = 0;
+};
+
+var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
+	console.log("spriteBuild: create");
+	Phaser.Sprite.call(this,game,x,y,src,frame);
+    //creates timer inside sprite
+    var spriteTimer = game.time.create();
+    //flag to pass into onJump, allows for delay
+    this.noJump = 0;
+
+	this.anchor.setTo(.5,.5);
+	this.scale.setTo(scaleX,scaleY);
+	this.game.physics.arcade.enableBody(this);
+    
+    //change collision box
+    this.body.setSize(22, 49, 19, 14); //(width, height, offsetX, offsetY)
+    
+    //sounds
+    this.bump = game.add.audio('bump');
+    
+    //direction value: positive is right, negative is left
+    this.direction = 1;
+    
+    // PLAYER STATUS
+    // this will determine what should happen during each update frame
+    // eg. which animation to play, whether the player can move, 
+    // whether the player is falling, etc.
+    this.status = 'idle';
+    this.toAnimate = null; //animation to play after status is evaluated
+    this.currentAnimation = null;
+    this.airTime = 0; //determines whether a thud sound is played on landing
+    
+    // add child sprite for sword
+    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+    this.sword.scale.set(30, 49);
+    this.sword.alpha = 0;
+    game.physics.arcade.enable(this.sword);
+
+    this.weapons = [];
+    this.currentWeapon = 0;
+    this.weaponName = null;
+
+    // push ammo type into array weapons
+    // right now there's only one weapon type
+    this.weapons.push(new Weapon.SingleBullet(this.game));
+    
+    // add a shitload of animations
+    this.animations.add('SheathedWalkRight', [0, 1, 2, 3], 10, true);
+    this.animations.add('SheathedWalkLeft', [4, 5, 6, 7], 10, true);
+    this.animations.add('SwordWalkRight', [8, 9, 10, 11], 10, true);
+    this.animations.add('SwordWalkLeft', [12, 13, 14, 15], 10, true);
+    //TWEEKED ANIMATION TO SEE HOW IT FEELS
+    //DEFAULT IS [16,17,18],10,true
+    this.animations.add('SwordSlashRight', [16, 16, 16, 16, 17, 17, 18, 18, 18], 25, true);
+    //DEFAULT IS [19,20,21],10,true
+    this.animations.add('SwordSlashLeft', [19, 19, 19, 19, 20, 20, 21, 21, 21], 25, true);
+    this.animations.add('CrossbowWalkRight', [22, 23, 24, 25], 10, true);
+    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);     
+};
+
+spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
+spriteBuild.prototype.constructor = spriteBuild;
+
+// ATTACKING
+spriteBuild.prototype.playAttack = function() {
+    if(this.currentAnimation === 'SwordSlashRight' || this.currentAnimation === 'SwordSlashLeft') {
+        // Don't start animation again
+    }
+}
+
+// WALKING
+spriteBuild.prototype.playWalking = function() {
+    if(this.body.onFloor()) { //only walk animate if on the ground
+        
+    // Analyze the current weapon and direction, then assign the right animation
+    if(weapon === 'sheathed') {
+        if(fireAngle === 0) {this.currentAnimation = this.animations.play('SheathedWalkRight');} 
+        else {this.currentAnimation = this.animations.play('SheathedWalkLeft');}
+    } else if(weapon === 'sword') {
+        if(fireAngle === 0) {this.currentAnimation = this.animations.play('SwordWalkRight');} 
+        else {this.currentAnimation = this.animations.play('SwordWalkLeft');}
+    } else if(weapon === 'crossbow') {
+        if(fireAngle === 0) {this.currentAnimation = this.animations.play('CrossbowWalkRight');} 
+        else {this.currentAnimation = this.animations.play('CrossbowWalkLeft');}
+    }
+        
+    }
+    else {
+        // Play single frame in midair, but still allow to change
+        this.playIdle();
+    }
+}
+
+// IDLE
+spriteBuild.prototype.playIdle = function() {
+    // Analyze the weapon and direction and set the right frame
+    if(weapon === 'sheathed') {
+        if(fireAngle === 0) {this.frame = 0} // Sheathed right
+        else {this.frame = 4} // Sheathed left
+    } else if(weapon === 'sword') {
+        if(fireAngle === 0) {this.frame = 8} // Sword right
+        else {this.frame = 12} // Sword left
+    } else if(weapon === 'crossbow') {
+        if(fireAngle === 0) {this.frame = 22} // Crossbow right
+        else {this.frame = 26} // Crossbow left
+    }
+    
+    // Neutralize the current animation
+    this.currentAnimation = null;
+}
+
+// JUMPING
+spriteBuild.prototype.playJump = function() {
+    this.airTime++;
+    this.playIdle();
+}
+    
+// UPDATE
+spriteBuild.prototype.update = function() {
+    //only allow input if the game says so
+    //this is a global pause on player movement
+   if(canEnter) { 
+       
+    if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) ) {
+        this.status = 'attacking';
+        this.body.velocity.x = 0;
+        
+        /*
+        // stop the player and attack
+        if ( weapon == 'sword' ) {
+            if ( player.body.onFloor() ) {
+                this.body.velocity.x = 0;
+            }
+            if ( fireAngle == 0 ) {
+                this.animations.play('SwordSlashRight');
+            } else if ( fireAngle == 180 ) {
+                this.animations.play('SwordSlashLeft');
+            }
+        } else if ( weapon == 'crossbow' ) {
+            if ( player.body.onFloor() ) {
+                this.body.velocity.x = 0;
+            }
+            this.weapons[this.currentWeapon].fire(this);
+            if ( fireAngle == 0 ) {
+                player.frame = 22;
+            } else if ( fireAngle == 180 ) {
+                player.frame = 26;
+            }      
+        } // do nothing if weapon == 'sheathed'
+        */
+    } else if ( game.input.keyboard.isDown(Phaser.Keyboard.D) ) {
+        fireAngle = 0;
+        this.status = 'walkingRight';
+        // Increase the velocity by a factor, to provide acceleration
+        this.body.velocity.x += 20;
+        
+        //make sure the sword hitbox is on the right side of the player
+        this.sword.position.x = 8;
+    } else if ( game.input.keyboard.isDown(Phaser.Keyboard.A) ) {
+        fireAngle = 180;
+        this.status = 'walkingLeft';
+        // Decrease the velocity by a factor, to provide acceleration
+        this.body.velocity.x -= 20;
+        
+        //make sure the sword hitbox is on the right side of the player
+        this.sword.position.x = (-18) - this.sword.width;
+    } else {
+        this.status = 'idle';
+    }
+    
+    //JUMPING
+    if(this.body.onFloor()) {
+        if(this.airTime > 60) {
+            this.bump.play();
+            this.status = 'landing';
+        }
+        this.airTime = 0;
+        // Jump, if button is pressed
+        if(game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
+            this.status = 'jumping';
+            this.body.velocity.y = -660;
+        }
+    }
+    else {
+        // If the body isn't onFloor, then it's in the air! -> add airtime!
+        this.airTime++;
+    }
+
+    if ( game.input.keyboard.justPressed(Phaser.Keyboard.ONE) ) {
+        weapon = 'sword';
+    } else if ( game.input.keyboard.justPressed(Phaser.Keyboard.TWO) ) {
+        weapon = 'crossbow';
+    } else if ( game.input.keyboard.justPressed(Phaser.Keyboard.THREE) ) {
+        weapon = 'sheathed';
+    }
+    
+    // Perform actions on player based on this.status
+    switch(this.status) {
+        case 'attacking':
+            this.playAttack();
+            break;
+        case 'walkingRight':
+            this.playWalking();
+            break;
+        case 'walkingLeft':
+            this.playWalking();
+            break;
+        case 'idle':
+            this.playIdle();
+            break;
+        case 'jumping':
+            this.playJump();
+            break;
+        case 'landing':
+            this.playIdle();
+            this.status = 'idle';
+            break;
+    }
+    
+    // Friction adjustments
+    // If the player isn't accelerating, then they are decelerating
+    if(this.status != 'walkingRight' && this.status != 'walkingLeft') {
+        //If the velocity is very low, set it to 0
+        if(this.body.velocity.x < 10 && this.body.velocity.x > -10) {
+            this.body.velocity.x = 0;
+        }
+        else {
+            if(this.body.onFloor()) {
+                //Divides the velocity every frame the player isn't moving
+                //increasing the dividend increases friction
+                this.body.velocity.x = this.body.velocity.x / 1.4;
+            } else {
+                //Air friction: slow down less than on ground
+                this.body.velocity.x -= 10;
+            }
+        }
+    }
+    // Velocity Max and Min
+    if(this.body.velocity.x > 300) {this.body.velocity.x = 300;}
+    else if(this.body.velocity.x < -300) {this.body.velocity.x = -300;}
+      
+   }
+    
+}
+
 //  Our core Bullet class
 //  This is a simple Sprite object that we set a few properties on
 //  It is fired by all of the Weapon classes
@@ -120,170 +369,3 @@ Weapon.SingleBullet.prototype.fire = function(source) {
   this.nextFire = this.game.time.time + this.fireRate;
 
 };
-//function creates a jump delay
-var onJump = function(noJump){
-    this.noJump = 0;
-};
-
-var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
-	console.log("spriteBuild: create");
-	Phaser.Sprite.call(this,game,x,y,src,frame);
-  //creates timer inside sprite
-  var spriteTimer = game.time.create();
-  //flag to pass into onJump, allows for delay
-  this.noJump = 0;
-
-	this.anchor.setTo(.5,.5);
-	this.scale.setTo(scaleX,scaleY);
-	this.game.physics.arcade.enableBody(this);
-    
-    //change collision box
-    this.body.setSize(22, 49, 19, 14); //(width, height, offsetX, offsetY)
-    
-    //sounds
-    this.bump = game.add.audio('bump');
-    
-    //direction value: positive is right, negative is left
-    this.direction = 1;
-    
-    // add child sprite for sword
-    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
-    this.sword.scale.set(30, 49);
-    this.sword.alpha = 0;
-    game.physics.arcade.enable(this.sword);
-
-    this.weapons = [];
-    this.currentWeapon = 0;
-    this.weaponName = null;
-
-    // push ammo type into array weapons
-    // right now there's only one weapon type
-    this.weapons.push(new Weapon.SingleBullet(this.game));
-    
-    // add a shitload of animations
-    this.animations.add('SheathedWalkRight', [0, 1, 2, 3], 10, true);
-    this.animations.add('SheathedWalkLeft', [4, 5, 6, 7], 10, true);
-    this.animations.add('SwordWalkRight', [8, 9, 10, 11], 10, true);
-    this.animations.add('SwordWalkLeft', [12, 13, 14, 15], 10, true);
-    //TWEEKED ANIMATION TO SEE HOW IT FEELS
-    //DEFAULT IS [16,17,18],10,true
-    this.animations.add('SwordSlashRight', [16, 16, 16, 16, 17, 17, 18, 18, 18], 25, true);
-    //DEFAULT IS [19,20,21],10,true
-    this.animations.add('SwordSlashLeft', [19, 19, 19, 19, 20, 20, 21, 21, 21], 25, true);
-    this.animations.add('CrossbowWalkRight', [22, 23, 24, 25], 10, true);
-    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);     
-};
-
-spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
-spriteBuild.prototype.constructor = spriteBuild;
-
-spriteBuild.prototype.update = function() {
-   if(canEnter) { //only allow input if the 
-    //this is still iffy, but instantiated controls for platformer
-    //hitGround = game.physics.arcade.collide(this.body, this.ground); 
-    if ( game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ) {
-        // stop the player and attack
-        if ( weapon == 'sword' ) {
-            if ( player.body.onFloor() ) {
-                this.body.velocity.x = 0;
-            }
-            if ( fireAngle == 0 ) {
-                this.animations.play('SwordSlashRight');
-            } else if ( fireAngle == 180 ) {
-                this.animations.play('SwordSlashLeft');
-            }
-        } else if ( weapon == 'crossbow' ) {
-            if ( player.body.onFloor() ) {
-                this.body.velocity.x = 0;
-            }
-                this.weapons[this.currentWeapon].fire(this);
-            if ( fireAngle == 0 ) {
-                player.frame = 22;
-            } else if ( fireAngle == 180 ) {
-                player.frame = 26;
-            }      
-        } // do nothing if weapon == 'sheathed'
-    } else if ( game.input.keyboard.isDown(Phaser.Keyboard.D) ) {
-        fireAngle = 0;
-        
-        //make sure the sword hitbox is on the right side of the player
-        if(this.direction < 0) {
-            this.sword.position.x = 8;
-            this.direction = 1;
-        }
-        //move player
-        this.body.velocity.x = 180;
-        //play right animation
-        if ( weapon == 'sword' ) {
-            this.animations.play('SwordWalkRight');
-        } else if ( weapon == 'crossbow' ) {
-            this.animations.play('CrossbowWalkRight');
-        } else if ( weapon == 'sheathed' ) {
-            this.animations.play('SheathedWalkRight');
-        }
-    } else if ( game.input.keyboard.isDown(Phaser.Keyboard.A) ) {
-        fireAngle = 180;
-        
-        //make sure the sword hitbox is on the right side of the player
-        if(this.direction > 0) {
-            this.sword.position.x = (-18) - this.sword.width;
-            this.direction = -1;
-        }
-        //move player
-        this.body.velocity.x = -180;
-        //play right animation
-        if ( weapon == 'sword' ) {
-            this.animations.play('SwordWalkLeft');
-        } else if ( weapon == 'crossbow' ) {
-            this.animations.play('CrossbowWalkLeft');
-        } else if ( weapon == 'sheathed' ) {
-            this.animations.play('SheathedWalkLeft');
-        }
-    } else {
-        this.body.velocity.x = 0;
-        player.animations.stop();
-        if ( weapon == 'sword' ) {
-            if ( fireAngle == 0 ) {
-                player.frame = 8;
-            } else if ( fireAngle == 180 ) {
-                player.frame = 12;
-            }
-        } else if ( weapon == 'crossbow' ) {
-            if ( fireAngle == 0 ) {
-                player.frame = 22;
-            } else if ( fireAngle == 180 ) {
-                player.frame = 26;
-            }      
-        } else if ( weapon == 'sheathed' ) { //I read this as "sheat hed" and thought it was hilarious
-            if ( fireAngle == 0 ) {
-                player.frame = 0;
-            } else if ( fireAngle == 180 ) {
-                player.frame = 4;
-            }            
-        }
-    }
-    
-    //JUMPING
-    if (player.body.onFloor()){
-        if(this.noJump == 1) {
-            //landing
-            this.noJump = 0;
-            this.bump.play();
-        } else if(game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
-            //Jump up
-            this.body.velocity.y = -660;
-            this.noJump = 1;
-            //this.frame = this.correctFrame(); //get the right frame for weapon/direction
-        }
-    }
-
-    if ( game.input.keyboard.isDown(Phaser.Keyboard.ONE) ) {
-        weapon = 'sword';
-    } else if ( game.input.keyboard.isDown(Phaser.Keyboard.TWO) ) {
-        weapon = 'crossbow';
-    } else if ( game.input.keyboard.isDown(Phaser.Keyboard.THREE) ) {
-        weapon = 'sheathed';
-    }
-      
-   }
-}
