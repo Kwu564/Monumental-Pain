@@ -161,6 +161,9 @@ spriteBuild.prototype.update = function() {
             this.bump.play();
             this.status = 'landing';
         }
+        else if(this.airTime > 0) {
+            this.status = 'landing';
+        }
         this.airTime = 0;
         // Jump, if button is pressed
         if(game.input.keyboard.justPressed(Phaser.Keyboard.W)) {

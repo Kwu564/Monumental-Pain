@@ -11,6 +11,7 @@ var spritePlayOver = function(game,x,y,src,frame){
 
 	this.anchor.setTo(.5,.5);
 	this.game.physics.arcade.enableBody(this);
+    this.body.collideWorldBounds = true;
 };
 
 spritePlayOver.prototype = Object.create(Phaser.Sprite.prototype);
