@@ -77,7 +77,7 @@ PlayOver.prototype = {
       song = this.add.audio('oworld-song');
       //song.play('', 0, 1, true);
 
-      this.instructions = game.add.text(400, 32, "WASD Keys to move, enter town to see a new perspective", GLOBAL_TEXT_DATA);
+      this.instructions = game.add.text(400, 32, " WASD Keys to move, enter town to see a new perspective ", GLOBAL_TEXT_DATA);
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(game.camera.width/2, 32);

@@ -3,8 +3,9 @@
 const GLOBAL_TEXT_DATA = {
    font: "bold Courier",
    fontSize: "16px",
-   fill: 'black',
+   fill: 'white',
    wordWrap: true,
    wordWrapWidth: 800,
-   align: 'center'
+   align: 'center',
+   backgroundColor: 'black'
 }
