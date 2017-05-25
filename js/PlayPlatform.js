@@ -78,7 +78,7 @@ PlayPlatform.prototype = {
       //TESTING BLOCK, ENEMY SPAWN
       //
 
-      enemy = new enemyBuild(this.game,1,1,600,300,'baddie');
+      enemy = new axeMan(this.game,1,1,600,300,'axeMan-enemy');
       var enemyGroup = this.game.add.group();
       enemyGroup.add(enemy);
       enemy.body.gravity.y = 1500;

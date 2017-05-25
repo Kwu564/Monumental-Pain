@@ -30,16 +30,16 @@ var onJump = function(noJump){
 };
 
 var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
-	console.log("spriteBuild: create");
-	Phaser.Sprite.call(this,game,x,y,src,frame);
+    console.log("spriteBuild: create");
+    Phaser.Sprite.call(this,game,x,y,src,frame);
     //creates timer inside sprite
     var spriteTimer = game.time.create();
     //flag to pass into onJump, allows for delay
     this.noJump = 0;
 
-	this.anchor.setTo(.5,.5);
-	this.scale.setTo(scaleX,scaleY);
-	this.game.physics.arcade.enableBody(this);
+    this.anchor.setTo(.5,.5);
+    this.scale.setTo(scaleX,scaleY);
+    this.game.physics.arcade.enableBody(this);
     
     //change collision box
     this.body.setSize(22, 49, 19, 14); //(width, height, offsetX, offsetY)
