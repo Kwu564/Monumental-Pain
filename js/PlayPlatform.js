@@ -78,11 +78,15 @@ PlayPlatform.prototype = {
       //TESTING BLOCK, ENEMY SPAWN
       //
 
-      enemy = new axeMan(this.game,1,1,600,300,'axeMan-enemy');
+      enemyAxeMan = new axeMan(this.game,1,1,600,300,'axeMan-enemy');
+      enemySwordsMan = new axeMan(this.game,1,1,1000,300,'swordsMan-enemy');
       var enemyGroup = this.game.add.group();
-      enemyGroup.add(enemy);
-      enemy.body.gravity.y = 1500;
-      enemy.body.collideWorldBounds = true;
+      enemyGroup.add(enemyAxeMan);
+      enemyGroup.add(enemySwordsMan);
+      enemyAxeMan.body.gravity.y = 1500;
+      enemyAxeMan.body.collideWorldBounds = true;
+      enemySwordsMan.body.gravity.y = 1500;
+      enemySwordsMan.body.collideWorldBounds = true;      
       //
       //END TESTING BLOCK, ENEMY SPAWN
       //
@@ -115,7 +119,8 @@ PlayPlatform.prototype = {
          this.onHitKey = 0;
       }
       game.physics.arcade.collide(player, layer2);
-      game.physics.arcade.collide(enemy, layer2);
+      game.physics.arcade.collide(enemyAxeMan, layer2);
+      game.physics.arcade.collide(enemySwordsMan, layer2);
       
       // demonstration of another method of implementing gates
       game.physics.arcade.overlap(player, screenEdges, this.enterDoor, null, this);

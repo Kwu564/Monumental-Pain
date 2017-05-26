@@ -41,9 +41,9 @@ enemyBuild.prototype.update = function(){
         this.switchDir();
     }
     if(this.direction < 0) {
-        this.body.velocity.x = -100;
+        this.body.velocity.x = -this.speed;
     } else {
-        this.body.velocity.x = 100;
+        this.body.velocity.x = this.speed;
     }
     this.animate();
 }
@@ -66,11 +66,13 @@ enemyBuild.prototype.switchDir = function() {
 // AXEMAN
 var axeMan = function(game,scaleX,scaleY,x,y,src,frame) { 
    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
+   // walk speed
+   this.speed = 100;
    // add animations
    this.animations.add('AxeWalkRight', [0, 1, 2, 3], 10, true);
    this.animations.add('AxeWalkLeft', [4, 5, 6, 7], 10, true);
-   this.animations.add('AxeSlashRight', [8, 9, 10], 10, true);
-   this.animations.add('AxeSlashLeft', [11, 12, 13], 10, true);
+   this.animations.add('AxeSlashRight', [8, 9, 10, 11], 10, true);
+   this.animations.add('AxeSlashLeft', [12, 13, 14, 15], 10, true);
 }
 
 axeMan.prototype = Object.create(enemyBuild.prototype);
@@ -85,5 +87,28 @@ axeMan.prototype.animate = function(){
    }   
 }
 
+// SWORDSMAN
+var swordsMan = function(game,scaleX,scaleY,x,y,src,frame) { 
+   enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
+   // walk speed
+   this.speed = 100;
+   // add animations
+   this.animations.add('SwordWalkRight', [0, 1, 2, 3], 10, true);
+   this.animations.add('SwordWalkLeft', [4, 5, 6, 7], 10, true);
+   this.animations.add('SwordSlashRight', [8, 9, 10, 11], 10, true);
+   this.animations.add('SwordSlashLeft', [12, 13, 14, 15], 10, true);
+}
+
+axeMan.prototype = Object.create(enemyBuild.prototype);
+axeMan.prototype.constructor = axeMan;
+
+// animates the npc, this is called in enemyBuild's update function
+axeMan.prototype.animate = function(){
+   if ( this.body.velocity.x == -100 ) {
+      this.animations.play('AxeWalkLeft');
+   } else if ( this.body.velocity.x == 100 ) {
+      this.animations.play('AxeWalkRight');
+   }   
+}
 
 

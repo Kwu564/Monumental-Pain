@@ -19,7 +19,7 @@ Load.prototype = {
       // an array of keys and files; listed in pairs
       let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png'];
       let spriteList = ['arrow','crossbowBolt.png','hero','hero.png'];
-      let sheetList = ['platHero','hero-tall.png',64,64,'axeMan-enemy','axeMan.png',64,64];
+      let sheetList = ['platHero','hero-tall.png',64,64,'axeMan-enemy','axeMan.png',64,64,'swordsMan-enemy','swordsMan.png',64,64];
       let tilesetList = ['oworld-tile','oworld-tile.png','forest-tile','forest-tile.png'];
       let jsonList = ['oworld','oworld-tile.json','forestbattle','forest-battle.json','forestbattle2','forest-battle2.json'];
       let musicList = ['oworld-song','overworld.ogg','battle-song','engage.ogg'];
