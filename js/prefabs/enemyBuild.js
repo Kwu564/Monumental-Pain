@@ -13,7 +13,7 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
     // add child sprite for vision
     this.vision = this.addChild(game.make.sprite(8, -16, 'collider'));
     this.vision.scale.set(100, 49);
-    this.vision.alpha = .3;
+    this.vision.alpha = .1;
     game.physics.arcade.enable(this.vision);
 
 	this.anchor.setTo(.5,.5);
@@ -99,11 +99,11 @@ var swordsMan = function(game,scaleX,scaleY,x,y,src,frame) {
    this.animations.add('SwordSlashLeft', [12, 13, 14, 15], 10, true);
 }
 
-axeMan.prototype = Object.create(enemyBuild.prototype);
-axeMan.prototype.constructor = axeMan;
+swordsMan.prototype = Object.create(enemyBuild.prototype);
+swordsMan.prototype.constructor = swordsMan;
 
 // animates the npc, this is called in enemyBuild's update function
-axeMan.prototype.animate = function(){
+swordsMan.prototype.animate = function(){
    if ( this.body.velocity.x == -100 ) {
       this.animations.play('AxeWalkLeft');
    } else if ( this.body.velocity.x == 100 ) {
@@ -111,4 +111,26 @@ axeMan.prototype.animate = function(){
    }   
 }
 
+// LESSERDEMON
+var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) { 
+   enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
+   // walk speed
+   this.speed = 100;
+   // add animations
+   // I still need to make an attack animation
+   this.animations.add('WalkRight', [0, 1, 2, 3], 10, true);
+   this.animations.add('WalkLeft', [4, 5, 6, 7], 10, true);
+   
+}
 
+lesserDemon.prototype = Object.create(enemyBuild.prototype);
+lesserDemon.prototype.constructor = lesserDemon;
+
+// animates the npc, this is called in enemyBuild's update function
+lesserDemon.prototype.animate = function(){
+   if ( this.body.velocity.x == -100 ) {
+      this.animations.play('WalkLeft');
+   } else if ( this.body.velocity.x == 100 ) {
+      this.animations.play('WalkRight');
+   }
+}
