@@ -42,6 +42,19 @@ GLOBAL_MAP_DATA = [
        
        //NPC DEFINITIONS
        //NPCs = [];
+   },
+   {
+       //Hatu map definition
+       //TILEMAP FILES
+       mapKey: 'forestbattle2',
+       setKey: 'forest-tile', //key for tilemap
+       
+       //SPAWN LOCATION IN PLATFORM
+       spawnX: 1792,
+       spawnY: 384,
+       
+       //NPC DEFINITIONS
+       //NPCs = [];
    }
 ]
 
