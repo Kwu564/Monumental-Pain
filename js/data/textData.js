@@ -1,11 +1,11 @@
 // An array file for all text boxes and related data
 
 const GLOBAL_TEXT_DATA = {
-   font: "bold Courier",
+   font: "Courier",
    fontSize: "16px",
-   fill: 'white',
+   fill: 'black',
    wordWrap: true,
    wordWrapWidth: 800,
    align: 'center',
-   backgroundColor: 'black'
+   backgroundColor: '#CFA26B'
 }

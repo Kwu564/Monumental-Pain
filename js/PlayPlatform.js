@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, enemy, swordHit, timer, ground, exit, map, bg, layer1, layer2, layer3;
+    var player, enemy, swordHit, timer, ground, exit, map, bg, layer1, layer2, layer3, enemyGroup;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -83,7 +83,7 @@ PlayPlatform.prototype = {
       enemyLesserDemon1 = new lesserDemon(this.game,1,1,900,300,'lesserDemon');
       enemyLesserDemon2 = new lesserDemon(this.game,1,1,800,300,'lesserDemon');
 
-      var enemyGroup = this.game.add.group();
+      enemyGroup = this.game.add.group();
 
       enemyGroup.add(enemyAxeMan);
       enemyGroup.add(enemySwordsMan);
@@ -126,9 +126,9 @@ PlayPlatform.prototype = {
    update: function() {      
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
-      if ( game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {
-         game.time.events.add(340,this.swordAttack,this,player.sword,enemy);
-         //this.swordAttack(player.sword, enemy);
+      if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {
+         game.physics.arcade.overlap(player.sword,enemyGroup,this.swordAttack,null,this);
+         //game.time.events.add(340,this.swordAttack,this,player.sword,enemyGroup);
          this.onHitKey = 1;
       } else {
          this.onHitKey = 0;
@@ -142,12 +142,9 @@ PlayPlatform.prototype = {
       // demonstration of another method of implementing gates
       game.physics.arcade.overlap(player, screenEdges, this.enterDoor, null, this);
    },
-   swordAttack: function(swordHit, enemy) {
-      let enemyIsHit = game.physics.arcade.overlap(swordHit,enemy);
-      
-      if ( enemyIsHit ) {
-         enemy.kill();
-      }
+   swordAttack: function(sword, enemy) {
+      //Add knockback, etc. here
+      enemy.kill();
    },
    enterDoor: function() {
       game.sound.stopAll();
