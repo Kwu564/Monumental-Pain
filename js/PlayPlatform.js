@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, enemy, swordHit, timer, ground, exit, map, bg, layer1, layer2, layer3, enemyGroup;
+    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -50,10 +50,12 @@ PlayPlatform.prototype = {
       screenEdges = this.game.add.group();
       screenEdges.enableBody = true;
       
-      doors = map.objects.doors;
+      edges = map.objects.edges;
       
-      for(let i = 0; i < doors.length; i++) {
-         let obj = doors[i];
+      // Cycle through each object in the "edges" layer of the json file
+      // create an invisible Door object in the world for each
+      for(let i = 0; i < edges.length; i++) {
+         let obj = edges[i];
          
          door = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
          screenEdges.add(door);
@@ -61,16 +63,35 @@ PlayPlatform.prototype = {
       
       screenEdges.alpha = 0;
       screenEdges.setAll('immovable',true);
+      
+      // DOORS
+      doorSpots = this.game.add.group();
+      doorSpots.enableBody = true;
+      
+      doors = map.objects.doors;
+      
+      // Do the same as the edges, but with the doors
+      for(let i = 0; i < doors.length; i++) {
+         let obj = doors[i];
+         
+         door = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
+         doorSpots.add(door);
+      }
+      
+      doorSpots.alpha = 0;
+      doorSpots.setAll('immovable',true);
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
-      player = new spriteBuild(this.game,1,1,mapObj.spawnX,mapObj.spawnY,'platHero');
+      
+      let spawnLayer = map.objects.spawn;
+      let playerX = spawnLayer[0].x;
+      let playerY = spawnLayer[0].y;
+      
+      player = new spriteBuild(this.game,1,1,playerX,playerY,'platHero');
       playerGroup.add(player);
       player.body.gravity.y = 1500;
       player.body.collideWorldBounds = true;
-
-      //Sword is child sprite of player 
-      //swordHit = player.sword;
 
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
 
@@ -136,18 +157,38 @@ PlayPlatform.prototype = {
       game.physics.arcade.collide(player, layer2);
       game.physics.arcade.collide(enemyGroup, layer2);
 
-      // demonstration of another method of implementing gates
-      game.physics.arcade.overlap(player, screenEdges, this.enterDoor, null, this);
+      // Walking off the edge of the screen to enter Overworld
+      game.physics.arcade.overlap(player, screenEdges, this.enterOver, null, this);
+      
+      // Using doors on map
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.E)) {
+         game.physics.arcade.overlap(player, doorSpots, this.enterDoor, null, this);
+      }
    },
    swordAttack: function(sword, enemy) {
       //Add knockback, etc. here
       enemy.kill();
    },
-   enterDoor: function() {
+   enterDoor: function(player, door) {
       game.sound.stopAll();
       
-      canEnter = false;
-      player.body.collideWorldBounds = false;
+      global_destination = door.destination;
+      
+      canEnter = false; // removes player control 
+      player.body.velocity.x = 0; //stops player
+      
+      game.camera.fade();
+      let timer = game.time.create();
+      timer.add(380, function() {
+         game.state.start('PlayPlatform');
+      }, this);
+      timer.start();
+   },
+   enterOver: function() {
+      game.sound.stopAll();
+      
+      canEnter = false; // removes player control 
+      player.body.collideWorldBounds = false; //lets player walk offscreen
       
       game.camera.fade();
       let timer = game.time.create();

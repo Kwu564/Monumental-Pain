@@ -18,9 +18,9 @@ GLOBAL_MAP_DATA = [
        //NPCs = [];
    },
    {
-       //Kevn map definition
+       //Kevn1 map definition
        //TILEMAP FILES
-       mapKey: 'forestbattle',
+       mapKey: 'kevn1-map',
        setKey: 'forest-tile', //key for tilemap
        
        //SPAWN LOCATION IN PLATFORM
@@ -31,9 +31,9 @@ GLOBAL_MAP_DATA = [
        //NPCs = [];
    },
    {
-       //Hatu map definition
+       //Kevn2 map definition
        //TILEMAP FILES
-       mapKey: 'forestbattle2',
+       mapKey: 'kevn2-map',
        setKey: 'forest-tile', //key for tilemap
        
        //SPAWN LOCATION IN PLATFORM
