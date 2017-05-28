@@ -11,9 +11,10 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
     // add child sprite for vision
-    this.vision = this.addChild(game.make.sprite(8, -16, 'collider'));
-    this.vision.scale.set(100, 49);
-    this.vision.alpha = .1;
+    this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
+    this.vision.scale.set(200, 49);
+    this.vision.anchor.set(.5,.5);
+    this.vision.alpha = .5;
     game.physics.arcade.enable(this.vision);
 
 	this.anchor.setTo(.5,.5);
@@ -27,15 +28,6 @@ enemyBuild.prototype = Object.create(Phaser.Sprite.prototype);
 enemyBuild.prototype.constructor = enemyBuild;
 
 enemyBuild.prototype.update = function(){
-	//this is still iffy, but instantiated controls for platformer
-         //hitGround = game.physics.arcade.collide(this.body, this.ground);
-         /*if(this.body.position.x != playerX){
-            if(this.body.position.x > playerX){
-               this.body.velocity.x = -100;
-            }else{
-               this.body.velocity.x = 100;
-            }
-         }*/
     //game.physics.arcade.overlap(player, vision, this.enterDoor, null, this);
     if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
@@ -67,16 +59,49 @@ enemyBuild.prototype.switchDir = function() {
 var axeMan = function(game,scaleX,scaleY,x,y,src,frame) { 
    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
    // walk speed
+   //this.speed = 100;
    this.speed = 100;
    // add animations
    this.animations.add('AxeWalkRight', [0, 1, 2, 3], 10, true);
    this.animations.add('AxeWalkLeft', [4, 5, 6, 7], 10, true);
    this.animations.add('AxeSlashRight', [8, 9, 10, 11], 10, true);
    this.animations.add('AxeSlashLeft', [12, 13, 14, 15], 10, true);
+
+   
 }
 
 axeMan.prototype = Object.create(enemyBuild.prototype);
 axeMan.prototype.constructor = axeMan;
+
+axeMan.prototype.chase = function(){
+  if(this.direction > 0){
+    this.body.velocity.x = 200;
+  }else{
+    this.body.velocity.x = -200;
+  }
+  if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
+    player.kill();
+  }
+}
+
+axeMan.prototype.update = function(){
+  if(this.body.blocked.right || this.body.blocked.left) {
+        this.switchDir();
+        if(this.direction < 0){
+          this.vision.body.position.x = this.body.position.x -192;
+        }else{
+          this.vision.body.position.x = this.body.position.x +48;
+        }
+    }
+    if(this.direction < 0) {
+        this.body.velocity.x = -this.speed;
+    } else {
+        this.body.velocity.x = this.speed;
+    }
+    this.animate();
+    //game.physics.arcade.collide(this.body,player);
+    game.physics.arcade.overlap(player,this.vision,this.chase,null,this);
+}
 
 // animates the npc, this is called in enemyBuild's update function
 axeMan.prototype.animate = function(){
@@ -91,7 +116,7 @@ axeMan.prototype.animate = function(){
 var swordsMan = function(game,scaleX,scaleY,x,y,src,frame) { 
    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
    // walk speed
-   this.speed = 100;
+   this.speed = -100;
    // add animations
    this.animations.add('SwordWalkRight', [0, 1, 2, 3], 10, true);
    this.animations.add('SwordWalkLeft', [4, 5, 6, 7], 10, true);
@@ -115,7 +140,13 @@ swordsMan.prototype.animate = function(){
 var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) { 
    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
    // walk speed
-   this.speed = 100;
+   this.speed = -100;
+   this.vision2 = this.addChild(game.make.sprite(96, 0, 'collider'));
+   this.vision2.scale.set(200,49);
+   this.vision2.anchor.set(.5,.5);
+   this.vision2.alpha = .1;
+   game.physics.arcade.enable(this.vision2);
+
    // add animations
    // I still need to make an attack animation
    this.animations.add('WalkRight', [0, 1, 2, 3], 10, true);
@@ -133,4 +164,29 @@ lesserDemon.prototype.animate = function(){
    } else if ( this.body.velocity.x == 100 ) {
       this.animations.play('WalkRight');
    }
+}
+
+lesserDemon.prototype.update = function(){
+  if(this.body.blocked.right || this.body.blocked.left) {
+        this.switchDir();
+        if(this.direction < 0){
+          this.vision.body.position.x = this.body.position.x -192;
+          this.vision2.body.position.x = this.body.position.x +48;
+        }else{
+          this.vision.body.position.x = this.body.position.x +48;
+          this.vision2.body.position.x = this.body.position.x -192;
+        }
+    }
+    if(this.direction < 0) {
+        this.body.velocity.x = -this.speed;
+    } else {
+        this.body.velocity.x = this.speed;
+    }
+    this.animate();
+    game.physics.arcade.overlap(player,this.vision,this.lunge,null,this);
+   //game.physics.arcade.overlap(player,this.vision2,this.switchDir,null,this);
+}
+
+lesserDemon.prototype.lunge = function(){
+    this.body.velocity.x = 4*this.body.velocity.x;
 }
