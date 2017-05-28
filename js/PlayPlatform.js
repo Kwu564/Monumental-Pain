@@ -134,10 +134,7 @@ PlayPlatform.prototype = {
          this.onHitKey = 0;
       }
       game.physics.arcade.collide(player, layer2);
-      game.physics.arcade.collide(enemyAxeMan, layer2);
-      game.physics.arcade.collide(enemySwordsMan, layer2);
-      game.physics.arcade.collide(enemyLesserDemon1, layer2);
-      game.physics.arcade.collide(enemyLesserDemon2, layer2);
+      game.physics.arcade.collide(enemyGroup, layer2);
 
       // demonstration of another method of implementing gates
       game.physics.arcade.overlap(player, screenEdges, this.enterDoor, null, this);
