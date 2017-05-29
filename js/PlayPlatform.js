@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup;
+    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, textObj;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -130,8 +130,8 @@ PlayPlatform.prototype = {
       //play music
       song = this.add.audio('battle-song');
       //song.play('', 0, 1, true);
-      
-      this.instructions = game.add.text(400, 32, " WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, \n and reach end of screen to return to world map ", GLOBAL_TEXT_DATA);
+
+      this.instructions = game.add.text(400, 32, " WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, \n and reach end of screen to return to world map, T to see text box ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(400, 32);
@@ -163,6 +163,11 @@ PlayPlatform.prototype = {
       // Using doors on map
       if(game.input.keyboard.justPressed(Phaser.Keyboard.E)) {
          game.physics.arcade.overlap(player, doorSpots, this.enterDoor, null, this);
+      }
+      // Contrived Text box 2
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
+         textObj = TEXT_DATA[PLATWORLD_TEXTBOX_TEST];
+         textBox(game, game.camera.width/2, game.camera.height/2, textObj);
       }
    },
    swordAttack: function(sword, enemy) {

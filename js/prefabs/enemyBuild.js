@@ -51,10 +51,9 @@ enemyBuild.prototype.switchDir = function() {
 //enemyBuild.prototype.
 
 
-//////////////////////////////////////////////
-// Specific enemies
-//////////////////////////////////////////////
-
+//////////////////////
+// Specific enemies //
+//////////////////////
 // AXEMAN
 var axeMan = function(game,scaleX,scaleY,x,y,src,frame) { 
    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);

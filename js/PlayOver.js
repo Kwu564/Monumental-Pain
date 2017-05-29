@@ -13,7 +13,7 @@ var canEnter; // Can someone look into to how to make this variable not global?
 //A: No, it's global so that the player prefab can use it
 
 var PlayOver = function(game) {
-   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song;
+   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj;
 };
 PlayOver.prototype = {
    create: function() {
@@ -77,7 +77,7 @@ PlayOver.prototype = {
       song = this.add.audio('oworld-song');
       //song.play('', 0, 1, true);
 
-      this.instructions = game.add.text(400, 32, " WASD Keys to move, enter town to see a new perspective ", GLOBAL_TEXT_DATA);
+      this.instructions = game.add.text(400, 32, " WASD Keys to move, 'T' to see text box, enter town to see a new perspective ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(game.camera.width/2, 32);
@@ -91,6 +91,12 @@ PlayOver.prototype = {
       game.physics.arcade.collide(player, layer2);
       
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
+
+      // This is a contrived way to put a textbox onscreen until we have an npc to talk to.
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
+         textObj = TEXT_DATA[OWORLD_TEXTBOX_TEST];
+         textBox(game, game.camera.width/2 , 64, textObj);
+      }
    },
    enterTown: function(player, townGroup) {
       global_destination = townGroup.destination;
