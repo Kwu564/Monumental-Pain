@@ -4,6 +4,7 @@ const TILE_SIZE = 32;
 
 GLOBAL_MAP_DATA = [
    {
+       // 0
        //This is the overworld object
        
        //TILEMAP FILES
@@ -18,9 +19,10 @@ GLOBAL_MAP_DATA = [
        //NPCs = [];
    },
    {
-       //Kevn map definition
+       // 1
+       //Kevn1 map definition
        //TILEMAP FILES
-       mapKey: 'forestbattle',
+       mapKey: 'kevn1-map',
        setKey: 'forest-tile', //key for tilemap
        
        //SPAWN LOCATION IN PLATFORM
@@ -31,6 +33,21 @@ GLOBAL_MAP_DATA = [
        //NPCs = [];
    },
    {
+       // 2
+       //Kevn2 map definition
+       //TILEMAP FILES
+       mapKey: 'kevn2-map',
+       setKey: 'forest-tile', //key for tilemap
+       
+       //SPAWN LOCATION IN PLATFORM
+       spawnX: 1792,
+       spawnY: 384,
+       
+       //NPC DEFINITIONS
+       //NPCs = [];
+   },
+   {
+       // 3
        //Hatu map definition
        //TILEMAP FILES
        mapKey: 'forestbattle2',
@@ -42,9 +59,39 @@ GLOBAL_MAP_DATA = [
        
        //NPC DEFINITIONS
        //NPCs = [];
-   }
+   },
+   {
+       // 4
+       //Xanxiz map definition
+       //TILEMAP FILES
+       mapKey: 'xanxik1-map',
+       setKey: 'forest-tile', //key for tilemap
+       
+       //SPAWN LOCATION IN PLATFORM
+       spawnX: 1792,
+       spawnY: 384,
+       
+       //NPC DEFINITIONS
+       //NPCs = [];
+   },
+   {
+       // 5
+       //ice map definition
+       //TILEMAP FILES
+       mapKey: 'ice1-map',
+       setKey: 'ice-tile', //key for tilemap
+       
+       //SPAWN LOCATION IN PLATFORM
+       spawnX: 1792,
+       spawnY: 384,
+       
+       //NPC DEFINITIONS
+       //NPCs = [];
+   }   
 ]
 
 const O_WORLD = 0;
 const KEVN_1 = 1;
 const HATU_1 = 2;
+const XANZIK_1 = 4;
+const ICE_1 = 5;
