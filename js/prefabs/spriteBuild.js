@@ -227,8 +227,8 @@ spriteBuild.prototype.update = function() {
             } else {
                 //Air friction: 
                 //slow down less than on ground
-                if(fireAngle === 0) {this.body.velocity.x -= 10;}
-                else if(fireAngle === 180) {this.body.velocity.x += 10;}
+                if(this.body.velocity.x > 0) {this.body.velocity.x -= 10;}
+                else if(this.body.velocity.x < 0) {this.body.velocity.x += 10;}
             }
         }
     }
