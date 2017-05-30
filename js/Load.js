@@ -20,8 +20,8 @@ Load.prototype = {
       let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png'];
       let spriteList = ['arrow','crossbowBolt.png','hero','hero.png'];
       let sheetList = ['platHero','hero-tall.png',64,64,'axeMan-enemy','axeMan.png',64,64,'swordsMan-enemy','swordsMan.png',64,64,'lesserDemon','lesserDemon.png',64,64];
-      let tilesetList = ['oworld-tile','oworld-tile.png','forest-tile','forest-tile.png'];
-      let jsonList = ['oworld','oworld-complete.json','forestbattle','forest-battle.json','forestbattle2','forest-battle2.json','kevn1-map','kevn1.json','kevn2-map','kevn2.json','xanzik1-map','xanzik1.json'];
+      let tilesetList = ['oworld-tile','oworld-tile.png','forest-tile','forest-tile.png','ice-tile','ice-tile.png'];
+      let jsonList = ['oworld','oworld-complete.json','forestbattle','forest-battle.json','forestbattle2','forest-battle2.json','kevn1-map','kevn1.json','kevn2-map','kevn2.json','xanzik1-map','xanzik1.json','ice1-map','ice-platform1.json'];
       let musicList = ['oworld-song','overworld.ogg','battle-song','engage.ogg'];
       let sfxList = ['bump','collide.ogg','attackSound','attack.ogg','jumpSound','jump.ogg'];
       

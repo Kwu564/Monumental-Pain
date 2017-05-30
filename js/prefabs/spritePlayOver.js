@@ -32,7 +32,7 @@ if(canEnter) { //only allow the player to move after they've been allowed to
             this.body.velocity.x = -60;
         } else {
             this.body.velocity.x = 0;
-            this.body.velocity.y = -90;
+            this.body.velocity.y = -900;
         }
     } else if (game.input.keyboard.isDown(Phaser.Keyboard.S)){
         //Check for diagonal movement, move slower
@@ -44,14 +44,14 @@ if(canEnter) { //only allow the player to move after they've been allowed to
             this.body.velocity.x = -60;
         } else {
             this.body.velocity.x = 0;
-            this.body.velocity.y = 90;
+            this.body.velocity.y = 900;
         }
     } else if(game.input.keyboard.isDown(Phaser.Keyboard.D)) {
         this.body.velocity.y = 0;
-        this.body.velocity.x = 90;
+        this.body.velocity.x = 900;
     } else if(game.input.keyboard.isDown(Phaser.Keyboard.A)) {
         this.body.velocity.y = 0;
-        this.body.velocity.x = -90;
+        this.body.velocity.x = -900;
     } else {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;

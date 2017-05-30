@@ -24,6 +24,7 @@
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"towns",
          "objects":[
                 {
@@ -64,7 +65,7 @@
                  "id":8,
                  "name":"Ice",
                  "rotation":0,
-                 "type":"",
+                 "type":"5",
                  "visible":true,
                  "width":32,
                  "x":1920,
@@ -84,6 +85,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }],
@@ -95,7 +97,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"..\/img\/tilesets\/oworld-tile.png",
+         "image":"..\/..\/..\/..\/concepts\/tmx\/tilesets\/oworld-tile.png",
          "imageheight":320,
          "imagewidth":512,
          "margin":0,
@@ -110,6 +112,7 @@
                  "objectgroup":
                     {
                      "draworder":"index",
+                     "height":0,
                      "name":"",
                      "objects":[
                             {
@@ -126,6 +129,7 @@
                      "opacity":1,
                      "type":"objectgroup",
                      "visible":true,
+                     "width":0,
                      "x":0,
                      "y":0
                     }
@@ -134,7 +138,6 @@
          "tilewidth":32
         }],
  "tilewidth":32,
- "type":"map",
- "version":"2017.05.16",
+ "version":1,
  "width":100
 }
