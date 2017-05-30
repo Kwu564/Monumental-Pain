@@ -61,7 +61,7 @@ PlayOver.prototype = {
          townGroup.add(town);
       }
       
-      townGroup.alpha = 0;
+      townGroup.alpha = .5;
       townGroup.setAll('body.immovable', true);
       
       //PREFAB SETUP
