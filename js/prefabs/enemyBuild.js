@@ -11,6 +11,7 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
     // add child sprite for vision
+    this.rFlag = 0;
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
     this.vision.scale.set(200, 49);
     this.vision.anchor.set(.5,.5);
@@ -166,7 +167,7 @@ lesserDemon.prototype.animate = function(){
 }
 
 lesserDemon.prototype.update = function(){
-  if(this.body.blocked.right || this.body.blocked.left) {
+  if(this.body.blocked.right || this.body.blocked.left || game.physics.arcade.overlap(player,this.vision)) {
         this.switchDir();
         if(this.direction < 0){
           this.vision.body.position.x = this.body.position.x -192;
@@ -182,10 +183,10 @@ lesserDemon.prototype.update = function(){
         this.body.velocity.x = this.speed;
     }
     this.animate();
-    game.physics.arcade.overlap(player,this.vision,this.lunge,null,this);
-   //game.physics.arcade.overlap(player,this.vision2,this.switchDir,null,this);
+
+    game.physics.arcade.overlap(player,this.vision2,this.lunge,null,this);
 }
 
 lesserDemon.prototype.lunge = function(){
-    this.body.velocity.x = 4*this.body.velocity.x;
+  this.body.velocity.x = 4*this.body.velocity.x;
 }
