@@ -147,10 +147,10 @@ var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) {
    game.physics.arcade.enable(this.vision2);
 
    // add animations
-   // I still need to make an attack animation
    this.animations.add('WalkRight', [0, 1, 2, 3], 10, true);
    this.animations.add('WalkLeft', [4, 5, 6, 7], 10, true);
-   
+   this.animations.add('SlashRight', [8, 9, 10, 11], 10, true);
+   this.animations.add('SlashLeft', [12, 13, 14, 15], 10, true);   
 }
 
 lesserDemon.prototype = Object.create(enemyBuild.prototype);
