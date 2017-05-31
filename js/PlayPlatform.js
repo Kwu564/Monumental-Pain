@@ -191,7 +191,7 @@ PlayPlatform.prototype = {
    swordAttack: function(sword, enemy) {
       //Add knockback, etc. here
       player.status = 'attacking';
-      enemy.kill();
+      enemy.destroy();
    },
    enterDoor: function(player, door) {
       game.sound.stopAll();
