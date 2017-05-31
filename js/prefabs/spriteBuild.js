@@ -84,7 +84,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     //DEFAULT IS [19,20,21],10,true
     this.animations.add('SwordSlashLeft', [19, 19, 19, 19, 20, 20, 21, 21, 21], 25, true);
     this.animations.add('CrossbowWalkRight', [22, 23, 24, 25], 10, true);
-    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);     
+    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);         
 };
 
 spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -151,7 +151,7 @@ spriteBuild.prototype.update = function() {
         
         //make sure the sword hitbox is on the right side of the player
         this.sword.position.x = (-18) - this.sword.width;
-    } else {
+    } else if ( !game.input.keyboard.isDown(Phaser.Keyboard.W) ){
         this.status = 'idle';
     }
     
@@ -289,7 +289,7 @@ spriteBuild.prototype.playIdle = function() {
     }
     
     // Neutralize the current animation
-    this.currentAnimation = null;
+    //this.currentAnimation = null;
 }
 
 // JUMPING
