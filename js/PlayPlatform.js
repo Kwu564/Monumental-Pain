@@ -167,7 +167,7 @@ PlayPlatform.prototype = {
       // Contrived Text box 2
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
          textObj = TEXT_DATA[PLATWORLD_TEXTBOX_TEST];
-         textBox(game, game.camera.width/2, game.camera.height/2, textObj);
+         textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, textObj);
       }
    },
    swordAttack: function(sword, enemy) {

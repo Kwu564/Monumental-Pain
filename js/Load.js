@@ -113,7 +113,7 @@ Load.prototype = {
 
       if(this.cache.isSoundDecoded('battle-song')) {
 
-         game.state.start('PlayOver'); // in final build, goes to title screen
+         game.state.start('Title');
 
       }
 

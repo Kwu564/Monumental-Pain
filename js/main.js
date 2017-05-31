@@ -20,8 +20,9 @@ window.onload = function() {
     //scaled dimensions: 600, 400
    game =  new Phaser.Game(800, 600, Phaser.CANVAS);
    // define states
-   // Add boot, title, and gameOver states later
+   // Add boot and gameOver states later
    game.state.add('Load', Load);
+   game.state.add('Title', Title);
    game.state.add('PlayOver', PlayOver);
    game.state.add('PlayPlatform', PlayPlatform);
    game.state.start('Load'); // in final build, should say 'Boot'
