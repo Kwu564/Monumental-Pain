@@ -97,6 +97,23 @@ PlayPlatform.prototype = {
 
       //
       //TESTING BLOCK, ENEMY SPAWN
+      //      
+
+      npcOverallDude = new overallDude(this.game,1,1,700,300,'overallDude-npc');
+
+      npcGroup = this.game.add.group();
+
+      npcGroup.add(npcOverallDude);
+
+      npcOverallDude.body.gravity.y = 1500;
+      npcOverallDude.body.collideWorldBounds = true;
+
+      //
+      //END TESTING BLOCK, ENEMY SPAWN
+      //
+
+      //
+      //TESTING BLOCK, ENEMY SPAWN
       //
 
       enemyAxeMan = new axeMan(this.game,1,1,600,300,'axeMan-enemy');
@@ -156,6 +173,7 @@ PlayPlatform.prototype = {
       }
       game.physics.arcade.collide(player, layer2);
       game.physics.arcade.collide(enemyGroup, layer2);
+      game.physics.arcade.collide(npcGroup, layer2);
 
       // Walking off the edge of the screen to enter Overworld
       game.physics.arcade.overlap(player, screenEdges, this.enterOver, null, this);
