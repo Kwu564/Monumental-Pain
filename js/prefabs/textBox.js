@@ -2,7 +2,7 @@
 // this has a built in feature so that whenever it is called
 // it will pause all other gameplay until it is dismissed
 
-var textBox = function(game, x, y, anchorX, anchorY, textDataObj){
+var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    console.log("textBox.create");
    this.counter = 0;
    this.text = game.add.text(x, y, textDataObj.text[counter], textDataObj.style);
@@ -26,12 +26,12 @@ var textBox = function(game, x, y, anchorX, anchorY, textDataObj){
             game.paused = false;
          }
       }
-      else if(keyCode === Phaser.Keyboard.ESC){
+      else if(keyCode === Phaser.Keyboard.ESC && navigable){
             this.text.destroy();
             counter++;
             game.paused = false;
       }
-      else if(keyCode === Phaser.Keyboard.Q){
+      else if(keyCode === Phaser.Keyboard.Q && navigable){
          if(counter > 0){
             counter--;
             this.text.text = textDataObj.text[counter];
