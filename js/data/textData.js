@@ -94,3 +94,9 @@ const TEXT_DATA = [{
 const PLATWORLD_TEXTBOX_TEST = 0;
 const OWORLD_TEXTBOX_TEST = 1;
 const HELP = 2;
+////////////////////////////////////////////
+// THIS CONSTANT IS A BOOLEAN VALUES THAT //
+// EXPRESSES THE NAVIGATION LIMITATIONS   //
+////////////////////////////////////////////
+
+const NAVIGABLE = true;
