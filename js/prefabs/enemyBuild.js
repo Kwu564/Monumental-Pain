@@ -81,6 +81,7 @@ axeMan.prototype.chase = function(){
   }
   if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
     player.kill();
+    game.state.start('PlayOver');
   }
 }
 
