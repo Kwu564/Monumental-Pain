@@ -31,6 +31,12 @@ var textBox = function(game, x, y, anchorX, anchorY, textDataObj){
             counter++;
             game.paused = false;
       }
+      else if(keyCode === Phaser.Keyboard.Q){
+         if(counter > 0){
+            counter--;
+            this.text.text = textDataObj.text[counter];
+         }
+      }
    }
 
 }

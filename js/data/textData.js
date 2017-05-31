@@ -66,7 +66,7 @@ const TEXT_DATA = [{
    {
       // This is the help text box for the title screen (and possibly pause menu later)
       // Index 2
-      text: ['~~TEXTBOX~~\n\nWhenever you see a textbox like this, you may press \'E\' to move to the next box, or \'ESC\' to return to the game at any time \nPress \'E\' to continue',
+      text: ['~~TEXTBOX~~\n\nWhenever you see a textbox like this, you may press \'E\' to move to the next box, \'Q\' to go back to the previous box, or \'ESC\' to return to the game at any time \nPress \'E\' to continue',
             '~~MAP VIEW~~\n\nThe game has two points of view, the first is a top down "Map View" when in this mode use \'W\' to move north, \'A\' to move west, \'S\' to move south, and \'D\' to move east',
             '~~PLATFORMER~~\n\nWhen in map view, you can walk into a town to enter it. After entering a town or other object from the map view, you will be in a platformer where you can use\'W\' to jump, \'A\' to move left, and \'D\' to move right',
             '~~PLATFORMER CONT.~~\n\n In the platformer levels, you can use \'SPACEBAR\' to attack and \'E\' to go through doors\n To return to the Map View, walk off either side of the screen',
