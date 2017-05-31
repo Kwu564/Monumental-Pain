@@ -13,6 +13,9 @@ Title.prototype = {
       // Kevn background is being used as a placeholder image
       game.add.image(0,0, 'kevn-bg');
 
+      let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '64px', align: 'center'});
+      text.anchor.set(0.5);
+
       // make the buttons appear and asign them variables
       playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Play~ ", BUTTON_TEXT_STYLE);
       helpButton = game.add.text(game.world.centerX, game.world.centerY + 64, " ~Help~ ", BUTTON_TEXT_STYLE);
