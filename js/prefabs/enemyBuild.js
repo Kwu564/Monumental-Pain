@@ -194,9 +194,19 @@ lesserDemon.prototype.update = function(){
     }
     this.animate();
 
+    if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
+        if(this.direction > 0){
+            this.animations.play('SlashRight');
+        }else{
+            this.animations.play('SlashLeft');
+        }
+        player.body.velocity.x = 8*this.body.velocity.x;
+        player.body.velocity.y = -400;
+        player.health -= 1;
+    }    
     game.physics.arcade.overlap(player,this.vision2,this.lunge,null,this);
 }
 
 lesserDemon.prototype.lunge = function(){
-  this.body.velocity.x = 4*this.body.velocity.x;
+  this.body.velocity.x = 3.5*this.body.velocity.x;
 }
