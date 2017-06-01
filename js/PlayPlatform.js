@@ -96,20 +96,25 @@ PlayPlatform.prototype = {
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
 
       //
-      //TESTING BLOCK, ENEMY SPAWN
+      //TESTING BLOCK, NPC SPAWN
       //      
 
       npcOverallDude = new overallDude(this.game,1,1,700,300,'overallDude-npc');
+      npcSkirtDudette = new skirtDudette(this.game,1,1,900,300,'skirtDudette-npc');
 
       npcGroup = this.game.add.group();
 
       npcGroup.add(npcOverallDude);
+      npcGroup.add(npcSkirtDudette);
 
       npcOverallDude.body.gravity.y = 1500;
       npcOverallDude.body.collideWorldBounds = true;
 
+      npcSkirtDudette.body.gravity.y = 1500;
+      npcSkirtDudette.body.collideWorldBounds = true;
+
       //
-      //END TESTING BLOCK, ENEMY SPAWN
+      //END TESTING BLOCK, NPC SPAWN
       //
 
       //
@@ -222,7 +227,7 @@ PlayPlatform.prototype = {
    },
    render: function() {
       //uncomment to view player collision info in platform
-      //game.debug.bodyInfo(player, 64, 64);
-      //game.debug.body(player);
+      game.debug.bodyInfo(player, 64, 64);
+      game.debug.body(player);
    }
 }
