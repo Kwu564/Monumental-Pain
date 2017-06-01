@@ -39,12 +39,13 @@ PlayOver.prototype = {
       
       map.addTilesetImage(mapData.setKey,mapData.setKey);
       
-      layer1 = map.createLayer('base');
-      layer2 = map.createLayer('overlay');
+      layer1 = map.createLayer('water');
+      layer2 = map.createLayer('base');
+      layer3 = map.createLayer('overlay');
       
       //WALLMAP SETUP
-      map.setCollisionByExclusion([1,6,21], true, layer1);
-      map.setCollisionByExclusion([3,5], true, layer2);
+      map.setCollisionByExclusion([6,21,24], true, layer2);
+      map.setCollisionByExclusion([3,5], true, layer3);
       
       layer1.resizeWorld();
 
@@ -87,8 +88,8 @@ PlayOver.prototype = {
       game.camera.flash(0x000000, 500);
    },
    update: function() {
-      game.physics.arcade.collide(player, layer1);
       game.physics.arcade.collide(player, layer2);
+      game.physics.arcade.collide(player, layer3);
       
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
 
