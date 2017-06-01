@@ -146,7 +146,7 @@ PlayPlatform.prototype = {
 
       //play music
       song = this.add.audio('battle-song');
-      //song.play('', 0, 1, true);
+      if(global_playMusic) song.play('', 0, 1, true);
 
       this.instructions = game.add.text(400, 32, " WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, \n and reach end of screen to return to world map, T to see text box ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
@@ -186,6 +186,9 @@ PlayPlatform.prototype = {
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
          textObj = TEXT_DATA[PLATWORLD_TEXTBOX_TEST];
          textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
+      }
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC)){
+         pauseMenu(game);
       }
    },
    swordAttack: function(sword, enemy) {
