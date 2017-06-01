@@ -26,7 +26,7 @@ var npcBuild = function(game,scaleX,scaleY,x,y,src,frame){
 };
 
 npcBuild.prototype = Object.create(Phaser.Sprite.prototype);
-npcBuild.prototype.constructor = enemyBuild;
+npcBuild.prototype.constructor = npcBuild;
 
 npcBuild.prototype.update = function(){
     //game.physics.arcade.overlap(player, vision, this.enterDoor, null, this);
@@ -53,16 +53,17 @@ npcBuild.prototype.switchDir = function() {
 
 
 //////////////////////
-// Specific enemies //
+//  Specific NPCs   //
 //////////////////////
 // OVERALLDUDE
 var overallDude = function(game,scaleX,scaleY,x,y,src,frame) { 
-   enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
+   npcBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
    // walk speed
    //this.speed = 100;
    this.speed = 100;
    // add animations
-
+   this.animations.add('OverallDudeWalkRight', [0, 1, 2, 3], 5, true);
+   this.animations.add('OverallDudeWalkLeft', [4, 5, 6, 7], 5, true);
    
 }
 
@@ -101,11 +102,67 @@ overallDude.prototype.update = function(){
 
 // animates the npc, this is called in enemyBuild's update function
 overallDude.prototype.animate = function(){
-  /*
+
    if ( this.body.velocity.x == -100 ) {
-      this.animations.play('AxeWalkLeft');
+      this.animations.play('OverallDudeWalkLeft');
    } else if ( this.body.velocity.x == 100 ) {
-      this.animations.play('AxeWalkRight');
+      this.animations.play('OverallDudeWalkRight');
    }
-   */
+
+}
+
+// SKIRTDUDETTE
+var skirtDudette = function(game,scaleX,scaleY,x,y,src,frame) { 
+   npcBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
+   // walk speed
+   //this.speed = 100;
+   this.speed = 100;
+   // add animations
+   this.animations.add('SkirtDudetteWalkRight', [0, 1, 2, 3], 5, true);
+   this.animations.add('SkirtDudetteWalkLeft', [4, 5, 6, 7], 5, true);
+   
+}
+
+skirtDudette.prototype = Object.create(npcBuild.prototype);
+skirtDudette.prototype.constructor = overallDude;
+
+skirtDudette.prototype.chase = function(){
+  if(this.direction > 0){
+    this.body.velocity.x = 200;
+  }else{
+    this.body.velocity.x = -200;
+  }
+  if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
+    //player.kill();
+  }
+}
+
+skirtDudette.prototype.update = function(){
+  if(this.body.blocked.right || this.body.blocked.left) {
+        this.switchDir();
+        if(this.direction < 0){
+          this.vision.body.position.x = this.body.position.x -192;
+        }else{
+          this.vision.body.position.x = this.body.position.x +48;
+        }
+    }
+    if(this.direction < 0) {
+        this.body.velocity.x = -this.speed;
+    } else {
+        this.body.velocity.x = this.speed;
+    }
+    this.animate();
+    //game.physics.arcade.collide(this.body,player);
+    game.physics.arcade.overlap(player,this.vision,this.chase,null,this);
+}
+
+// animates the npc, this is called in enemyBuild's update function
+skirtDudette.prototype.animate = function(){
+
+   if ( this.body.velocity.x == -100 ) {
+      this.animations.play('SkirtDudetteWalkLeft');
+   } else if ( this.body.velocity.x == 100 ) {
+      this.animations.play('SkirtDudetteWalkRight');
+   }
+
 }
