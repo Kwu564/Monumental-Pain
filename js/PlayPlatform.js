@@ -148,6 +148,19 @@ PlayPlatform.prototype = {
       //
       //END TESTING BLOCK, ENEMY SPAWN
       //
+      
+      //
+      //TESTING BLOCK, bossDemon SPAWN
+      //
+      bossDemon = new bossDemonBuild(this.game,1,1,700,300,'bossDemon');
+
+      enemyGroup.add(bossDemon);
+
+      bossDemon.body.gravity.y = 1500;
+      bossDemon.body.collideWorldBounds = true;
+      //
+      //END TESTING BLOCK, bossDemon SPAWN
+      //      
 
       //play music
       song = this.add.audio('battle-song');
