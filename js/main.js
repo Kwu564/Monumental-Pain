@@ -15,6 +15,7 @@ var game;
 var global_destination;  // Use this variable to set where we are going
 var global_x = 592;
 var global_y = 768;
+var global_playMusic = true;
 
 window.onload = function() {
     //scaled dimensions: 600, 400

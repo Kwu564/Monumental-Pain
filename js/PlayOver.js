@@ -75,7 +75,7 @@ PlayOver.prototype = {
       
       //play music
       song = this.add.audio('oworld-song');
-      //song.play('', 0, 1, true);
+      if(global_playMusic) song.play('', 0, 1, true);
 
       this.instructions = game.add.text(400, 32, " WASD Keys to move, 'T' to see text box, enter town to see a new perspective ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
@@ -96,6 +96,9 @@ PlayOver.prototype = {
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
          textObj = TEXT_DATA[OWORLD_TEXTBOX_TEST];
          textBox(game, game.camera.width/2 , 64, 0.5, 0, !NAVIGABLE, textObj);
+      }
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC)){
+         pauseMenu(game);
       }
    },
    enterTown: function(player, townGroup) {

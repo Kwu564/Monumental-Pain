@@ -20,6 +20,16 @@ Title.prototype = {
       playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Play~ ", BUTTON_TEXT_STYLE);
       helpButton = game.add.text(game.world.centerX, game.world.centerY + 64, " ~Help~ ", BUTTON_TEXT_STYLE);
 
+
+
+      // Double check that text appears in the right area of the camera
+      text.fixedToCamera = true;
+      text.cameraOffset.setTo(game.camera.width/2, 80);
+      playButton.fixedToCamera = true;
+      playButton.cameraOffset.setTo(game.camera.width/2, game.camera.height/2 - 64);
+      helpButton.fixedToCamera = true;
+      helpButton.cameraOffset.setTo(game.camera.width/2, game.camera.height/2 + 64);
+
       // set anchors so that they appear centered
       playButton.anchor.set(0.5);
       helpButton.anchor.set(0.5);
