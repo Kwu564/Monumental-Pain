@@ -10,6 +10,7 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	console.log("enemyBuild: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
+    this.timer = game.time.create();
     // add child sprite for vision
     this.rFlag = 0;
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
@@ -80,17 +81,16 @@ axeMan.prototype.chase = function(){
     this.body.velocity.x = -200;
   }
   if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
-    player.kill();
-      
-    canEnter = false;
-      
-    game.camera.fade();
-      
-    let timer = game.time.create();
-    timer.add(480, function() {
-        game.state.start('PlayOver');
-    }, this);
-    timer.start();
+    if(this.direction > 0){
+      this.animations.play('AxeSlashRight');
+    }else{
+      this.animations.play('AxeSlashLeft');
+    }
+    player.body.velocity.x = 6*this.body.velocity.x;
+    player.body.velocity.y = -600;
+    player.health -= 1;
+
+    //game.state.start('PlayOver');
   }
 }
 
@@ -194,9 +194,19 @@ lesserDemon.prototype.update = function(){
     }
     this.animate();
 
+    if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
+        if(this.direction > 0){
+            this.animations.play('SlashRight');
+        }else{
+            this.animations.play('SlashLeft');
+        }
+        player.body.velocity.x = 8*this.body.velocity.x;
+        player.body.velocity.y = -400;
+        player.health -= 1;
+    }    
     game.physics.arcade.overlap(player,this.vision2,this.lunge,null,this);
 }
 
 lesserDemon.prototype.lunge = function(){
-  this.body.velocity.x = 4*this.body.velocity.x;
+  this.body.velocity.x = 3.5*this.body.velocity.x;
 }

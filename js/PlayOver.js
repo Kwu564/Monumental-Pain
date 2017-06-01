@@ -95,7 +95,7 @@ PlayOver.prototype = {
       // This is a contrived way to put a textbox onscreen until we have an npc to talk to.
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
          textObj = TEXT_DATA[OWORLD_TEXTBOX_TEST];
-         textBox(game, game.camera.width/2 , 64, textObj);
+         textBox(game, game.camera.width/2 , 64, 0.5, 0, !NAVIGABLE, textObj);
       }
    },
    enterTown: function(player, townGroup) {

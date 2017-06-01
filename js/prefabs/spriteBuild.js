@@ -40,6 +40,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.anchor.setTo(.5,.5);
     this.scale.setTo(scaleX,scaleY);
     this.game.physics.arcade.enableBody(this);
+    this.health = 3;
     
     //change collision box
     this.body.setSize(22, 49, 19, 14); //(width, height, offsetX, offsetY)
@@ -63,7 +64,12 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
     this.sword.scale.set(30, 49);
     this.sword.alpha = 0;
+    this.healthBox = this.addChild(game.make.sprite(-24,-48,'collider'));
+    this.healthBox.scale.set(50,30);
     game.physics.arcade.enable(this.sword);
+    game.physics.arcade.enable(this.healthBox);
+    //this.healthBox.position.x = 400;
+    //this.healthBox.position.y = 300;
 
     this.weapons = [];
     this.currentWeapon = 0;
@@ -84,7 +90,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     //DEFAULT IS [19,20,21],10,true
     this.animations.add('SwordSlashLeft', [19, 19, 19, 19, 20, 20, 21, 21, 21], 25, true);
     this.animations.add('CrossbowWalkRight', [22, 23, 24, 25], 10, true);
-    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);     
+    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);         
 };
 
 spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -94,6 +100,14 @@ spriteBuild.prototype.constructor = spriteBuild;
 spriteBuild.prototype.update = function() {
     //only allow input if the game says so
     //this is a global pause on player movement
+    if(this.health == 2){
+        this.healthBox.scale.set(30,30);
+    }else if(this.health == 1){
+        this.healthBox.scale.set(15,30);
+    }
+    if(this.health == 0){
+        game.state.start('PlayOver');
+    }
     if(canEnter) {
        
     if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) ) {
@@ -130,9 +144,9 @@ spriteBuild.prototype.update = function() {
         fireAngle = 0;
         this.status = 'walkingRight';
         // Increase the velocity by a factor, to provide acceleration
-        if(this.body.onFloor()) {
+        if(this.body.onFloor() && this.body.velocity.x <=300) {
             this.body.velocity.x += 20;
-        } else {
+        } else if(this.body.velocity.x <=300) {
             this.body.velocity.x += 10; // less control in air
         }
         
@@ -142,16 +156,16 @@ spriteBuild.prototype.update = function() {
         fireAngle = 180;
         this.status = 'walkingLeft';
         // Decrease the velocity by a factor, to provide acceleration
-        if(this.body.onFloor()) {
+        if(this.body.onFloor() && this.body.velocity.x >= -300) {
             this.body.velocity.x -= 20;
-        } else {
+        } else if(this.body.velocity.x >= -300){
             this.body.velocity.x -= 10; // less control in air
         }
         
         
         //make sure the sword hitbox is on the right side of the player
         this.sword.position.x = (-18) - this.sword.width;
-    } else {
+    } else if ( !game.input.keyboard.isDown(Phaser.Keyboard.W) ){
         this.status = 'idle';
     }
     
@@ -233,12 +247,12 @@ spriteBuild.prototype.update = function() {
         }
     }
     // Velocity Max and Min
-    if(this.body.velocity.x > 300) {this.body.velocity.x = 300;}
-    else if(this.body.velocity.x < -300) {this.body.velocity.x = -300;}
+    if(this.body.velocity.x > 600) {this.body.velocity.x = 600;}
+    else if(this.body.velocity.x < -600) {this.body.velocity.x = -600;}
       
     }
     
-}
+};
 
 //////////////////////////////////////////////////////
 // helper functions for animation grabbing          //
@@ -249,7 +263,7 @@ spriteBuild.prototype.playAttack = function() {
     if(this.currentAnimation === 'SwordSlashRight' || this.currentAnimation === 'SwordSlashLeft') {
         // Don't start animation again
     }
-}
+};
 
 // WALKING
 spriteBuild.prototype.playWalking = function() {
@@ -272,7 +286,7 @@ spriteBuild.prototype.playWalking = function() {
         // Play single frame in midair, but still allow to change
         this.playIdle();
     }
-}
+};
 
 // IDLE
 spriteBuild.prototype.playIdle = function() {
@@ -289,14 +303,14 @@ spriteBuild.prototype.playIdle = function() {
     }
     
     // Neutralize the current animation
-    this.currentAnimation = null;
-}
+    //this.currentAnimation = null;
+};
 
 // JUMPING
 spriteBuild.prototype.playJump = function() {
     this.airTime++;
     this.playIdle();
-}
+};
 
 
 // BULLETS
@@ -398,3 +412,4 @@ Weapon.SingleBullet.prototype.fire = function(source) {
   this.nextFire = this.game.time.time + this.fireRate;
 
 };
+
