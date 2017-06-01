@@ -65,10 +65,10 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.airTime = 0; //determines whether a thud sound is played on landing
     
     // add child sprite for sword
-    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+    /*this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
     this.sword.scale.set(30, 49);
     this.sword.alpha = 0;
-    game.physics.arcade.enable(this.sword);
+    game.physics.arcade.enable(this.sword);*/
 
     this.weapons = [];
     this.currentWeapon = 0;
@@ -105,7 +105,16 @@ spriteBuild.prototype.update = function() {
         if ( this.attackAnim1.isFinished || this.attackAnim2.isFinished ) {
             this.isAnimDone = 1;
         }
-        */   
+        */
+    if(weapon == 'sword'){
+        this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+        this.sword.scale.set(30, 49);
+        this.sword.alpha = 0;
+        game.physics.arcade.enable(this.sword);
+    }else{
+        this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+        this.sword.destroy();
+    }  
     //only allow input if the game says so
     //this is a global pause on player movement
     if(canEnter) {      
