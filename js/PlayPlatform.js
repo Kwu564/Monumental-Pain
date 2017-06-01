@@ -165,12 +165,12 @@ PlayPlatform.prototype = {
       //play music
       song = this.add.audio('battle-song');
       if(global_playMusic) song.play('', 0, 1, true);
-
+      /*
       this.instructions = game.add.text(400, 32, " WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, \n and reach end of screen to return to world map, T to see text box ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(400, 32);
-      
+      */
       //fades camera back in
       game.camera.resetFX();
       game.camera.flash(0x000000, 500);
@@ -183,10 +183,11 @@ PlayPlatform.prototype = {
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
       if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {    
-         game.physics.arcade.overlap(player.sword,enemyGroup,this.swordAttack,null,this);
+         game.physics.arcade.overlap(player.sword,enemyGroup,this.weaponAttack,null,this);
+         game.physics.arcade.collide(player.Bullet,enemyGroup,this.weaponAttack,null,this);
          //console.log(player.weapons[player.currentWeapon]);
-         //game.physics.arcade.overlap(player.weapons[player.currentWeapon],enemyGroup,this.swordAttack,null,this);
-         //game.time.events.add(340,this.swordAttack,this,player.sword,enemyGroup);
+         //game.physics.arcade.overlap(player.weapons[player.currentWeapon],enemyGroup,this.weaponAttack,null,this);
+         //game.time.events.add(340,this.weaponAttack,this,player.sword,enemyGroup);
          this.onHitKey = 1;
       } else {
          this.onHitKey = 0;
@@ -207,11 +208,11 @@ PlayPlatform.prototype = {
          textObj = TEXT_DATA[PLATWORLD_TEXTBOX_TEST];
          textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
       }
-      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC)){
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC) && canPause){
          pauseMenu(game);
       }
    },
-   swordAttack: function(sword, enemy) {
+   weaponAttack: function(weapon, enemy) {
       //Add knockback, etc. here
       player.status = 'attacking';
       console.log(enemy);
