@@ -24,7 +24,6 @@
         }, 
         {
          "draworder":"topdown",
-         "height":0,
          "name":"towns",
          "objects":[
                 {
@@ -70,26 +69,14 @@
                  "width":32,
                  "x":1920,
                  "y":3072
-                }, 
-                {
-                 "height":32,
-                 "id":9,
-                 "name":"Xanzik",
-                 "rotation":0,
-                 "type":"4",
-                 "visible":true,
-                 "width":32,
-                 "x":2560,
-                 "y":576
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":10,
+ "nextobjectid":9,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,
@@ -97,7 +84,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/concepts\/tmx\/tilesets\/oworld-tile.png",
+         "image":"..\/img\/tilesets\/oworld-tile.png",
          "imageheight":320,
          "imagewidth":512,
          "margin":0,
@@ -112,7 +99,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "height":0,
                      "name":"",
                      "objects":[
                             {
@@ -129,7 +115,6 @@
                      "opacity":1,
                      "type":"objectgroup",
                      "visible":true,
-                     "width":0,
                      "x":0,
                      "y":0
                     }
@@ -138,6 +123,7 @@
          "tilewidth":32
         }],
  "tilewidth":32,
- "version":1,
+ "type":"map",
+ "version":"1.0.0",
  "width":100
 }
