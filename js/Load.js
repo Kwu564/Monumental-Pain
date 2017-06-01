@@ -24,6 +24,11 @@ Load.prototype = {
 
       // set up loading bar here
 
+      let loadLabel = game.add.text(game.world.centerX, game.world.centerY - 36, "Loading...", {font:"Courier",fontSize: "32px", fill: "white"});
+      loadLabel.anchor.set(0.5);
+      game.preloadBar = game.add.sprite(game.world.centerX - 100, game.world.centerY, 'bar');
+      game.load.setPreloadSprite(game.preloadBar);
+
 
       // align the game window to center of webpage
       game.scale.pageAlignHorizontally = true;
