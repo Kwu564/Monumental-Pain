@@ -23,7 +23,6 @@ var fireAngle = 0;
 // sheathed just means the character puts away all weapons
 var weapon = 'sword';
 
-
 //function creates a jump delay
 var onJump = function(noJump){
     this.noJump = 0;
@@ -112,11 +111,14 @@ spriteBuild.prototype.update = function() {
     if(canEnter) {      
     if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) || this.isAnimDone == 0 ) {
         //console.log(this.frame);
+
         if ( weapon == 'sheathed' ) {
-            this.status == 'idle';
+            //this.status = 'idle';
+            //this.status = 'attacking';
         } else {
             this.status = 'attacking';
         }
+
         //this.playAttack();
         // If the player is on the ground, stop them
         if(this.body.onFloor()) {
@@ -387,14 +389,22 @@ spriteBuild.prototype.playJump = function() {
 var Bullet = function(game, key) {
 
   Phaser.Sprite.call(this, game, 0, 0, key);
+  /*
+    this.arrow = this.addChild(game.make.sprite(18, -16, 'collider'));
+    this.arrow.scale.set(30, 49);
+    this.arrow.alpha = 0.3;
+    game.physics.arcade.enable(this.arrow);
+*/
 
   this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
 
   this.anchor.set(0.5);
 
+  this.enableBody = true;
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
   this.exists = false;
+  //this.body.setSize(25, 49, 25, 14); //(width, height, offsetX, offsetY)
 
   this.tracking = false;
   this.scaleSpeed = 0;
@@ -422,7 +432,6 @@ Bullet.prototype.fire = function (x, y, speed, gx, gy) {
 };
 
 Bullet.prototype.update = function() {
-
   if (this.tracking)
   {
       this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
@@ -433,8 +442,8 @@ Bullet.prototype.update = function() {
       this.scale.x += this.scaleSpeed;
       this.scale.y += this.scaleSpeed;
   }
+};   
 
-};
 
 // array for storing ammo types
 var Weapon = {};
@@ -445,17 +454,23 @@ var Weapon = {};
 
 Weapon.SingleBullet = function(game) {
 
-  Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
-
-  this.nextFire = 0;
+Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
+  this.nextFire = 10;
   this.bulletSpeed = 600;
   this.fireRate = 400;
+  this.ref = null;
+  //this.enableBody = true;
+  //this.game.physics.arcade.enableBody(this);
+  //this.body.setSize(25, 49, 25, 14); //(width, height, offsetX, offsetY)
+
 
   for (var i = 0; i < 64; i++)
-  {
-      this.add(new Bullet(game, 'arrow'), true);
+  {   
+        this.ref = new Bullet(game, 'arrow');
+      this.add(this.ref, true);
+      //this.arrowRef.add(this.ref);
   }
-
+    //this.game.physics.arcade.enableBody(this);
   return this;
 
 };

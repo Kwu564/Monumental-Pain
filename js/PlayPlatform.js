@@ -169,8 +169,10 @@ PlayPlatform.prototype = {
    update: function() {      
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
-      if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {
+      if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {    
          game.physics.arcade.overlap(player.sword,enemyGroup,this.swordAttack,null,this);
+         //console.log(player.weapons[player.currentWeapon]);
+         //game.physics.arcade.overlap(player.weapons[player.currentWeapon],enemyGroup,this.swordAttack,null,this);
          //game.time.events.add(340,this.swordAttack,this,player.sword,enemyGroup);
          this.onHitKey = 1;
       } else {
@@ -199,6 +201,7 @@ PlayPlatform.prototype = {
    swordAttack: function(sword, enemy) {
       //Add knockback, etc. here
       player.status = 'attacking';
+      console.log(enemy);
       enemy.destroy();
    },
    enterDoor: function(player, door) {
