@@ -57,7 +57,7 @@ Title.prototype = {
       // creates a text box to explain the game
 
       var textObj = TEXT_DATA[HELP];
-      textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, textObj);
+      textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, NAVIGABLE, textObj);
    },
 
    play: function() {

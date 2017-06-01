@@ -46,6 +46,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.anchor.setTo(.5,.5);
     this.scale.setTo(scaleX,scaleY);
     this.game.physics.arcade.enableBody(this);
+    this.health = 3;
     
     //change collision box
     this.body.setSize(25, 49, 25, 14); //(width, height, offsetX, offsetY)
@@ -69,7 +70,12 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
     this.sword.scale.set(30, 49);
     this.sword.alpha = 0;
+    this.healthBox = this.addChild(game.make.sprite(-24,-48,'collider'));
+    this.healthBox.scale.set(50,30);
     game.physics.arcade.enable(this.sword);
+    game.physics.arcade.enable(this.healthBox);
+    //this.healthBox.position.x = 400;
+    //this.healthBox.position.y = 300;
 
     this.weapons = [];
     this.currentWeapon = 0;
@@ -109,6 +115,7 @@ spriteBuild.prototype.update = function() {
         */   
     //only allow input if the game says so
     //this is a global pause on player movement
+<<<<<<< HEAD
     if(canEnter) {      
     if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) || this.isAnimDone == 0 ) {
         //console.log(this.frame);
@@ -118,6 +125,20 @@ spriteBuild.prototype.update = function() {
             this.status = 'attacking';
         }
         //this.playAttack();
+=======
+    if(this.health == 2){
+        this.healthBox.scale.set(30,30);
+    }else if(this.health == 1){
+        this.healthBox.scale.set(15,30);
+    }
+    if(this.health == 0){
+        game.state.start('PlayOver');
+    }
+    if(canEnter) {
+       
+    if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) ) {
+        this.status = 'attacking';
+>>>>>>> 02197375f61d421b6f39e5c6014ebfa59a8aa7e6
         // If the player is on the ground, stop them
         if(this.body.onFloor()) {
             this.body.velocity.x = 0;
@@ -151,9 +172,9 @@ spriteBuild.prototype.update = function() {
         fireAngle = 0;
         this.status = 'walkingRight';
         // Increase the velocity by a factor, to provide acceleration
-        if(this.body.onFloor()) {
+        if(this.body.onFloor() && this.body.velocity.x <=300) {
             this.body.velocity.x += 20;
-        } else {
+        } else if(this.body.velocity.x <=300) {
             this.body.velocity.x += 10; // less control in air
         }
         
@@ -164,9 +185,9 @@ spriteBuild.prototype.update = function() {
         fireAngle = 180;
         this.status = 'walkingLeft';
         // Decrease the velocity by a factor, to provide acceleration
-        if(this.body.onFloor()) {
+        if(this.body.onFloor() && this.body.velocity.x >= -300) {
             this.body.velocity.x -= 20;
-        } else {
+        } else if(this.body.velocity.x >= -300){
             this.body.velocity.x -= 10; // less control in air
         }
         
@@ -256,12 +277,12 @@ spriteBuild.prototype.update = function() {
         }
     }
     // Velocity Max and Min
-    if(this.body.velocity.x > 300) {this.body.velocity.x = 300;}
-    else if(this.body.velocity.x < -300) {this.body.velocity.x = -300;}
+    if(this.body.velocity.x > 600) {this.body.velocity.x = 600;}
+    else if(this.body.velocity.x < -600) {this.body.velocity.x = -600;}
       
     }
     
-}
+};
 
 //////////////////////////////////////////////////////
 //      helper functions for animation grabbing     //
@@ -329,8 +350,13 @@ if ( this.isAnimDone == 1 ) {
         }
         this.isAnimDone = 0;    
     }
+<<<<<<< HEAD
 */           
 }
+=======
+};
+
+>>>>>>> 02197375f61d421b6f39e5c6014ebfa59a8aa7e6
 // WALKING
 spriteBuild.prototype.playWalking = function() {
     if(this.body.onFloor()) { //only walk animate if on the ground
@@ -352,7 +378,7 @@ spriteBuild.prototype.playWalking = function() {
         // Play single frame in midair, but still allow to change
         this.playIdle();
     }
-}
+};
 
 // IDLE
 spriteBuild.prototype.playIdle = function() {
@@ -370,13 +396,13 @@ spriteBuild.prototype.playIdle = function() {
     
     // Neutralize the current animation
     //this.currentAnimation = null;
-}
+};
 
 // JUMPING
 spriteBuild.prototype.playJump = function() {
     this.airTime++;
     this.playIdle();
-}
+};
 
 
 // BULLETS
@@ -478,3 +504,4 @@ Weapon.SingleBullet.prototype.fire = function(source) {
   this.nextFire = this.game.time.time + this.fireRate;
 
 };
+

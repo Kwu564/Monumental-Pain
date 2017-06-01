@@ -190,12 +190,13 @@ PlayPlatform.prototype = {
       // Contrived Text box 2
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
          textObj = TEXT_DATA[PLATWORLD_TEXTBOX_TEST];
-         textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, textObj);
+         textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
       }
    },
    swordAttack: function(sword, enemy) {
       //Add knockback, etc. here
-      enemy.kill();
+      player.status = 'attacking';
+      enemy.destroy();
    },
    enterDoor: function(player, door) {
       game.sound.stopAll();
