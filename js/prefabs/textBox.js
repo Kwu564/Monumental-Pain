@@ -2,14 +2,16 @@
 // this has a built in feature so that whenever it is called
 // it will pause all other gameplay until it is dismissed
 
-var textBox = function(game, x, y, anchorX, anchorY, textDataObj){
+var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    console.log("textBox.create");
    this.counter = 0;
    this.text = game.add.text(x, y, textDataObj.text[counter], textDataObj.style);
    this.text.anchor.set(anchorX, anchorY);
    this.text.fixedToCamera = true;
    this.text.cameraOffset.setTo(x, y);
-   game.paused = true;
+   console.log("textBox placed");
+   canPause = false;
+   if(!game.paused) game.paused = true;
    
    window.onkeyup = function(event){
       var keyCode = event.keyCode || event.which;
@@ -24,14 +26,16 @@ var textBox = function(game, x, y, anchorX, anchorY, textDataObj){
             this.text.destroy();
             counter++;
             game.paused = false;
+            canPause = true;
          }
       }
-      else if(keyCode === Phaser.Keyboard.ESC){
+      else if(keyCode === Phaser.Keyboard.ESC && navigable){
             this.text.destroy();
             counter++;
             game.paused = false;
+            canPause = true;
       }
-      else if(keyCode === Phaser.Keyboard.Q){
+      else if(keyCode === Phaser.Keyboard.Q && navigable){
          if(counter > 0){
             counter--;
             this.text.text = textDataObj.text[counter];

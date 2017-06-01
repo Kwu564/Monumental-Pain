@@ -23,7 +23,6 @@ var fireAngle = 0;
 // sheathed just means the character puts away all weapons
 var weapon = 'sword';
 
-
 //function creates a jump delay
 var onJump = function(noJump){
     this.noJump = 0;
@@ -36,14 +35,19 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     var spriteTimer = game.time.create();
     //flag to pass into onJump, allows for delay
     this.noJump = 0;
+    //flag for determining when attack animation is finished playing 
+    this.isAnimDone = 1;
+    this.slashAnimRight = null;
+    this.slashAnimLeft = null;
+    this.crossbowAnimRight = null;
+    this.crossbowAnimLeft = null;
 
     this.anchor.setTo(.5,.5);
     this.scale.setTo(scaleX,scaleY);
     this.game.physics.arcade.enableBody(this);
-    this.health = 3;
     
     //change collision box
-    this.body.setSize(22, 49, 19, 14); //(width, height, offsetX, offsetY)
+    this.body.setSize(25, 49, 25, 14); //(width, height, offsetX, offsetY)
     
     //sounds
     this.bump = game.add.audio('bump');
@@ -64,12 +68,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
     this.sword.scale.set(30, 49);
     this.sword.alpha = 0;
-    this.healthBox = this.addChild(game.make.sprite(-24,-48,'collider'));
-    this.healthBox.scale.set(50,30);
     game.physics.arcade.enable(this.sword);
-    game.physics.arcade.enable(this.healthBox);
-    //this.healthBox.position.x = 400;
-    //this.healthBox.position.y = 300;
 
     this.weapons = [];
     this.currentWeapon = 0;
@@ -86,11 +85,15 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.animations.add('SwordWalkLeft', [12, 13, 14, 15], 10, true);
     //TWEEKED ANIMATION TO SEE HOW IT FEELS
     //DEFAULT IS [16,17,18],10,true
-    this.animations.add('SwordSlashRight', [16, 16, 16, 16, 17, 17, 18, 18, 18], 25, true);
+    this.slashAnimRight = this.animations.add('SwordSlashRight', [16, 16, 16, 16, 17, 17, 18, 18], 25, false);
     //DEFAULT IS [19,20,21],10,true
-    this.animations.add('SwordSlashLeft', [19, 19, 19, 19, 20, 20, 21, 21, 21], 25, true);
+    this.slashAnimLeft = this.animations.add('SwordSlashLeft', [19, 19, 19, 19, 20, 20, 21, 21], 25, false);
     this.animations.add('CrossbowWalkRight', [22, 23, 24, 25], 10, true);
-    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);         
+    this.animations.add('CrossbowWalkLeft', [26, 27, 28, 29], 10, true);
+
+    this.crossbowAnimRight = this.animations.add('CrossbowFireRight', [22], 10, true);
+    this.crossbowAnimLeft = this.animations.add('CrossbowFireLeft', [26], 10, true);
+
 };
 
 spriteBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -98,20 +101,25 @@ spriteBuild.prototype.constructor = spriteBuild;
     
 // UPDATE
 spriteBuild.prototype.update = function() {
+    /*
+        if ( this.attackAnim1.isFinished || this.attackAnim2.isFinished ) {
+            this.isAnimDone = 1;
+        }
+        */   
     //only allow input if the game says so
     //this is a global pause on player movement
-    if(this.health == 2){
-        this.healthBox.scale.set(30,30);
-    }else if(this.health == 1){
-        this.healthBox.scale.set(15,30);
-    }
-    if(this.health == 0){
-        game.state.start('PlayOver');
-    }
-    if(canEnter) {
-       
-    if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) ) {
-        this.status = 'attacking';
+    if(canEnter) {      
+    if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) || this.isAnimDone == 0 ) {
+        //console.log(this.frame);
+
+        if ( weapon == 'sheathed' ) {
+            //this.status = 'idle';
+            //this.status = 'attacking';
+        } else {
+            this.status = 'attacking';
+        }
+
+        //this.playAttack();
         // If the player is on the ground, stop them
         if(this.body.onFloor()) {
             this.body.velocity.x = 0;
@@ -141,24 +149,26 @@ spriteBuild.prototype.update = function() {
         } // do nothing if weapon == 'sheathed'
         */
     } else if ( game.input.keyboard.isDown(Phaser.Keyboard.D) ) {
+        this.isAnimDone = 1;
         fireAngle = 0;
         this.status = 'walkingRight';
         // Increase the velocity by a factor, to provide acceleration
-        if(this.body.onFloor() && this.body.velocity.x <=300) {
+        if(this.body.onFloor()) {
             this.body.velocity.x += 20;
-        } else if(this.body.velocity.x <=300) {
+        } else {
             this.body.velocity.x += 10; // less control in air
         }
         
         //make sure the sword hitbox is on the right side of the player
         this.sword.position.x = 8;
     } else if ( game.input.keyboard.isDown(Phaser.Keyboard.A) ) {
+        this.isAnimDone = 1;
         fireAngle = 180;
         this.status = 'walkingLeft';
         // Decrease the velocity by a factor, to provide acceleration
-        if(this.body.onFloor() && this.body.velocity.x >= -300) {
+        if(this.body.onFloor()) {
             this.body.velocity.x -= 20;
-        } else if(this.body.velocity.x >= -300){
+        } else {
             this.body.velocity.x -= 10; // less control in air
         }
         
@@ -166,6 +176,7 @@ spriteBuild.prototype.update = function() {
         //make sure the sword hitbox is on the right side of the player
         this.sword.position.x = (-18) - this.sword.width;
     } else if ( !game.input.keyboard.isDown(Phaser.Keyboard.W) ){
+        this.isAnimDone = 1;
         this.status = 'idle';
     }
     
@@ -181,6 +192,7 @@ spriteBuild.prototype.update = function() {
         this.airTime = 0;
         // Jump, if button is pressed
         if(game.input.keyboard.justPressed(Phaser.Keyboard.W)) {
+            this.isAnimDone = 1;
             this.status = 'jumping';
             this.body.velocity.y = -660;
         }
@@ -223,8 +235,7 @@ spriteBuild.prototype.update = function() {
             this.playIdle();
             this.status = 'idle';
             break;
-    }
-    
+    }    
     // Friction adjustments
     // If the player isn't accelerating, then they are decelerating
     if(this.status === 'idle') {
@@ -247,24 +258,81 @@ spriteBuild.prototype.update = function() {
         }
     }
     // Velocity Max and Min
-    if(this.body.velocity.x > 600) {this.body.velocity.x = 600;}
-    else if(this.body.velocity.x < -600) {this.body.velocity.x = -600;}
+    if(this.body.velocity.x > 300) {this.body.velocity.x = 300;}
+    else if(this.body.velocity.x < -300) {this.body.velocity.x = -300;}
       
     }
     
-};
+}
 
 //////////////////////////////////////////////////////
-// helper functions for animation grabbing          //
+//      helper functions for animation grabbing     //
 //////////////////////////////////////////////////////
 
 // ATTACKING
 spriteBuild.prototype.playAttack = function() {
-    if(this.currentAnimation === 'SwordSlashRight' || this.currentAnimation === 'SwordSlashLeft') {
-        // Don't start animation again
-    }
-};
+/*
+if ( this.attackAnim1.isFinished || this.attackAnim2.isFinished ) {
+    this.isAnimDone = 1;
+} else {
+    this.isAnimDone = 0;
+}
+*/
+// basically sets the flag isAnimDone true each time an animation finishes
+// this lets the game know when to continue playing attack animations
+this.slashAnimRight.onComplete.add(function() {this.isAnimDone = 1}, this);
+this.slashAnimLeft.onComplete.add(function() {this.isAnimDone = 1}, this);
+this.crossbowAnimLeft.onComplete.add(function() {this.isAnimDone = 1}, this);
+this.crossbowAnimRight.onComplete.add(function() {this.isAnimDone = 1}, this);
 
+if ( this.isAnimDone == 1 ) {
+    // when animation is done playing, reset the flag back to 0
+    this.isAnimDone = 0;
+} else {
+    // play the attack animations if isAnimDone = 0
+    if ( weapon == 'sword' ) {
+        if ( fireAngle == 0 ) {
+            this.animations.play('SwordSlashRight');
+        } else if ( fireAngle == 180 ) {
+            this.animations.play('SwordSlashLeft');
+        }
+    } else if ( weapon == 'crossbow' ) {
+        this.isAnimDone = 1;
+        this.weapons[this.currentWeapon].fire(this);
+        if ( fireAngle == 0 ) {
+            this.animations.play('CrossbowFireRight');
+        } else if ( fireAngle == 180 ) {
+            this.animations.play('CrossbowFireLeft');
+        }      
+    } else if ( weapon == 'sheathed' ) {
+        this.isAnimDone = 1;
+        //do nothing
+    }
+}
+
+/*       
+    if(this.currentAnimation === 'SwordSlashRight' || this.currentAnimation === 'SwordSlashLeft') {
+        this.isAnimDone = 0;
+        // Don't start animation again
+    } else {
+        if ( weapon == 'sword' ) {
+            if ( fireAngle == 0 ) {
+                this.animations.play('SwordSlashRight');
+            } else if ( fireAngle == 180 ) {
+                this.animations.play('SwordSlashLeft');
+            }
+        } else if ( weapon == 'crossbow' ) {
+            this.weapons[this.currentWeapon].fire(this);
+            if ( fireAngle == 0 ) {
+                this.frame = 22;
+            } else if ( fireAngle == 180 ) {
+                this.frame = 26;
+            }      
+        }
+        this.isAnimDone = 0;    
+    }
+*/           
+}
 // WALKING
 spriteBuild.prototype.playWalking = function() {
     if(this.body.onFloor()) { //only walk animate if on the ground
@@ -286,7 +354,7 @@ spriteBuild.prototype.playWalking = function() {
         // Play single frame in midair, but still allow to change
         this.playIdle();
     }
-};
+}
 
 // IDLE
 spriteBuild.prototype.playIdle = function() {
@@ -304,13 +372,13 @@ spriteBuild.prototype.playIdle = function() {
     
     // Neutralize the current animation
     //this.currentAnimation = null;
-};
+}
 
 // JUMPING
 spriteBuild.prototype.playJump = function() {
     this.airTime++;
     this.playIdle();
-};
+}
 
 
 // BULLETS
@@ -321,14 +389,22 @@ spriteBuild.prototype.playJump = function() {
 var Bullet = function(game, key) {
 
   Phaser.Sprite.call(this, game, 0, 0, key);
+  /*
+    this.arrow = this.addChild(game.make.sprite(18, -16, 'collider'));
+    this.arrow.scale.set(30, 49);
+    this.arrow.alpha = 0.3;
+    game.physics.arcade.enable(this.arrow);
+*/
 
   this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
 
   this.anchor.set(0.5);
 
+  this.enableBody = true;
   this.checkWorldBounds = true;
   this.outOfBoundsKill = true;
   this.exists = false;
+  //this.body.setSize(25, 49, 25, 14); //(width, height, offsetX, offsetY)
 
   this.tracking = false;
   this.scaleSpeed = 0;
@@ -356,7 +432,6 @@ Bullet.prototype.fire = function (x, y, speed, gx, gy) {
 };
 
 Bullet.prototype.update = function() {
-
   if (this.tracking)
   {
       this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
@@ -367,8 +442,8 @@ Bullet.prototype.update = function() {
       this.scale.x += this.scaleSpeed;
       this.scale.y += this.scaleSpeed;
   }
+};   
 
-};
 
 // array for storing ammo types
 var Weapon = {};
@@ -379,17 +454,23 @@ var Weapon = {};
 
 Weapon.SingleBullet = function(game) {
 
-  Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
-
-  this.nextFire = 0;
+Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
+  this.nextFire = 10;
   this.bulletSpeed = 600;
   this.fireRate = 400;
+  this.ref = null;
+  //this.enableBody = true;
+  //this.game.physics.arcade.enableBody(this);
+  //this.body.setSize(25, 49, 25, 14); //(width, height, offsetX, offsetY)
+
 
   for (var i = 0; i < 64; i++)
-  {
-      this.add(new Bullet(game, 'arrow'), true);
+  {   
+        this.ref = new Bullet(game, 'arrow');
+      this.add(this.ref, true);
+      //this.arrowRef.add(this.ref);
   }
-
+    //this.game.physics.arcade.enableBody(this);
   return this;
 
 };
@@ -412,4 +493,3 @@ Weapon.SingleBullet.prototype.fire = function(source) {
   this.nextFire = this.game.time.time + this.fireRate;
 
 };
-

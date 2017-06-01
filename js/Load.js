@@ -24,6 +24,11 @@ Load.prototype = {
 
       // set up loading bar here
 
+      let loadLabel = game.add.text(game.world.centerX, game.world.centerY - 36, "Loading...", {font:"Courier",fontSize: "32px", fill: "white"});
+      loadLabel.anchor.set(0.5);
+      game.preloadBar = game.add.sprite(game.world.centerX - 100, game.world.centerY, 'bar');
+      game.load.setPreloadSprite(game.preloadBar);
+
 
       // align the game window to center of webpage
       game.scale.pageAlignHorizontally = true;
@@ -37,7 +42,7 @@ Load.prototype = {
 
       let spriteList = ['arrow','crossbowBolt.png','hero','hero.png'];
 
-      let sheetList = ['platHero','hero-tall.png',64,64,'axeMan-enemy','axeMan.png',64,64,'swordsMan-enemy','swordsMan.png',64,64,'lesserDemon','lesserDemon.png',64,64,'overallDude-npc','overalldude.png'];
+      let sheetList = ['platHero','hero-tall.png',64,64,'axeMan-enemy','axeMan.png',64,64,'swordsMan-enemy','swordsMan.png',64,64,'lesserDemon','lesserDemon.png',64,64,'overallDude-npc','overallDude.png',64,64,'skirtDudette-npc','skirtDudette.png',64,64,'bossDemon','bossDemon.png',256,256];
 
       let tilesetList = ['oworld-tile','oworld-tile.png','forest-tile','forest-tile.png','ice-tile','ice-tile.png'];
 

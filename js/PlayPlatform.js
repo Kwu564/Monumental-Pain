@@ -96,20 +96,25 @@ PlayPlatform.prototype = {
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
 
       //
-      //TESTING BLOCK, ENEMY SPAWN
+      //TESTING BLOCK, NPC SPAWN
       //      
 
       npcOverallDude = new overallDude(this.game,1,1,700,300,'overallDude-npc');
+      npcSkirtDudette = new skirtDudette(this.game,1,1,900,300,'skirtDudette-npc');
 
       npcGroup = this.game.add.group();
 
       npcGroup.add(npcOverallDude);
+      npcGroup.add(npcSkirtDudette);
 
       npcOverallDude.body.gravity.y = 1500;
       npcOverallDude.body.collideWorldBounds = true;
 
+      npcSkirtDudette.body.gravity.y = 1500;
+      npcSkirtDudette.body.collideWorldBounds = true;
+
       //
-      //END TESTING BLOCK, ENEMY SPAWN
+      //END TESTING BLOCK, NPC SPAWN
       //
 
       //
@@ -143,16 +148,29 @@ PlayPlatform.prototype = {
       //
       //END TESTING BLOCK, ENEMY SPAWN
       //
+      
+      //
+      //TESTING BLOCK, bossDemon SPAWN
+      //
+      bossDemon = new bossDemonBuild(this.game,1,1,700,300,'bossDemon');
+
+      enemyGroup.add(bossDemon);
+
+      bossDemon.body.gravity.y = 1500;
+      bossDemon.body.collideWorldBounds = true;
+      //
+      //END TESTING BLOCK, bossDemon SPAWN
+      //      
 
       //play music
       song = this.add.audio('battle-song');
-      //song.play('', 0, 1, true);
-
+      if(global_playMusic) song.play('', 0, 1, true);
+      /*
       this.instructions = game.add.text(400, 32, " WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, \n and reach end of screen to return to world map, T to see text box ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(400, 32);
-      
+      */
       //fades camera back in
       game.camera.resetFX();
       game.camera.flash(0x000000, 500);
@@ -164,8 +182,10 @@ PlayPlatform.prototype = {
    update: function() {      
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
-      if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {
+      if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {    
          game.physics.arcade.overlap(player.sword,enemyGroup,this.swordAttack,null,this);
+         //console.log(player.weapons[player.currentWeapon]);
+         //game.physics.arcade.overlap(player.weapons[player.currentWeapon],enemyGroup,this.swordAttack,null,this);
          //game.time.events.add(340,this.swordAttack,this,player.sword,enemyGroup);
          this.onHitKey = 1;
       } else {
@@ -185,12 +205,16 @@ PlayPlatform.prototype = {
       // Contrived Text box 2
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
          textObj = TEXT_DATA[PLATWORLD_TEXTBOX_TEST];
-         textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, textObj);
+         textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
+      }
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC) && canPause){
+         pauseMenu(game);
       }
    },
    swordAttack: function(sword, enemy) {
       //Add knockback, etc. here
       player.status = 'attacking';
+      console.log(enemy);
       enemy.destroy();
    },
    enterDoor: function(player, door) {
