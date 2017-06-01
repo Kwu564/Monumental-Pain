@@ -9,7 +9,9 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    this.text.anchor.set(anchorX, anchorY);
    this.text.fixedToCamera = true;
    this.text.cameraOffset.setTo(x, y);
-   game.paused = true;
+   console.log("textBox placed");
+   canPause = false;
+   if(!game.paused) game.paused = true;
    
    window.onkeyup = function(event){
       var keyCode = event.keyCode || event.which;
@@ -24,12 +26,14 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
             this.text.destroy();
             counter++;
             game.paused = false;
+            canPause = true;
          }
       }
       else if(keyCode === Phaser.Keyboard.ESC && navigable){
             this.text.destroy();
             counter++;
             game.paused = false;
+            canPause = true;
       }
       else if(keyCode === Phaser.Keyboard.Q && navigable){
          if(counter > 0){

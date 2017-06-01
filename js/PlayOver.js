@@ -76,12 +76,12 @@ PlayOver.prototype = {
       //play music
       song = this.add.audio('oworld-song');
       if(global_playMusic) song.play('', 0, 1, true);
-
+      /*
       this.instructions = game.add.text(400, 32, " WASD Keys to move, 'T' to see text box, enter town to see a new perspective ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
       this.instructions.fixedToCamera = true;
       this.instructions.cameraOffset.setTo(game.camera.width/2, 32);
-      
+      */
       //fades camera back in
       game.camera.resetFX();
       game.camera.flash(0x000000, 500);
@@ -97,7 +97,7 @@ PlayOver.prototype = {
          textObj = TEXT_DATA[OWORLD_TEXTBOX_TEST];
          textBox(game, game.camera.width/2 , 64, 0.5, 0, !NAVIGABLE, textObj);
       }
-      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC)){
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC) && canPause){
          pauseMenu(game);
       }
    },
