@@ -96,20 +96,25 @@ PlayPlatform.prototype = {
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
 
       //
-      //TESTING BLOCK, ENEMY SPAWN
+      //TESTING BLOCK, NPC SPAWN
       //      
 
       npcOverallDude = new overallDude(this.game,1,1,700,300,'overallDude-npc');
+      npcSkirtDudette = new skirtDudette(this.game,1,1,900,300,'skirtDudette-npc');
 
       npcGroup = this.game.add.group();
 
       npcGroup.add(npcOverallDude);
+      npcGroup.add(npcSkirtDudette);
 
       npcOverallDude.body.gravity.y = 1500;
       npcOverallDude.body.collideWorldBounds = true;
 
+      npcSkirtDudette.body.gravity.y = 1500;
+      npcSkirtDudette.body.collideWorldBounds = true;
+
       //
-      //END TESTING BLOCK, ENEMY SPAWN
+      //END TESTING BLOCK, NPC SPAWN
       //
 
       //
@@ -146,7 +151,7 @@ PlayPlatform.prototype = {
 
       //play music
       song = this.add.audio('battle-song');
-      //song.play('', 0, 1, true);
+      if(global_playMusic) song.play('', 0, 1, true);
 
       this.instructions = game.add.text(400, 32, " WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, \n and reach end of screen to return to world map, T to see text box ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
@@ -187,6 +192,9 @@ PlayPlatform.prototype = {
          textObj = TEXT_DATA[PLATWORLD_TEXTBOX_TEST];
          textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
       }
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC)){
+         pauseMenu(game);
+      }
    },
    swordAttack: function(sword, enemy) {
       //Add knockback, etc. here
@@ -223,7 +231,7 @@ PlayPlatform.prototype = {
    },
    render: function() {
       //uncomment to view player collision info in platform
-      //game.debug.bodyInfo(player, 64, 64);
-      //game.debug.body(player);
+      game.debug.bodyInfo(player, 64, 64);
+      game.debug.body(player);
    }
 }
