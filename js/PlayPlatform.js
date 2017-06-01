@@ -148,6 +148,19 @@ PlayPlatform.prototype = {
       //
       //END TESTING BLOCK, ENEMY SPAWN
       //
+      
+      //
+      //TESTING BLOCK, bossDemon SPAWN
+      //
+      bossDemon = new bossDemonBuild(this.game,1,1,700,300,'bossDemon');
+
+      enemyGroup.add(bossDemon);
+
+      bossDemon.body.gravity.y = 1500;
+      bossDemon.body.collideWorldBounds = true;
+      //
+      //END TESTING BLOCK, bossDemon SPAWN
+      //      
 
       //play music
       song = this.add.audio('battle-song');
@@ -169,8 +182,10 @@ PlayPlatform.prototype = {
    update: function() {      
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
-      if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {
+      if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {    
          game.physics.arcade.overlap(player.sword,enemyGroup,this.swordAttack,null,this);
+         //console.log(player.weapons[player.currentWeapon]);
+         //game.physics.arcade.overlap(player.weapons[player.currentWeapon],enemyGroup,this.swordAttack,null,this);
          //game.time.events.add(340,this.swordAttack,this,player.sword,enemyGroup);
          this.onHitKey = 1;
       } else {
@@ -199,6 +214,7 @@ PlayPlatform.prototype = {
    swordAttack: function(sword, enemy) {
       //Add knockback, etc. here
       player.status = 'attacking';
+      console.log(enemy);
       enemy.destroy();
    },
    enterDoor: function(player, door) {
@@ -231,7 +247,7 @@ PlayPlatform.prototype = {
    },
    render: function() {
       //uncomment to view player collision info in platform
-      game.debug.bodyInfo(player, 64, 64);
-      game.debug.body(player);
+      //game.debug.bodyInfo(player, 64, 64);
+      //game.debug.body(player);
    }
 }
