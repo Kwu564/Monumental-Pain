@@ -10,6 +10,11 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	console.log("npcBuild: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
+    this.timer = game.time.create();
+    this.health = 10;
+    this.speed = 100;
+    this.enraged = 0;
+    this.enragedTimer = 10; //initial value is 10 seconds(this is a cooldown)
     // add child sprite for vision
     this.rFlag = 0;
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
@@ -17,6 +22,13 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.vision.anchor.set(.5,.5);
     this.vision.alpha = .5;
     game.physics.arcade.enable(this.vision);
+
+    this.swordSlashHit = this.addChild(game.make.sprite(-128,160, 'collider'));
+    this.swordSlashHit.scale.set(125,50);
+    this.swordSlashHit.anchor.set(.5,.5);
+    this.swordSlashHit.alpha = .5;
+    game.physics.arcade.enable(this.swordSlashHit);
+
 
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
@@ -29,30 +41,61 @@ bossDemonBuild.prototype = Object.create(Phaser.Sprite.prototype);
 bossDemonBuild.prototype.constructor = npcBuild;
 
 bossDemonBuild.prototype.update = function(){
+    if(this.health < 4 && this.enraged == 0){
+        this.speed = 2*this.speed;
+        this.enragedTimer = 4;
+        this.enraged = 1;
+    }
     //game.physics.arcade.overlap(player, vision, this.enterDoor, null, this);
     if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
     }
     if(this.direction < 0) {
-        this.body.velocity.x = -100;
+        this.body.velocity.x = -this.speed;
     } else {
-        this.body.velocity.x = 100;
+        this.body.velocity.x = this.speed;
     }
+    if(this.health == 0){
+        this.destroy();
+    }
+
     /*
-   if ( this.body.velocity.x == -100 ) {
+   if ( this.body.velocity.x < 0) {
       this.animations.play('OverallDudeWalkLeft');
-   } else if ( this.body.velocity.x == 100 ) {
+   } else if ( this.body.velocity.x > 0 ) {
       this.animations.play('OverallDudeWalkRight');
    }
    */
-}
+   game.physics.arcade.overlap(player,this.swordSlashHit,this.swordSlashtimer,null,this);
+};
 bossDemonBuild.prototype.switchDir = function() {
     if(this.direction < 0) {
         this.direction = 1;
+        this.swordSlashHit.position.x = -this.swordSlashHit.position.x;
         this.body.position.x += 1;
     } else{
         this.direction = -1;
+        this.swordSlashHit.position.x = -this.swordSlashHit.position.x;
         this.body.position.x -= 1;
     }
+};
+bossDemonBuild.prototype.swordSlashtimer = function(){
+    this.swordSlashHit.destroy();
+    game.time.events.add(Phaser.Timer.SECOND,this.swordSlashAnimated,this);
+};
+bossDemonBuild.prototype.swordSlashAnimated = function(){
+    //if(this.direction < 0){
+    //    this.animations.play('slash');
+    //}else{
+    //    this.animations.play('slashright');
+    //}
+    game.time.events.add(Phaser.Timer.SECOND*this.enragedTimer, createSwordSlashHit,this);
+};
+var createSwordSlashHit = function(){
+    this.swordSlashHit = this.addChild(game.make.sprite(-128,160, 'collider'));
+    this.swordSlashHit.scale.set(100,50);
+    this.swordSlashHit.anchor.set(.5,.5);
+    this.swordSlashHit.alpha = .5;
+    game.physics.arcade.enable(this.swordSlashHit);
 }
 //enemyBuild.prototype.
