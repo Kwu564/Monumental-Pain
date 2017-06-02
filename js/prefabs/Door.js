@@ -1,10 +1,10 @@
-var Door = function(game,x,y,src,frame,dest,width,height){
+var Door = function(game,x,y,src,frame,dest,width,height,retX,retY){
 	console.log("Door: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
     this.destination = dest;
-    this.retX = x + 50;
-    this.retY = y + 16;
+    this.retX = retX;
+    this.retY = retY;
    
     this.scale.set(width,height);
 
