@@ -13,7 +13,7 @@ var canEnter; // Can someone look into to how to make this variable not global?
 //A: No, it's global so that the player prefab can use it
 
 var PlayOver = function(game) {
-   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj;
+   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj, spawnGroup, foeGroup;
 };
 PlayOver.prototype = {
    create: function() {
@@ -54,7 +54,7 @@ PlayOver.prototype = {
       townGroup.enableBody = true;
       
       var doors = map.objects.towns;
-      console.log(doors);
+
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
@@ -64,6 +64,27 @@ PlayOver.prototype = {
       
       townGroup.alpha = 0;
       townGroup.setAll('body.immovable', true);
+      
+      //ENEMY SPAWNS
+      spawnGroup = this.game.add.group();
+      spawnGroup.enableBody = true;
+      
+      // this is the group that stores the actual enemy sprites
+      foeGroup = this.game.add.group();
+      foeGroup.enableBody = true;
+      
+      var foemap = map.objects.foemap;
+      var enemySpots = map.objects.enemySpots;
+      
+      for(let i = 0; i < foemap.length; i++) {
+         let obj = foemap[i];
+         
+         let zone = new foemapBuild(game,obj,enemySpots);
+         spawnGroup.add(zone);
+      }
+      
+      spawnGroup.alpha = .1;
+      spawnGroup.setAll('body.immovable', true);
       
       //PREFAB SETUP
       playerGroup = this.game.add.group();
@@ -92,6 +113,15 @@ PlayOver.prototype = {
       game.physics.arcade.collide(player, layer3);
       
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
+      game.physics.arcade.overlap(player, spawnGroup, this.spawnFoe, null, this);
+      
+      //Foe collisions, if any foes exist at the time
+      if(foeGroup.children.length > 0) {
+         game.physics.arcade.collide(foeGroup, layer2);
+         game.physics.arcade.collide(foeGroup, layer3);
+         
+         game.physics.arcade.overlap(player,foeGroup,this.enterBattle,null,this);
+      }
 
       // This is a contrived way to put a textbox onscreen until we have an npc to talk to.
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
@@ -121,5 +151,30 @@ PlayOver.prototype = {
       timer.start();
       
       //game.state.start('PlayPlatform');
+   },
+   spawnFoe: function(player, foemap) {
+      for(let i = 0; i < foemap.size; i++) {
+         let foe = new oworldEnemy(game,foemap.enemySpots[i],foemap);
+         
+         foeGroup.add(foe);
+      }
+   },
+   enterBattle: function(player, foe) {
+      global_destination = foe.destination;
+      global_x = player.body.position.x;
+      global_y = player.body.position.y;
+      
+      canEnter = false; //prevents player from moving
+      player.body.velocity.set(0,0);
+      
+      //stops all sounds
+      game.sound.stopAll();
+      
+      game.camera.fade();
+      timer = game.time.create();
+      timer.add(480, function() {
+         game.state.start('PlayPlatform');
+      }, this);
+      timer.start();
    }
 }
