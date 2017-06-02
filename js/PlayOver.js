@@ -74,6 +74,9 @@ PlayOver.prototype = {
       foeGroup.enableBody = true;
       
       var foemap = map.objects.foemap;
+      //enemySpots has the locations of individual enemies in Tiled
+      //info gets stored in each foemapBuild so they can create their own
+      //enemies
       var enemySpots = map.objects.enemySpots;
       
       for(let i = 0; i < foemap.length; i++) {
@@ -161,6 +164,7 @@ PlayOver.prototype = {
             let foe = new oworldEnemy(game,foemap.enemySpots[i],foemap);
          
             foeGroup.add(foe);
+            foemap.activeFoes++;
          }
          
       }

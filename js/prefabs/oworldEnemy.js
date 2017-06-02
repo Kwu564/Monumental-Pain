@@ -6,7 +6,11 @@ var oworldEnemy = function(game,obj,zone){
 	console.log("oworldEnemy: create");
 	Phaser.Sprite.call(this,game,obj.x+16,obj.y+16,obj.name,0);
 
-    this.timer = game.time.create();
+    this.spawnTimer = game.time.create();
+    this.deathTimer = game.time.create();
+    // Kill the foe if it's alive for 30 seconds
+    this.deathTimer.add(20000,function(){this.destroy();},this);
+    this.deathTimer.start();
 
 	this.anchor.setTo(.5,.5);
 	game.physics.arcade.enableBody(this);
@@ -27,8 +31,8 @@ oworldEnemy.prototype.constructor = oworldEnemy;
 
 oworldEnemy.prototype.update = function(){
     if(this.spawning) {
-        this.timer.add(500, function() {this.spawning = false;}, this);
-        this.timer.start();
+        this.spawnTimer.add(500, function() {this.spawning = false;}, this);
+        this.spawnTimer.start();
     }
     else{
         
@@ -39,10 +43,11 @@ oworldEnemy.prototype.update = function(){
     
         // If enemy is out of its box, destroy it
         if(this.body.position.x < this.zone.body.position.x 
-        || this.body.position.x > this.zone.body.position.x+this.zone.width
+        || this.body.position.x > this.zone.body.position.x+this.zone.width-16
         || this.body.position.y < this.zone.body.position.y
-        || this.body.position.y > this.zone.body.position.y+this.zone.height) {
+        || this.body.position.y > this.zone.body.position.y+this.zone.height-16) {
             this.destroy();
+            this.zone.activeFoes--;
         }
     }
 }
