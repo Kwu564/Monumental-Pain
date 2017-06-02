@@ -13,7 +13,7 @@ var canEnter; // Can someone look into to how to make this variable not global?
 //A: No, it's global so that the player prefab can use it
 
 var PlayOver = function(game) {
-   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj;
+   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj, spawnGroup, foeGroup;
 };
 PlayOver.prototype = {
    create: function() {
@@ -45,7 +45,7 @@ PlayOver.prototype = {
       
       //WALLMAP SETUP
       map.setCollisionByExclusion([6,21,24], true, layer2);
-      map.setCollisionByExclusion([3,5], true, layer3);
+      map.setCollisionByExclusion([1,2,3,5,17,18,66], true, layer3);
       
       layer1.resizeWorld();
 
@@ -54,16 +54,40 @@ PlayOver.prototype = {
       townGroup.enableBody = true;
       
       var doors = map.objects.towns;
-      console.log(doors);
+
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         town = new Door(game,obj.x,obj.y,'collider',0,obj.type,32,32);
+         town = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height,obj.properties.retX,obj.properties.retY);
          townGroup.add(town);
       }
       
-      townGroup.alpha = .5;
+      townGroup.alpha = 0;
       townGroup.setAll('body.immovable', true);
+      
+      //ENEMY SPAWNS
+      spawnGroup = this.game.add.group();
+      spawnGroup.enableBody = true;
+      
+      // this is the group that stores the actual enemy sprites
+      foeGroup = this.game.add.group();
+      foeGroup.enableBody = true;
+      
+      var foemap = map.objects.foemap;
+      //enemySpots has the locations of individual enemies in Tiled
+      //info gets stored in each foemapBuild so they can create their own
+      //enemies
+      var enemySpots = map.objects.enemySpots;
+      
+      for(let i = 0; i < foemap.length; i++) {
+         let obj = foemap[i];
+         
+         let zone = new foemapBuild(game,obj,enemySpots);
+         spawnGroup.add(zone);
+      }
+      
+      spawnGroup.alpha = 0;
+      spawnGroup.setAll('body.immovable', true);
       
       //PREFAB SETUP
       playerGroup = this.game.add.group();
@@ -92,6 +116,15 @@ PlayOver.prototype = {
       game.physics.arcade.collide(player, layer3);
       
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
+      game.physics.arcade.overlap(player, spawnGroup, this.spawnFoe, null, this);
+      
+      //Foe collisions, if any foes exist at the time
+      if(foeGroup.children.length > 0) {
+         game.physics.arcade.collide(foeGroup, layer2);
+         game.physics.arcade.collide(foeGroup, layer3);
+         
+         game.physics.arcade.overlap(player,foeGroup,this.enterBattle,null,this);
+      }
 
       // This is a contrived way to put a textbox onscreen until we have an npc to talk to.
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
@@ -121,5 +154,37 @@ PlayOver.prototype = {
       timer.start();
       
       //game.state.start('PlayPlatform');
+   },
+   spawnFoe: function(player, foemap) {
+      if(foemap.active === false && canEnter) {
+         
+         foemap.active = true;
+      
+         for(let i = 0; i < foemap.size; i++) {
+            let foe = new oworldEnemy(game,foemap.enemySpots[i],foemap);
+         
+            foeGroup.add(foe);
+            foemap.activeFoes++;
+         }
+         
+      }
+   },
+   enterBattle: function(player, foe) {
+      global_destination = foe.destination;
+      global_x = player.body.position.x;
+      global_y = player.body.position.y;
+      
+      canEnter = false; //prevents player from moving
+      player.body.velocity.set(0,0);
+      
+      //stops all sounds
+      game.sound.stopAll();
+      
+      game.camera.fade();
+      timer = game.time.create();
+      timer.add(480, function() {
+         game.state.start('PlayPlatform');
+      }, this);
+      timer.start();
    }
 }
