@@ -6,9 +6,17 @@
 created prefab, takes in (this,game,X scale, Y scale, x position, y position, 'asset key', frame key)
 */
 'use strict';
-var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
-	console.log("enemyBuild: create");
+var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
+	console.log("npcBuild: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
+
+    // add child sprite for vision
+    this.rFlag = 0;
+    this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
+    this.vision.scale.set(200, 49);
+    this.vision.anchor.set(.5,.5);
+    this.vision.alpha = .5;
+    game.physics.arcade.enable(this.vision);
 
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
@@ -17,19 +25,11 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.direction = -1; //positive = right, negative = left
 };
 
-enemyBuild.prototype = Object.create(Phaser.Sprite.prototype);
-enemyBuild.prototype.constructor = enemyBuild;
+bossDemonBuild.prototype = Object.create(Phaser.Sprite.prototype);
+bossDemonBuild.prototype.constructor = npcBuild;
 
-enemyBuild.prototype.update = function(){
-	//this is still iffy, but instantiated controls for platformer
-         //hitGround = game.physics.arcade.collide(this.body, this.ground);
-         /*if(this.body.position.x != playerX){
-            if(this.body.position.x > playerX){
-               this.body.velocity.x = -100;
-            }else{
-               this.body.velocity.x = 100;
-            }
-         }*/
+bossDemonBuild.prototype.update = function(){
+    //game.physics.arcade.overlap(player, vision, this.enterDoor, null, this);
     if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
     }
@@ -38,8 +38,15 @@ enemyBuild.prototype.update = function(){
     } else {
         this.body.velocity.x = 100;
     }
+    /*
+   if ( this.body.velocity.x == -100 ) {
+      this.animations.play('OverallDudeWalkLeft');
+   } else if ( this.body.velocity.x == 100 ) {
+      this.animations.play('OverallDudeWalkRight');
+   }
+   */
 }
-enemyBuild.prototype.switchDir = function() {
+bossDemonBuild.prototype.switchDir = function() {
     if(this.direction < 0) {
         this.direction = 1;
         this.body.position.x += 1;
@@ -48,19 +55,4 @@ enemyBuild.prototype.switchDir = function() {
         this.body.position.x -= 1;
     }
 }
-
-
-//////////////////////////////////////////////
-// Specific enemies
-//////////////////////////////////////////////
-
-var Goomba = function(game,scaleX,scaleY,x,y,src,frame) {
-   enemyBuild.call(game,scaleX,scaleY,x,y,src,frame);
-}
-
-
-
-
-
-
-
+//enemyBuild.prototype.

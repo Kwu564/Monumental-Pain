@@ -15,15 +15,19 @@ var game;
 var global_destination;  // Use this variable to set where we are going
 var global_x = 592;
 var global_y = 768;
+var global_playMusic = true;
+var canPause = true;
 
 window.onload = function() {
     //scaled dimensions: 600, 400
    game =  new Phaser.Game(800, 600, Phaser.CANVAS);
    // define states
-   // Add boot, title, and gameOver states later
+   // Add gameOver state
+   game.state.add('Boot', Boot);
    game.state.add('Load', Load);
+   game.state.add('Title', Title);
    game.state.add('PlayOver', PlayOver);
    game.state.add('PlayPlatform', PlayPlatform);
-   game.state.start('Load'); // in final build, should say 'Boot'
+   game.state.start('Boot');
    
 }
