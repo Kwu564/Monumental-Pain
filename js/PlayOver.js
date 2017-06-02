@@ -153,10 +153,16 @@ PlayOver.prototype = {
       //game.state.start('PlayPlatform');
    },
    spawnFoe: function(player, foemap) {
-      for(let i = 0; i < foemap.size; i++) {
-         let foe = new oworldEnemy(game,foemap.enemySpots[i],foemap);
+      if(foemap.active === false && canEnter) {
          
-         foeGroup.add(foe);
+         foemap.active = true;
+      
+         for(let i = 0; i < foemap.size; i++) {
+            let foe = new oworldEnemy(game,foemap.enemySpots[i],foemap);
+         
+            foeGroup.add(foe);
+         }
+         
       }
    },
    enterBattle: function(player, foe) {

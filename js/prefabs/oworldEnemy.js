@@ -4,7 +4,7 @@
 'use strict';
 var oworldEnemy = function(game,obj,zone){
 	console.log("oworldEnemy: create");
-	Phaser.Sprite.call(this,game,obj.x,obj.y,obj.name,0);
+	Phaser.Sprite.call(this,game,obj.x+16,obj.y+16,obj.name,0);
 
     this.timer = game.time.create();
 
@@ -15,6 +15,8 @@ var oworldEnemy = function(game,obj,zone){
     this.destination = obj.type;
     // Defines the enemies parent box, which it cannot leave
     this.zone = zone;
+   
+    this.spawning = true;
     
     // Can move in 4 directions
     this.direction = 'down';
@@ -24,21 +26,24 @@ oworldEnemy.prototype = Object.create(Phaser.Sprite.prototype);
 oworldEnemy.prototype.constructor = oworldEnemy;
 
 oworldEnemy.prototype.update = function(){
-    this.switchDir(); // Check the velocity and animation frame
-    
-    if(this.direction < 0) {
-        this.body.velocity.x = -this.speed;
-    } else {
-        this.body.velocity.x = this.speed;
+    if(this.spawning) {
+        this.timer.add(500, function() {this.spawning = false;}, this);
+        this.timer.start();
     }
-    //this.animate();
+    else{
+        
+        this.switchDir(); // Check the velocity and animation frame
     
-    // If enemy is out of its box, destroy it
-    if(this.body.position.x < this.zone.body.position.x 
-      || this.body.position.x > this.zone.body.position.x+this.zone.width
-      || this.body.position.y < this.zone.body.position.y
-      || this.body.position.y > this.zone.body.position.y+this.zone.height) {
-        this.destroy();
+        this.moveTowardPlayer();
+        //this.animate();
+    
+        // If enemy is out of its box, destroy it
+        if(this.body.position.x < this.zone.body.position.x 
+        || this.body.position.x > this.zone.body.position.x+this.zone.width
+        || this.body.position.y < this.zone.body.position.y
+        || this.body.position.y > this.zone.body.position.y+this.zone.height) {
+            this.destroy();
+        }
     }
 }
 oworldEnemy.prototype.switchDir = function() {
