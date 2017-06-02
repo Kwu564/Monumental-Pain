@@ -139,6 +139,25 @@
                  "width":256,
                  "x":736,
                  "y":544
+                }, 
+                {
+                 "height":224,
+                 "id":19,
+                 "name":"forest",
+                 "properties":
+                    {
+                     "size":2
+                    },
+                 "propertytypes":
+                    {
+                     "size":"int"
+                    },
+                 "rotation":0,
+                 "type":"2",
+                 "visible":true,
+                 "width":320,
+                 "x":1056,
+                 "y":896
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -171,6 +190,28 @@
                  "width":32,
                  "x":896,
                  "y":736
+                }, 
+                {
+                 "height":32,
+                 "id":20,
+                 "name":"baddie",
+                 "rotation":0,
+                 "type":"1",
+                 "visible":true,
+                 "width":32,
+                 "x":1120,
+                 "y":1024
+                }, 
+                {
+                 "height":32,
+                 "id":21,
+                 "name":"baddie",
+                 "rotation":0,
+                 "type":"1",
+                 "visible":true,
+                 "width":32,
+                 "x":1280,
+                 "y":992
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -178,7 +219,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":19,
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,

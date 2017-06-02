@@ -12,7 +12,8 @@ var foemapBuild = function(game,obj,enemySpots){
     this.scale.set(obj.width,obj.height);
     
     this.enemySpots = [];
-    for(let i = this.type; i < this.size; i++) {
+    for(let i = this.type; i < this.size+this.type; i++) {
+        console.log('foemapBuild: '+enemySpots[i]);
         let foe = enemySpots[i]; // The field 'enemySpots' is an object layer in json
         
         this.enemySpots.push(foe);

@@ -86,7 +86,7 @@ PlayOver.prototype = {
          spawnGroup.add(zone);
       }
       
-      spawnGroup.alpha = .1;
+      spawnGroup.alpha = 0;
       spawnGroup.setAll('body.immovable', true);
       
       //PREFAB SETUP
