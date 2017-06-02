@@ -45,7 +45,7 @@ PlayOver.prototype = {
       
       //WALLMAP SETUP
       map.setCollisionByExclusion([6,21,24], true, layer2);
-      map.setCollisionByExclusion([3,5,66], true, layer3);
+      map.setCollisionByExclusion([1,2,3,5,17,18,66], true, layer3);
       
       layer1.resizeWorld();
 
@@ -58,11 +58,11 @@ PlayOver.prototype = {
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         town = new Door(game,obj.x,obj.y,'collider',0,obj.type,32,32);
+         town = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height,obj.properties.retX,obj.properties.retY);
          townGroup.add(town);
       }
       
-      townGroup.alpha = .5;
+      townGroup.alpha = 0;
       townGroup.setAll('body.immovable', true);
       
       //PREFAB SETUP
