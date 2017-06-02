@@ -45,7 +45,7 @@ PlayOver.prototype = {
       
       //WALLMAP SETUP
       map.setCollisionByExclusion([6,21,24], true, layer2);
-      map.setCollisionByExclusion([3,5], true, layer3);
+      map.setCollisionByExclusion([3,5,66], true, layer3);
       
       layer1.resizeWorld();
 
