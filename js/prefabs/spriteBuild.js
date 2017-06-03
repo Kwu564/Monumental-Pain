@@ -35,6 +35,8 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     var spriteTimer = game.time.create();
     //flag to pass into onJump, allows for delay
     this.noJump = 0;
+    //
+    this.health = 4;
     //flag for determining when attack animation is finished playing 
     this.isAnimDone = 1;
     this.slashAnimRight = null;

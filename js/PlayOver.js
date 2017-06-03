@@ -9,8 +9,7 @@
  * Update so that entering town will start PlayPlatform state
 */
 
-var canEnter; // Can someone look into to how to make this variable not global?
-//A: No, it's global so that the player prefab can use it
+var canEnter, canSpawn;
 
 var PlayOver = function(game) {
    var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj, spawnGroup, foeGroup;
@@ -23,12 +22,18 @@ PlayOver.prototype = {
       game.camera.fade(0x000000, 1);
       
       canEnter = false;
+      canSpawn = false;
       // TIMER SETUP
       timer = game.time.create(); // this timer will prevent player from immediately re-entering a city by accident
       //timer repurposed to prevent player from moving immediately after leaving town
       timer.add(600, function(){
          console.log('canEnter = true at: '+timer.ms);
          canEnter = true;
+      }, this);
+      // Deley over world enemy spawn
+      timer.add(2200, function(){
+         console.log('canSpawn = true at: '+timer.ms);
+         canSpawn = true;
       }, this);
       timer.start();
       
@@ -156,7 +161,7 @@ PlayOver.prototype = {
       //game.state.start('PlayPlatform');
    },
    spawnFoe: function(player, foemap) {
-      if(foemap.active === false && canEnter) {
+      if(foemap.active === false && canSpawn) {
          
          foemap.active = true;
       
