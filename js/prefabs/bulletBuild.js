@@ -8,7 +8,7 @@ var bulletBuild = function(game,x,y,direction){
     this.checkWorldBounds = true;
     this.outOfBoundsKill = true;
     
-    this.speed = 300;
+    this.speed = 600;
     this.direction = direction;
     
     if(direction === 0) {
@@ -24,4 +24,4 @@ var bulletBuild = function(game,x,y,direction){
 };
 
 bulletBuild.prototype = Object.create(Phaser.Sprite.prototype);
-bulletBuild.prototype.constructor = spritePlayOver;
+bulletBuild.prototype.constructor = bulletBuild;
