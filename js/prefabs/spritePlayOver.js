@@ -9,6 +9,8 @@ var spritePlayOver = function(game,x,y,src,frame){
 	console.log("spritePlayOver: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
+    this.animations.add('OWorldHeroWalkSouth',[0, 1, 2], 7, true);
+
 	this.anchor.setTo(.5,.5);
 	this.game.physics.arcade.enableBody(this);
     this.body.collideWorldBounds = true;
@@ -35,6 +37,7 @@ if(canEnter) { //only allow the player to move after they've been allowed to
             this.body.velocity.y = -900;
         }
     } else if (game.input.keyboard.isDown(Phaser.Keyboard.S)){
+        this.animations.play('OWorldHeroWalkSouth');
         //Check for diagonal movement, move slower
         if(game.input.keyboard.isDown(Phaser.Keyboard.D)) {
             this.body.velocity.y = 60;
@@ -53,6 +56,7 @@ if(canEnter) { //only allow the player to move after they've been allowed to
         this.body.velocity.y = 0;
         this.body.velocity.x = -900;
     } else {
+        this.frame = 1;
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
     }

@@ -11,8 +11,8 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
     // add animations
-   this.animations.add('DemonBossWalkRight', [0, 1, 2, 3, 4, 5, 6, 7], 10, true);
-   this.animations.add('DemonBossWalkLeft', [8, 9, 10, 11, 12, 13, 14, 15], 10, true);
+   this.animations.add('DemonBossWalkRight', [0, 1, 2, 3, 4, 5, 6, 7], 7, true);
+   this.animations.add('DemonBossWalkLeft', [8, 9, 10, 11, 12, 13, 14, 15], 7, true);
    this.animations.add('DemonBossSlashRight', [16, 17, 18], 10, true);
    this.animations.add('DemonBossSlashLeft', [19, 20, 21], 10, true);
 
