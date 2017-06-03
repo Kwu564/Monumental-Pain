@@ -48,7 +48,7 @@ Load.prototype = {
 
       let jsonList = ['oworld','oworld-complete.json','forestbattle','forest-battle.json','forestbattle2','forest-battle2.json','kevn1-map','kevn1.json','kevn2-map','kevn2.json','xanzik1-map','xanzik1.json','ice1-map','ice-platform1.json'];
 
-      let musicList = ['oworld-song','overworld.ogg','battle-song','engage.ogg'];
+      let musicList = ['oworld-song','overworld.ogg','battle-song','engage.ogg','title-song','savior-among-us.ogg'];
 
       let sfxList = ['bump','collide.ogg','attackSound','attack.ogg','jumpSound','jump.ogg'];
 
