@@ -51,7 +51,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     
     //sounds
     this.bump = game.add.audio('bump');
-    
+    this.attackSound = game.add.audio('attackSound');
     //direction value: positive is right, negative is left
     this.direction = 1;
     
@@ -65,10 +65,10 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.airTime = 0; //determines whether a thud sound is played on landing
     
     // add child sprite for sword
-    /*this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
     this.sword.scale.set(30, 49);
     this.sword.alpha = 0;
-    game.physics.arcade.enable(this.sword);*/
+    game.physics.arcade.enable(this.sword);
 
     this.weapons = [];
     this.currentWeapon = 0;
@@ -106,13 +106,12 @@ spriteBuild.prototype.update = function() {
             this.isAnimDone = 1;
         }
         */
-    if(weapon == 'sword'){
-        this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
-        this.sword.scale.set(30, 49);
-        this.sword.alpha = 0;
-        game.physics.arcade.enable(this.sword);
-    }else{
-        this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+    //if(weapon == 'sword'){
+    //    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+    //    this.sword.scale.set(30, 49);
+    //   this.sword.alpha = 1.0;
+    //    game.physics.arcade.enable(this.sword);
+    if(weapon != 'sword'){
         this.sword.destroy();
     }  
     //only allow input if the game says so
@@ -217,6 +216,10 @@ spriteBuild.prototype.update = function() {
     // EQUIP DIFFERENT WEAPONS
     if ( game.input.keyboard.justPressed(Phaser.Keyboard.ONE) ) {
         weapon = 'sword';
+        this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
+        this.sword.scale.set(30, 49);
+        this.sword.alpha = 0;
+        game.physics.arcade.enable(this.sword);
     } else if ( game.input.keyboard.justPressed(Phaser.Keyboard.TWO) ) {
         weapon = 'crossbow';
     } else if ( game.input.keyboard.justPressed(Phaser.Keyboard.THREE) ) {
@@ -227,6 +230,7 @@ spriteBuild.prototype.update = function() {
     switch(this.status) {
         case 'attacking':
             this.playAttack();
+            this.attackSound.play();
             break;
         case 'walkingRight':
             this.playWalking();

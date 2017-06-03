@@ -184,7 +184,7 @@ PlayPlatform.prototype = {
       //checks mouse pressed and overlap, kills the enemy if true.
       if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) && this.onHitKey == 0 ) {    
          game.physics.arcade.overlap(player.sword,enemyGroup,this.weaponAttack,null,this);
-         game.physics.arcade.collide(player.Bullet,enemyGroup,this.weaponAttack,null,this);
+         game.physics.arcade.collide(player.SingleBullet,enemyGroup,this.weaponAttack,null,this);
          //console.log(player.weapons[player.currentWeapon]);
          //game.physics.arcade.overlap(player.weapons[player.currentWeapon],enemyGroup,this.weaponAttack,null,this);
          //game.time.events.add(340,this.weaponAttack,this,player.sword,enemyGroup);
@@ -216,7 +216,8 @@ PlayPlatform.prototype = {
       //Add knockback, etc. here
       player.status = 'attacking';
       console.log(enemy);
-      enemy.destroy();
+      enemy.health -= 1;
+      
    },
    enterDoor: function(player, door) {
       game.sound.stopAll();

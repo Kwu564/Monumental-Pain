@@ -62,6 +62,7 @@ var axeMan = function(game,scaleX,scaleY,x,y,src,frame) {
    // walk speed
    //this.speed = 100;
    this.speed = 100;
+   this.health = 3;
    // add animations
    this.animations.add('AxeWalkRight', [0, 1, 2, 3], 10, true);
    this.animations.add('AxeWalkLeft', [4, 5, 6, 7], 10, true);
@@ -109,6 +110,10 @@ axeMan.prototype.update = function(){
         this.body.velocity.x = this.speed;
     }
     this.animate();
+    
+    if(this.health == 0){
+        this.destroy();
+    }
     //game.physics.arcade.collide(this.body,player);
     game.physics.arcade.overlap(player,this.vision,this.chase,null,this);
 }
@@ -151,6 +156,8 @@ var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) {
    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
    // walk speed
    this.speed = -100;
+   this.health = 2;
+   //
    this.vision2 = this.addChild(game.make.sprite(96, 0, 'collider'));
    this.vision2.scale.set(200,49);
    this.vision2.anchor.set(.5,.5);
@@ -193,20 +200,22 @@ lesserDemon.prototype.update = function(){
         this.body.velocity.x = this.speed;
     }
     this.animate();
-
-    if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
-        if(this.direction > 0){
-            this.animations.play('SlashRight');
-        }else{
-            this.animations.play('SlashLeft');
-        }
-        player.body.velocity.x = 8*this.body.velocity.x;
-        player.body.velocity.y = -400;
-        player.health -= 1;
-    }    
+    if(this.health == 0){
+        this.destroy();
+    }   
     game.physics.arcade.overlap(player,this.vision2,this.lunge,null,this);
 }
 
 lesserDemon.prototype.lunge = function(){
   this.body.velocity.x = 3.5*this.body.velocity.x;
+  if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
+      if(this.direction > 0){
+          this.animations.play('SlashRight');
+      }else{
+          this.animations.play('SlashLeft');
+      }
+      player.body.velocity.x = 8*this.body.velocity.x;
+      player.body.velocity.y = -400;
+      player.health -= 1;
+  } 
 }
