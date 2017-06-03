@@ -62,7 +62,7 @@ Title.prototype = {
       // if the player clicks the music button go to function this.music
       musicButton.events.onInputDown.add(this.music, this);
 
-      song = this.add.audio('oworld-song');
+      song = this.add.audio('title-song');
       if(global_playMusic) song.play('', 0, 1, true);
    },
 

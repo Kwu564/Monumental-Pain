@@ -171,8 +171,8 @@ PlayOver.prototype = {
    },
    enterBattle: function(player, foe) {
       global_destination = foe.destination;
-      global_x = player.body.position.x;
-      global_y = player.body.position.y;
+      global_x = player.body.position.x + 16;
+      global_y = player.body.position.y + 16;
       
       canEnter = false; //prevents player from moving
       player.body.velocity.set(0,0);
