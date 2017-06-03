@@ -24,4 +24,4 @@ var bulletBuild = function(game,x,y,direction){
 };
 
 bulletBuild.prototype = Object.create(Phaser.Sprite.prototype);
-bulletBuild.prototype.constructor = spritePlayOver;
+bulletBuild.prototype.constructor = bulletBuild;
