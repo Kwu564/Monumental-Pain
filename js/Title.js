@@ -3,7 +3,7 @@
 // -- A help button to explain the controls of the game
 
 var Title = function(game){
-   var playButton, helpButton;
+   var playButton, helpButton, song;
 };
 
 Title.prototype = {
@@ -61,6 +61,9 @@ Title.prototype = {
 
       // if the player clicks the music button go to function this.music
       musicButton.events.onInputDown.add(this.music, this);
+
+      song = this.add.audio('oworld-song');
+      if(global_playMusic) song.play('', 0, 1, true);
    },
 
    over: function(item) {
@@ -85,8 +88,12 @@ Title.prototype = {
       global_playMusic = !global_playMusic;
       if(global_playMusic){ 
          item.text = " ~Turn Music Off~ ";
+         song.play('', 0, 1, true);
       }
-      else item.text = " ~Turn Music On~ ";
+      else {
+         item.text = " ~Turn Music On~ ";
+         game.sound.stopAll();
+      }
    },
 
    play: function() {
