@@ -307,7 +307,7 @@ if ( this.isAnimDone == 1 ) {
         }
     } else if ( weapon == 'crossbow' ) {
         this.isAnimDone = 1;
-        this.weapons[this.currentWeapon].fire(this);
+        //this.weapons[this.currentWeapon].fire(this);
         if ( fireAngle == 0 ) {
             this.animations.play('CrossbowFireRight');
         } else if ( fireAngle == 180 ) {
