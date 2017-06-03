@@ -103,7 +103,7 @@
                 {
                  "height":64,
                  "id":8,
-                 "name":"enemyAxeMan",
+                 "name":"axeMan",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -114,7 +114,7 @@
                 {
                  "height":64,
                  "id":9,
-                 "name":"enemySwordsMan",
+                 "name":"swordsMan",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -125,7 +125,7 @@
                 {
                  "height":64,
                  "id":10,
-                 "name":"enemySwordsMan",
+                 "name":"swordsMan",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -133,6 +133,16 @@
                  "x":1984,
                  "y":640
                 }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"npcs",
+         "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
