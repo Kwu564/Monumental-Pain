@@ -95,6 +95,53 @@ PlayPlatform.prototype = {
 
       game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER, .3, .3);
 
+      // ENEMY SPAWNING
+      enemyGroup = this.game.add.group();
+      
+      var enemyLayer = map.objects.enemies;
+      
+      if(enemyLayer.length > 0) {
+      for(let i = 0; i < enemyLayer.length; i++) {
+         let obj = enemyLayer[i];
+         
+         let enemy;
+         if(obj.name === 'axeMan') {
+            enemy = new axeMan(this.game,1,1,obj.x,obj.y,'axeMan-enemy');
+         } else if(obj.name === 'swordsMan') {
+            enemy = new axeMan(this.game,1,1,obj.x,obj.y,'swordsMan-enemy');
+         } else if(obj.name === 'lesserDemon') {
+            enemy = new lesserDemon(this.game,1,1,obj.x,obj.y,'lesserDemon');
+         }
+         enemyGroup.add(enemy);
+      }
+      }
+      
+      enemyGroup.setAll('body.gravity.y',1500);
+      enemyGroup.setAll('body.collideWorldBounds',true);
+      
+      // NPC SPAWNING
+      npcGroup = this.game.add.group();
+      
+      var npcLayer = map.objects.npcs;
+      
+      if(npcLayer.length > 0) {
+      for(let i = 0; i < npcLayer.length; i++) {
+         let obj = npcLayer[i];
+         
+         let npc;
+         if(obj.name === 'dude') {
+            npc = new overallDude(this.game,1,1,obj.x,obj.y,'overallDude-npc');
+         } else if(obj.name === 'dudette') {
+            npc = new skirtDudette(this.game,1,1,obj.x,obj.y,'skirtDudette-npc');
+         }
+         npcGroup.add(npc);
+      }
+      }
+      
+      npcGroup.setAll('body.gravity.y',1500);
+      npcGroup.setAll('body.collideWorldBounds',true);
+      
+      /*
       //
       //TESTING BLOCK, NPC SPAWN
       //      
@@ -148,6 +195,7 @@ PlayPlatform.prototype = {
       //
       //END TESTING BLOCK, ENEMY SPAWN
       //
+      */
       
       //
       //TESTING BLOCK, bossDemon SPAWN
