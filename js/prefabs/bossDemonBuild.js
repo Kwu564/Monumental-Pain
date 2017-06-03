@@ -10,6 +10,12 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	console.log("npcBuild: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
+    // add animations
+   this.animations.add('DemonBossWalkRight', [0, 1, 2, 3, 4, 5, 6, 7], 10, true);
+   this.animations.add('DemonBossWalkLeft', [8, 9, 10, 11, 12, 13, 14, 15], 10, true);
+   this.animations.add('DemonBossSlashRight', [16, 17, 18], 10, true);
+   this.animations.add('DemonBossSlashLeft', [19, 20, 21], 10, true);
+
     this.timer = game.time.create();
     this.health = 10;
     this.speed = 100;
@@ -59,13 +65,13 @@ bossDemonBuild.prototype.update = function(){
         this.destroy();
     }
 
-    /*
+    
    if ( this.body.velocity.x < 0) {
-      this.animations.play('OverallDudeWalkLeft');
+      this.animations.play('DemonBossWalkLeft');
    } else if ( this.body.velocity.x > 0 ) {
-      this.animations.play('OverallDudeWalkRight');
+      this.animations.play('DemonBossWalkRight');
    }
-   */
+   
    game.physics.arcade.overlap(player,this.swordSlashHit,this.swordSlashtimer,null,this);
 };
 bossDemonBuild.prototype.switchDir = function() {
@@ -84,11 +90,11 @@ bossDemonBuild.prototype.swordSlashtimer = function(){
     game.time.events.add(Phaser.Timer.SECOND,this.swordSlashAnimated,this);
 };
 bossDemonBuild.prototype.swordSlashAnimated = function(){
-    //if(this.direction < 0){
-    //    this.animations.play('slash');
-    //}else{
-    //    this.animations.play('slashright');
-    //}
+    if(this.direction < 0){
+        this.animations.play('DemonBossSlashLeft');
+    }else{
+        this.animations.play('DemonBossSlashRight');
+    }
     game.time.events.add(Phaser.Timer.SECOND*this.enragedTimer, createSwordSlashHit,this);
 };
 var createSwordSlashHit = function(){
