@@ -15,7 +15,7 @@ var npcBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
     this.vision.scale.set(200, 49);
     this.vision.anchor.set(.5,.5);
-    this.vision.alpha = .5;
+    this.vision.alpha = 0;
     game.physics.arcade.enable(this.vision);
 
 	this.anchor.setTo(.5,.5);
