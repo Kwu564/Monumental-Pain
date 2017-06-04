@@ -9,8 +9,11 @@ var spritePlayOver = function(game,x,y,src,frame){
 	console.log("spritePlayOver: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
-    this.animations.add('OWorldHeroWalkSouth',[0, 1, 2, 3], 7, true);
-    this.animations.add('OWorldHeroWalkNorth',[4, 5, 6, 7], 7, true);
+    this.animations.add('OWorldHeroWalkSouth',[0, 1, 2, 3], 10, true);
+    this.animations.add('OWorldHeroWalkNorth',[4, 5, 6, 7], 10, true);
+    this.animations.add('OWorldHeroWalkEast',[8, 9, 10, 11], 10, true);
+    this.animations.add('OWorldHeroWalkWest',[12, 13, 14, 15], 10, true);
+    this.animations.add('OWorldHeroWalkSouthEast',[16, 17, 18, 19], 15, true);
 
 	this.anchor.setTo(.5,.5);
 	this.game.physics.arcade.enableBody(this);
@@ -42,6 +45,7 @@ if(canEnter) { //only allow the player to move after they've been allowed to
         this.animations.play('OWorldHeroWalkSouth');
         //Check for diagonal movement, move slower
         if(game.input.keyboard.isDown(Phaser.Keyboard.D)) {
+            this.animations.play('OWorldHeroWalkSouthEast');
             this.body.velocity.y = 60;
             this.body.velocity.x = 60;
         } else if(game.input.keyboard.isDown(Phaser.Keyboard.A)) {
@@ -52,9 +56,11 @@ if(canEnter) { //only allow the player to move after they've been allowed to
             this.body.velocity.y = 90;
         }
     } else if(game.input.keyboard.isDown(Phaser.Keyboard.D)) {
+        this.animations.play('OWorldHeroWalkEast');
         this.body.velocity.y = 0;
         this.body.velocity.x = 90;
     } else if(game.input.keyboard.isDown(Phaser.Keyboard.A)) {
+        this.animations.play('OWorldHeroWalkWest');
         this.body.velocity.y = 0;
         this.body.velocity.x = -90;
     } else {
