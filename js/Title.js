@@ -14,8 +14,8 @@ Title.prototype = {
       game.add.image(0,0, 'kevn-bg');
       game.add.image(0,0, 'titleart');
 
-      let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '55px', align: 'center'});
-      text.anchor.set(0.3);
+      //let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '55px', align: 'center'});
+      //text.anchor.set(0.3);
 
       // make the buttons appear and asign them variables
       playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Play~ ", BUTTON_TEXT_STYLE);
@@ -25,8 +25,8 @@ Title.prototype = {
 
 
       // Double check that text appears in the right area of the camera
-      text.fixedToCamera = true;
-      text.cameraOffset.setTo(game.camera.width/2, 200);
+      //text.fixedToCamera = true;
+      //text.cameraOffset.setTo(game.camera.width/2, 200);
       playButton.fixedToCamera = true;
       playButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 );
       helpButton.fixedToCamera = true;
