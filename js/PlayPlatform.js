@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 
 var PlayPlatform = function(game) {
-    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, textObj, bulletGroup;
+    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -97,6 +97,7 @@ PlayPlatform.prototype = {
 
       // ENEMY SPAWNING
       enemyGroup = this.game.add.group();
+      bossGroup = this.game.add.group();
       
       var enemyLayer = map.objects.enemies;
       
@@ -118,6 +119,8 @@ PlayPlatform.prototype = {
       
       enemyGroup.setAll('body.gravity.y',1500);
       enemyGroup.setAll('body.collideWorldBounds',true);
+      bossGroup.setAll('body.gravity.y',1500);
+      bossGroup.setAll('body.collideWorldBounds',true);
       
       // NPC SPAWNING
       npcGroup = this.game.add.group();
@@ -202,7 +205,7 @@ PlayPlatform.prototype = {
       //
       bossDemon = new bossDemonBuild(this.game,1,1,700,300,'bossDemon');
 
-      enemyGroup.add(bossDemon);
+      bossGroup.add(bossDemon);
 
       bossDemon.body.gravity.y = 1500;
       bossDemon.body.collideWorldBounds = true;
@@ -237,6 +240,7 @@ PlayPlatform.prototype = {
       if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
          if(weapon === 'sword') {
             game.physics.arcade.overlap(player.sword,enemyGroup,this.weaponAttack,null,this);
+            game.physics.arcade.overlap(player.sword,bossGroup,this.weaponAttack,null,this);
          }
          else if(weapon === 'crossbow') {
             let bullet = new bulletBuild(this.game,player.body.position.x+16,player.body.position.y+32,fireAngle);
@@ -251,12 +255,14 @@ PlayPlatform.prototype = {
       }
       game.physics.arcade.collide(player, layer2);
       game.physics.arcade.collide(enemyGroup, layer2);
+      game.physics.arcade.collide(bossGroup,layer2);
       game.physics.arcade.collide(npcGroup, layer2);
       game.physics.arcade.collide(bulletGroup, layer2, this.killBullet, null, this);
       
       //Bullets hitting enemies
       if(bulletGroup.children.length > 0) {
          game.physics.arcade.overlap(bulletGroup,enemyGroup,this.bulletHit,null,this);
+         game.physics.arcade.overlap(bulletGroup,bossGroup,this.bulletHit,null,this);
       }
 
       // Walking off the edge of the screen to enter Overworld
@@ -321,5 +327,6 @@ PlayPlatform.prototype = {
       //uncomment to view player collision info in platform
       //game.debug.bodyInfo(player, 64, 64);
       //game.debug.body(player);
+      //game.debug.body(bossDemon);
    }
 }

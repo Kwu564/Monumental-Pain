@@ -31,7 +31,7 @@ oworldEnemy.prototype.constructor = oworldEnemy;
 
 oworldEnemy.prototype.update = function(){
     if(this.spawning) {
-        this.spawnTimer.add(500, function() {this.spawning = false;}, this);
+        this.spawnTimer.add(900, function() {this.spawning = false;}, this);
         this.spawnTimer.start();
     }
     else{

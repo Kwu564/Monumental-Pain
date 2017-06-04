@@ -16,7 +16,7 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
     this.vision.scale.set(200, 49);
     this.vision.anchor.set(.5,.5);
-    this.vision.alpha = .5;
+    this.vision.alpha = 0;
     game.physics.arcade.enable(this.vision);
 
 	this.anchor.setTo(.5,.5);
@@ -161,7 +161,7 @@ var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) {
    this.vision2 = this.addChild(game.make.sprite(96, 0, 'collider'));
    this.vision2.scale.set(200,49);
    this.vision2.anchor.set(.5,.5);
-   this.vision2.alpha = .1;
+   this.vision2.alpha = 0;
    game.physics.arcade.enable(this.vision2);
 
    // add animations
