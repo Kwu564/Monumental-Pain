@@ -23,7 +23,8 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.health = 10;
     this.speed = 100;
     this.enraged = 0;
-    this.enragedTimer = 10; //initial value is 10 seconds(this is a cooldown)
+    this.enragedTimer = 3; //initial value is 10 seconds(this is a cooldown)
+    this.enragedDivider = 4; //initially half second delay, enraged is quarter second
     // add child sprite for vision
     this.rFlag = 0;
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
@@ -52,7 +53,8 @@ bossDemonBuild.prototype.constructor = npcBuild;
 bossDemonBuild.prototype.update = function(){
     if(this.health < 5 && this.enraged == 0){
         this.speed = 2*this.speed;
-        this.enragedTimer = 4;
+        this.enragedTimer = 1.5;
+        this.enragedDivider = 8;
         this.enraged = 1;
     }
     //game.physics.arcade.overlap(player, vision, this.enterDoor, null, this);
@@ -104,7 +106,7 @@ bossDemonBuild.prototype.swordSlashtimer = function(){
     this.stopAnimation();
     //this.switchDir();
     this.swordSlashHit.destroy();
-    game.time.events.add(Phaser.Timer.SECOND/2,this.swordSlashAnimated,this);
+    game.time.events.add(Phaser.Timer.SECOND/this.enragedDivider,this.swordSlashAnimated,this);
 };
 bossDemonBuild.prototype.swordSlashAnimated = function(){
     if(this.direction < 0){
