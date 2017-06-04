@@ -14,7 +14,7 @@ const GLOBAL_TEXT_STYLE = {
 
 const BUTTON_TEXT_STYLE = {
    font: "Courier",
-   fontSize: "64px",
+   fontSize: "32px",
    fill: 'black',
    align: 'center',
    backgroundColor: "#CFA26B"

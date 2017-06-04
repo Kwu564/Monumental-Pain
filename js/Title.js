@@ -12,9 +12,10 @@ Title.prototype = {
 
       // Kevn background is being used as a placeholder image
       game.add.image(0,0, 'kevn-bg');
+      game.add.image(0,0, 'titleart');
 
-      let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '64px', align: 'center'});
-      text.anchor.set(0.5);
+      let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '40px', align: 'center'});
+      text.anchor.set(0.3);
 
       // make the buttons appear and asign them variables
       playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Play~ ", BUTTON_TEXT_STYLE);
@@ -25,13 +26,13 @@ Title.prototype = {
 
       // Double check that text appears in the right area of the camera
       text.fixedToCamera = true;
-      text.cameraOffset.setTo(game.camera.width/2, 80);
+      text.cameraOffset.setTo(game.camera.width/2, 200);
       playButton.fixedToCamera = true;
-      playButton.cameraOffset.setTo(game.camera.width/2, game.camera.height/2 - 96);
+      playButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 );
       helpButton.fixedToCamera = true;
-      helpButton.cameraOffset.setTo(game.camera.width/2, game.camera.height/2 + 32);
+      helpButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 40);
       musicButton.fixedToCamera = true;
-      musicButton.cameraOffset.setTo(game.camera.width/2, game.camera.height/2 + 160);
+      musicButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 80);
 
       // set anchors so that they appear centered
       playButton.anchor.set(0.5);
