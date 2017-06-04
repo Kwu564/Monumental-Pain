@@ -12,11 +12,12 @@ var foemapBuild = function(game,obj,enemySpots){
     this.scale.set(obj.width,obj.height);
     
     this.enemySpots = [];
-    for(let i = this.type; i < this.size+this.type; i++) {
-        console.log('foemapBuild: '+enemySpots[i]);
+    console.log('size: '+this.size+' type: '+this.type);
+    for(let i = this.type; i < parseInt(this.size)+parseInt(this.type); i++) {
         let foe = enemySpots[i]; // The field 'enemySpots' is an object layer in json
         
         this.enemySpots.push(foe);
+        console.log(this.enemySpots.length);
     }
 
     game.sound.stopAll();
