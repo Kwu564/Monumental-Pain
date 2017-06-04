@@ -280,10 +280,10 @@ PlayPlatform.prototype = {
       player.status = 'attacking';
       console.log(enemy);
       enemy.health -= 1;
-      enemy.destroy();
+      //enemy.destroy();
    },
    bulletHit: function(bullet,enemy) {
-      enemy.destroy();
+      enemy.health -= 1;
       bullet.kill();
    },
    enterDoor: function(player, door) {
