@@ -20,11 +20,12 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
 
     this.state = 'walking'
     this.timer = game.time.create();
-    this.health = 10;
+    this.health = 100;
     this.speed = 100;
     this.enraged = 0;
-    this.enragedTimer = 3; //initial value is 10 seconds(this is a cooldown)
-    this.enragedDivider = 4; //initially half second delay, enraged is quarter second
+    this.enragedTimer = 4; //initial value is 10 seconds(this is a cooldown)
+    this.enragedDivider = 2; //initially half second delay, enraged is quarter second
+    this.swordSlashDamage = this.addChild(game.make.sprite(0,0,'collider'));
     // add child sprite for vision
     this.rFlag = 0;
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
@@ -33,8 +34,8 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.vision.alpha = .5;
     game.physics.arcade.enable(this.vision);
 
-    this.swordSlashHit = this.addChild(game.make.sprite(-128,160, 'collider'));
-    this.swordSlashHit.scale.set(125,50);
+    this.swordSlashHit = this.addChild(game.make.sprite(-90,160, 'collider'));
+    this.swordSlashHit.scale.set(250,50);
     this.swordSlashHit.anchor.set(.5,.5);
     this.swordSlashHit.alpha = .5;
     game.physics.arcade.enable(this.swordSlashHit);
@@ -51,9 +52,9 @@ bossDemonBuild.prototype = Object.create(Phaser.Sprite.prototype);
 bossDemonBuild.prototype.constructor = npcBuild;
 
 bossDemonBuild.prototype.update = function(){
-    if(this.health < 5 && this.enraged == 0){
+    if(this.health < 40 && this.enraged == 0){
         this.speed = 2*this.speed;
-        this.enragedTimer = 1.5;
+        this.enragedTimer = 2;
         this.enragedDivider = 8;
         this.enraged = 1;
     }
@@ -81,10 +82,9 @@ bossDemonBuild.prototype.update = function(){
    } else if ( this.body.velocity.x > 0 ) {
       this.animations.play('DemonBossWalkRight');
    }*/
-   if(this.frame === 17 || this.frame === 18 || this.frame === 20 || this.frame === 21){
-        game.physics.arcade.overlap(player,this,damagePlayer,null,this);
-   }
-   if(this.health == 0){
+   
+    game.physics.arcade.overlap(player,this.swordSlashDamage,damagePlayer,null,this);
+    if(this.health == 0){
         this.destroy();
     }
     //game.physics.arcade.collide(player,this);
@@ -112,19 +112,40 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
     if(this.direction < 0){
         if(this.enraged == 0){
             this.animations.play('DemonBossSlashLeft',10,false);
-            if(this.frame == 20 || this.frame == 21){
-                game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
-            }
+            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
+            this.swordSlashDamage = this.addChild(game.make.sprite(-128,160,'collider'));
+            this.swordSlashDamage.scale.set(128,50);
+            this.swordSlashDamage.anchor.set(.5,.5);
+            this.swordSlashDamage.alpha = .5;
+            game.physics.arcade.enable(this.swordSlashDamage);
         }else{
             this.animations.play('DemonBossSlashLeft',20,false);
+            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
+            this.swordSlashDamage = this.addChild(game.make.sprite(-128,160,'collider'));
+            this.swordSlashDamage.scale.set(128,50);
+            this.swordSlashDamage.anchor.set(.5,.5);
+            game.physics.arcade.enable(this.swordSlashDamage);
+            
         }
     }else{
         if(this.enraged == 0){
             this.animations.play('DemonBossSlashRight',10,false);
+            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
+            this.swordSlashDamage = this.addChild(game.make.sprite(128,160,'collider'));
+            this.swordSlashDamage.scale.set(128,50);
+            this.swordSlashDamage.anchor.set(.5,.5);
+            this.swordSlashDamage.alpha = .5;
+            game.physics.arcade.enable(this.swordSlashDamage);
         }else{
             this.animations.play('DemonBossSlashRight',20,false);
+            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
+            this.swordSlashDamage = this.addChild(game.make.sprite(128,160,'collider'));
+            this.swordSlashDamage.scale.set(128,50);
+            this.swordSlashDamage.anchor.set(.5,.5);
+            game.physics.arcade.enable(this.swordSlashDamage);
         }
     }
+    //this.swordSlashDamage.destroy();
     game.time.events.add(Phaser.Timer.SECOND*this.enragedTimer, createSwordSlashHit,this);
     game.time.events.add(Phaser.Timer.SECOND, this.startWalking,this);
     //this.state = 'walking'
@@ -136,13 +157,14 @@ bossDemonBuild.prototype.startWalking = function(){
     this.state = 'walking';
 };
 var createSwordSlashHit = function(){
-    this.swordSlashHit = this.addChild(game.make.sprite(-128,160, 'collider'));
-    this.swordSlashHit.scale.set(100,50);
+    this.swordSlashHit = this.addChild(game.make.sprite(-90,160, 'collider'));
+    this.swordSlashHit.scale.set(250,50);
     this.swordSlashHit.anchor.set(.5,.5);
     this.swordSlashHit.alpha = .5;
     game.physics.arcade.enable(this.swordSlashHit);
 };
 var damagePlayer = function(){
+    this.swordSlashDamage.destroy();
     player.health -=2;
     player.body.velocity.x = 8*this.speed;
     player.body.velocity.y = -800;
