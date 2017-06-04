@@ -14,7 +14,7 @@ Title.prototype = {
       game.add.image(0,0, 'kevn-bg');
       game.add.image(0,0, 'titleart');
 
-      let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '40px', align: 'center'});
+      let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '55px', align: 'center'});
       text.anchor.set(0.3);
 
       // make the buttons appear and asign them variables
