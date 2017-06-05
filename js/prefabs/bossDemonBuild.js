@@ -46,7 +46,7 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	game.physics.arcade.enableBody(this);
     //this.anchor.setTo(.5,.5);
     this.scale.setTo(scaleX,scaleY);
-    this.body.setSize(140,180,140,160);
+    this.body.setSize(140,180,140,140);
     this.anchor.setTo(.5,.5);
     
     this.direction = -1; //positive = right, negative = left
@@ -85,18 +85,18 @@ bossDemonBuild.prototype.update = function(){
     if(this.health == 0){
         this.destroy();
     }
-    //game.physics.arcade.collide(player,this,this.switchDir,null,this);
+    game.physics.arcade.collide(player,this);
     game.physics.arcade.overlap(player,this.swordSlashHit,this.swordSlashtimer,null,this);
 };
 bossDemonBuild.prototype.switchDir = function() {
     if(this.direction < 0) {
         this.direction = 1;
-        this.body.setSize(120,180,140,160)
+        this.body.setSize(120,180,140,140)
         this.swordSlashHit.position.x = -this.swordSlashHit.position.x;
         this.body.position.x += 1;
     } else{
         this.direction = -1;
-        this.body.setSize(120,180,140,160);
+        this.body.setSize(120,180,140,140);
         this.swordSlashHit.position.x = -this.swordSlashHit.position.x;
         this.body.position.x -= 1;
     }
