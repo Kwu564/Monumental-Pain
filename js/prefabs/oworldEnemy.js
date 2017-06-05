@@ -31,8 +31,6 @@ var oworldEnemy = function(game,obj,zone){
    
     this.spawning = true;
     
-    // Can move in 4 directions
-    this.direction = 'down';
 };
 
 oworldEnemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -63,34 +61,39 @@ oworldEnemy.prototype.update = function(){
 oworldEnemy.prototype.switchDir = function() {
     // Checks velocity and applies the appropriate direction 
     // for animation purposes
-    if(this.body.velocity.x < 0) {this.direction = 'left';}
-    if(this.body.velocity.x > 0) {this.direction = 'right';}
+    if(this.body.velocity.x < 0) {this.animations.play('OWorldEnemyWalkWest');}
+    if(this.body.velocity.x > 0) {this.animations.play('OWorldEnemyWalkEast');}
     
-    if(this.body.velocity.y > 0) {this.direction = 'down';}
-    if(this.body.velocity.y < 0) {this.direction = 'up';}
+    if(this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouth');}
+    if(this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkNorth');}
+
+    if(this.body.velocity.x < 0 && this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouthWest');}
+    if(this.body.velocity.x > 0 && this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkSouthEast');}
+
+    if(this.body.velocity.x < 0 && this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkSouthWest');}
+    if(this.body.velocity.x > 0 && this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouthEast');}
+
 }
 oworldEnemy.prototype.moveTowardPlayer = function() {
     // Move horizontally toward player
     if(this.body.position.x < player.body.position.x) {
-        this.animations.play('OWorldEnemyWalkEast');
+        //this.animations.play('OWorldEnemyWalkEast');
         this.body.velocity.x += 10;
     } else if(this.body.position.x > player.body.position.x) {
-        this.animations.play('OWorldEnemyWalkWest');
+        //this.animations.play('OWorldEnemyWalkWest');
         this.body.velocity.x -= 10;
     } else {
-        this.frame = 1;
         this.body.velocity.x = 0; //equal X value to player
     }
     
     // Move vertically toward player
     if(this.body.position.y < player.body.position.y) {
-        this.animations.play('OWorldEnemyWalkNorth');
+        //this.animations.play('OWorldEnemyWalkNorth');
         this.body.velocity.y += 10;
     } else if(this.body.position.y > player.body.position.y) {
-        this.animations.play('OWorldEnemyWalkSouth');
+        //this.animations.play('OWorldEnemyWalkSouth');
         this.body.velocity.y -= 10;
     } else {
-        this.frame = 1;
         this.body.velocity.y = 0; //on the same Y level as player
     }
     
