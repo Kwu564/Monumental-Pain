@@ -199,6 +199,19 @@ PlayPlatform.prototype = {
       //END TESTING BLOCK, ENEMY SPAWN
       //
       */
+
+      //
+      //TESTING BLOCK, dark wizard SPAWN
+      //
+      darkWizard = new wizardBuild(this.game,1,1,800,300,'darkWizard');
+
+      enemyGroup.add(darkWizard);
+
+      darkWizard.body.gravity.y = 1500;
+      darkWizard.body.collideWorldBounds = true;
+      //
+      //END TESTING BLOCK, dark wizard SPAWN
+      //
       
       //
       //TESTING BLOCK, bossDemon SPAWN
