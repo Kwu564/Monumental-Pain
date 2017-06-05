@@ -85,7 +85,7 @@ bossDemonBuild.prototype.update = function(){
     if(this.health == 0){
         this.destroy();
     }
-    game.physics.arcade.collide(player,this);
+    game.physics.arcade.collide(player,this.body);
     game.physics.arcade.overlap(player,this.swordSlashHit,this.swordSlashtimer,null,this);
 };
 bossDemonBuild.prototype.switchDir = function() {
