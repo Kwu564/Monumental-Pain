@@ -9,6 +9,11 @@ var oworldEnemy = function(game,obj,zone){
     this.animations.add('OWorldEnemyWalkSouth',[0, 1, 2, 3], 10, true);
     this.animations.add('OWorldEnemyWalkNorth',[4, 5, 6, 7], 10, true);
     this.animations.add('OWorldEnemyWalkEast',[8, 9, 10, 11], 10, true);
+    this.animations.add('OWorldEnemyWalkWest',[12, 13, 14, 15], 10, true);
+    this.animations.add('OWorldEnemyWalkSouthEast',[16, 17, 18, 19], 10, true);
+    this.animations.add('OWorldEnemyWalkSouthWest',[20, 21, 22, 23], 10, true);
+    this.animations.add('OWorldEnemyWalkNorthEast',[24, 25, 26, 27], 10, true);
+    this.animations.add('OWorldEnemyWalkNorthWest',[28, 29, 30, 31], 10, true);
 
     this.spawnTimer = game.time.create();
     this.deathTimer = game.time.create();
@@ -70,6 +75,7 @@ oworldEnemy.prototype.moveTowardPlayer = function() {
         this.animations.play('OWorldEnemyWalkEast');
         this.body.velocity.x += 10;
     } else if(this.body.position.x > player.body.position.x) {
+        this.animations.play('OWorldEnemyWalkWest');
         this.body.velocity.x -= 10;
     } else {
         this.frame = 1;
