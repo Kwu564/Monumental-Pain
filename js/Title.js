@@ -18,9 +18,9 @@ Title.prototype = {
       //text.anchor.set(0.3);
 
       // make the buttons appear and asign them variables
-      playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Play~ ", BUTTON_TEXT_STYLE);
-      helpButton = game.add.text(game.world.centerX, game.world.centerY + 64, " ~Help~ ", BUTTON_TEXT_STYLE);
-      musicButton = game.add.text(0, 0, global_playMusic? " ~Turn Music Off~ ":" ~Turn Music On~ ", BUTTON_TEXT_STYLE);
+      playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Play~ ", MAIN_BUTTON_TEXT_STYLE);
+      helpButton = game.add.text(game.world.centerX, game.world.centerY + 64, " ~Help~ ", MAIN_BUTTON_TEXT_STYLE);
+      musicButton = game.add.text(0, 0, global_playMusic? " ~Turn Music Off~ ":" ~Turn Music On~ ", MAIN_BUTTON_TEXT_STYLE);
 
 
 
@@ -74,7 +74,7 @@ Title.prototype = {
 
    out: function(item) {
       // reset to original text color
-      item.fill = BUTTON_TEXT_STYLE.fill;
+      item.fill = MAIN_BUTTON_TEXT_STYLE.fill;
    },
 
    help: function() {

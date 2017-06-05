@@ -12,9 +12,17 @@ const GLOBAL_TEXT_STYLE = {
    backgroundColor: '#CFA26B'
 }
 
-const BUTTON_TEXT_STYLE = {
+const MAIN_BUTTON_TEXT_STYLE = {
    font: "Courier",
    fontSize: "32px",
+   fill: 'black',
+   align: 'center',
+   backgroundColor: "#CFA26B"
+}
+
+const PAUSE_BUTTON_TEXT_STYLE = {
+   font: "Courier",
+   fontSize: "64px",
    fill: 'black',
    align: 'center',
    backgroundColor: "#CFA26B"
