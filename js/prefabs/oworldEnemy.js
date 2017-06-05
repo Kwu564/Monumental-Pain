@@ -6,6 +6,10 @@ var oworldEnemy = function(game,obj,zone){
 	console.log("oworldEnemy: create");
 	Phaser.Sprite.call(this,game,obj.x+16,obj.y+16,obj.name,0);
 
+    this.animations.add('OWorldEnemyWalkSouth',[0, 1, 2, 3], 10, true);
+    this.animations.add('OWorldEnemyWalkNorth',[4, 5, 6, 7], 10, true);
+    this.animations.add('OWorldEnemyWalkEast',[8, 9, 10, 11], 10, true);
+
     this.spawnTimer = game.time.create();
     this.deathTimer = game.time.create();
     // Kill the foe if it's alive for 30 seconds
@@ -63,19 +67,24 @@ oworldEnemy.prototype.switchDir = function() {
 oworldEnemy.prototype.moveTowardPlayer = function() {
     // Move horizontally toward player
     if(this.body.position.x < player.body.position.x) {
+        this.animations.play('OWorldEnemyWalkEast');
         this.body.velocity.x += 10;
     } else if(this.body.position.x > player.body.position.x) {
         this.body.velocity.x -= 10;
     } else {
+        this.frame = 1;
         this.body.velocity.x = 0; //equal X value to player
     }
     
     // Move vertically toward player
     if(this.body.position.y < player.body.position.y) {
+        this.animations.play('OWorldEnemyWalkNorth');
         this.body.velocity.y += 10;
     } else if(this.body.position.y > player.body.position.y) {
+        this.animations.play('OWorldEnemyWalkSouth');
         this.body.velocity.y -= 10;
     } else {
+        this.frame = 1;
         this.body.velocity.y = 0; //on the same Y level as player
     }
     
