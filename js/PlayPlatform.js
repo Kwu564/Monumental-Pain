@@ -13,7 +13,7 @@ Fixed the collision issues. Added player and ground as vars within the scope of 
 /* 5/10/2017
 Added invisible gate at far left of world to return to the overworld
 */
-
+var canShoot = true;
 var PlayPlatform = function(game) {
     var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup;
     var onHitKey = 0;
@@ -233,6 +233,8 @@ PlayPlatform.prototype = {
       //play music
       song = this.add.audio('battle-song');
       if(global_playMusic) song.play('', 0, 1, true);
+
+      this.attackSound = game.add.audio('attackSound');
       /*
       this.instructions = game.add.text(400, 32, " WASD Keys to move, #'s 1 2 for weapons, 3 sheaths weapons, space to attack, \n and reach end of screen to return to world map, T to see text box ", GLOBAL_TEXT_STYLE);
       this.instructions.anchor.set(0.5);
@@ -255,9 +257,15 @@ PlayPlatform.prototype = {
             game.physics.arcade.overlap(player.sword,enemyGroup,this.weaponAttack,null,this);
             game.physics.arcade.overlap(player.sword,bossGroup,this.weaponAttack,null,this);
          }
-         else if(weapon === 'crossbow') {
+         else if(weapon === 'crossbow' && canShoot) {
+            canShoot = false;
             let bullet = new bulletBuild(this.game,player.body.position.x+16,player.body.position.y+32,fireAngle);
-            
+            this.attackSound.play();
+            let reset = game.time.create();
+            reset.add(350, function(){
+               canShoot = true;
+            }, this);
+            reset.start();
             bulletGroup.add(bullet);
          }
          

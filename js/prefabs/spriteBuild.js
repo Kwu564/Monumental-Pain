@@ -232,7 +232,6 @@ spriteBuild.prototype.update = function() {
     switch(this.status) {
         case 'attacking':
             this.playAttack();
-            this.attackSound.play();
             break;
         case 'walkingRight':
             this.playWalking();
@@ -306,6 +305,7 @@ if ( this.isAnimDone == 1 ) {
 } else {
     // play the attack animations if isAnimDone = 0
     if ( weapon == 'sword' ) {
+        this.attackSound.play();
         if ( fireAngle == 0 ) {
             this.animations.play('SwordSlashRight');
         } else if ( fireAngle == 180 ) {
