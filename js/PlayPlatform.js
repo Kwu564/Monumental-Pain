@@ -293,6 +293,11 @@ PlayPlatform.prototype = {
       if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC) && canPause){
          pauseMenu(game);
       }
+
+      // game over if player dies
+      if(player.health <= 0){
+         game.state.start('GameOver');
+      }
    },
    weaponAttack: function(weapon, enemy) {
       //Add knockback, etc. here

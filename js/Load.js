@@ -38,7 +38,7 @@ Load.prototype = {
       
 
       // an array of keys and files; listed in pairs
-      let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png','titleart','TitleArt.png'];
+      let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png','titleart','TitleArt.png', 'gameOver', 'gameOver.png'];
 
       let spriteList = ['arrow','crossbowBolt.png'];
 
