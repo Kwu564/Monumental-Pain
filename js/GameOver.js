@@ -7,6 +7,9 @@ GameOver.prototype = {
       console.log("GameOver: create");
       // add background
       game.add.image(0, 0, 'gameOver');
+       
+      // stop all other sounds so we don't get weird overlap
+      game.sound.stopAll();
 
       // IMPORTANT //
       // Reset all relevent globally tracked variables
@@ -37,6 +40,8 @@ GameOver.prototype = {
       game.camera.flash(0x000000, 500);
 
       // Dramatic game over music controls go here
+      song = this.add.audio('gameover-song');
+      if(global_playMusic) song.play('', 0, 1, true);
 
    },
 

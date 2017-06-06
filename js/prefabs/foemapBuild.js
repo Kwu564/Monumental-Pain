@@ -1,5 +1,5 @@
 var foemapBuild = function(game,obj,enemySpots){
-	console.log("foemapBuild: create");
+	//console.log("foemapBuild: create");
 	Phaser.Sprite.call(this,game,obj.x,obj.y,'collider',0);
 
     this.size = obj.properties.size;
@@ -12,12 +12,10 @@ var foemapBuild = function(game,obj,enemySpots){
     this.scale.set(obj.width,obj.height);
     
     this.enemySpots = [];
-    console.log('size: '+this.size+' type: '+this.type);
     for(let i = this.type; i < parseInt(this.size)+parseInt(this.type); i++) {
         let foe = enemySpots[i]; // The field 'enemySpots' is an object layer in json
         
         this.enemySpots.push(foe);
-        console.log(this.enemySpots.length);
     }
 
     game.sound.stopAll();
