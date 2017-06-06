@@ -36,7 +36,7 @@ GLOBAL_MAP_DATA = [
        //Hatu map definition
        //TILEMAP FILES
        mapKey: 'hatu1-map',
-       setKey: 'forest-tile', //key for tilemap
+       setKey: 'mountain-tile', //key for tilemap
        
        bgKey: 'hatu-bg'
    },
