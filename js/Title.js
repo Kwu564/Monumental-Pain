@@ -10,6 +10,9 @@ Title.prototype = {
    create: function() {
       console.log('Title: create');
 
+      // stop all other sounds so we don't get weird overlap
+      game.sound.stopAll();
+
       // Kevn background is being used as a placeholder image
       game.add.image(0,0, 'kevn-bg');
       game.add.image(0,0, 'titleart');
