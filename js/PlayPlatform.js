@@ -36,7 +36,7 @@ PlayPlatform.prototype = {
       
       map.addTilesetImage(mapObj.setKey, mapObj.setKey);
       
-      bg = this.add.sprite(0,0,'kevn-bg'); //static bg
+      bg = this.add.sprite(0,0,mapObj.bgKey); //static bg
       bg.fixedToCamera = true;
       layer1 = map.createLayer('bg');
       layer2 = map.createLayer('ground');
