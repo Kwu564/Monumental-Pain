@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 var canShoot = true;
 var PlayPlatform = function(game) {
-    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup;
+    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup, killZone, deathExists;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -64,6 +64,22 @@ PlayPlatform.prototype = {
       screenEdges.alpha = 0;
       screenEdges.setAll('immovable',true);
       
+      // KILL ZONE
+      deathExists = false;
+      
+      if(map.objects.death != undefined) {
+         deathExists = true; //Tell the game to check for overlaps in update
+         
+         killZone = this.game.add.group();
+         killZone.enableBody = true;
+         
+         var obj = map.objects.death[0];
+         var death = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
+         killZone.add(death);
+         killZone.alpha = 0;
+         killZone.setAll('immovable',true);
+      }
+      
       // DOORS
       doorSpots = this.game.add.group();
       doorSpots.enableBody = true;
@@ -111,6 +127,8 @@ PlayPlatform.prototype = {
             enemy = new axeMan(this.game,1,1,obj.x,obj.y,'swordsMan-enemy');
          } else if(obj.name === 'lesserDemon') {
             enemy = new lesserDemon(this.game,1,1,obj.x,obj.y,'lesserDemon');
+         } else if(obj.name === 'darkWizard') {
+            enemy = new wizardBuild(this.game,1,1,obj.x,obj.y,'darkWizard');
          }
          enemyGroup.add(enemy);
       }
@@ -223,6 +241,10 @@ PlayPlatform.prototype = {
       game.physics.arcade.collide(npcGroup, layer2);
       game.physics.arcade.collide(bulletGroup, layer2, this.killBullet, null, this);
       
+      if(deathExists) {
+         game.physics.arcade.overlap(player, killZone, this.gameover, null, this);
+      }
+      
       //Bullets hitting enemies
       if(bulletGroup.children.length > 0) {
          game.physics.arcade.overlap(bulletGroup,enemyGroup,this.bulletHit,null,this);
@@ -303,6 +325,18 @@ PlayPlatform.prototype = {
    },
    killBullet: function(bullet) {
       bullet.kill();
+   },
+   gameover: function() {
+      canEnter = false; // removes player control 
+      player.body.collideWorldBounds = false; //lets player walk offscreen
+      
+      game.camera.fade(0x000000, 1000);
+      let timer = game.time.create();
+      timer.add(950, function() {
+         game.sound.stopAll();
+         game.state.start('GameOver');
+      }, this);
+      timer.start();
    },
    render: function() {
       //uncomment to view player collision info in platform
