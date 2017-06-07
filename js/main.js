@@ -17,6 +17,7 @@ var global_x = 592;
 var global_y = 768;
 var global_playMusic = true;
 var canPause = true;
+var global_save_point = 0;
 
 window.onload = function() {
     //scaled dimensions: 600, 400
@@ -28,6 +29,7 @@ window.onload = function() {
    game.state.add('PlayOver', PlayOver);
    game.state.add('PlayPlatform', PlayPlatform);
    game.state.add('GameOver', GameOver);
+   game.state.add('Cutscene', Cutscene);
    game.state.start('Boot');
    
 }

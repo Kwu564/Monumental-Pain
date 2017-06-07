@@ -93,6 +93,24 @@ const TEXT_DATA = [{
    {
       text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.','That\'s how much of a fool you are'],
       style: GLOBAL_TEXT_STYLE
+   },
+   {
+      //First textbox/piece of exposition
+      text: ['Protector, you are needed in the forest village of Kevn.','Draw your sword and bow against those who wish to destroy the great monument of this land.'],
+      style: GLOBAL_TEXT_STYLE
+   },
+   {
+      //Cutscene1
+      text: ['Someone wishes to destroy this place.',''],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      }
    }
 ]
 
@@ -107,6 +125,7 @@ const PLATWORLD_TEXTBOX_TEST = 0;
 const OWORLD_TEXTBOX_TEST = 1;
 const HELP = 2;
 const YOU_ARE_A_FOOL = 3;
+const CUTSCENE1 = 4;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //

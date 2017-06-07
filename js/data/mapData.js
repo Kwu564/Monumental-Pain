@@ -66,6 +66,14 @@ GLOBAL_MAP_DATA = [
        setKey: 'forest-tile', //key for tilemap
        
        bgKey: 'kevn-bg'
+   },
+   {
+      // 7
+      //hero sanctuary map
+      mapKey: 'herosanctuary',
+      setKey: 'forest-tile',
+      
+      bgKey: 'kevn-bg'
    }
 ]
 
@@ -76,3 +84,4 @@ const HATU_2 = 3;
 const XANZIK_1 = 4;
 const ICE_1 = 5;
 const FORESTBATTLE_1 = 6;
+const HERO_SANCTUARY = 7;

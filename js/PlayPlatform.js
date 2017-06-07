@@ -268,15 +268,10 @@ PlayPlatform.prototype = {
       //Do something here
       canEnter = false;
       player.body.velocity.x = 0;
+      player.animations.stop();
       
       textObj = TEXT_DATA[npc.textbox];
       textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
-      
-      let timer = game.time.create();
-      timer.add(800, function() {
-         canEnter = true;
-      }, this);
-      timer.start();
    },
    enterDoor: function(player, door) {
       game.sound.stopAll();
