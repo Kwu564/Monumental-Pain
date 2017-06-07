@@ -11,7 +11,14 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    this.text.cameraOffset.setTo(x, y);
    //console.log("textBox placed");
    canPause = false;
-   if(!game.paused) game.paused = true;
+   //if(!game.paused) game.paused = true;
+   game.physics.arcade.isPaused = true;
+   canEnter = false;
+   
+   let timer = game.time.create();
+   timer.add(200, function() {
+      canEnter = true;
+   }, this);
    
    window.onkeydown = function(event){
       var keyCode = event.keyCode || event.which;
@@ -25,14 +32,22 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
          else {
             this.text.destroy();
             counter++;
-            game.paused = false;
+            game.physics.arcade.isPaused = false;
+            
+            //start the timer to set canEnter to true again
+            timer.start();
+            
             canPause = true;
          }
       }
       else if(keyCode === Phaser.Keyboard.ESC && navigable){
             this.text.destroy();
             counter++;
-            game.paused = false;
+            game.physics.arcade.isPaused = false;
+            
+            //start the timer to set canEnter to true again
+            timer.start();
+         
             canPause = true;
       }
       else if(keyCode === Phaser.Keyboard.Q && navigable){

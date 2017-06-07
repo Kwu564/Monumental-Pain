@@ -102,6 +102,7 @@ Title.prototype = {
 
    play: function() {
       // start the playOver state
-      game.state.start('PlayOver');
+       game.sound.stopAll();
+      game.state.start('Cutscene');
    }
 }

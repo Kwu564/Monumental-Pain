@@ -10,8 +10,6 @@ GLOBAL_MAP_DATA = [
        //TILEMAP FILES
        mapKey: 'oworld', //key for tilemap
        setKey: 'oworld-tile',
-       
-       bgKey: null
    },
    {
        // 1
@@ -20,7 +18,9 @@ GLOBAL_MAP_DATA = [
        mapKey: 'kevn1-map',
        setKey: 'forest-tile', //key for tilemap
        
-       bgKey: 'kevn-bg'
+       bgKey: 'kevn-bg',
+       
+       music: 'oworld-song'
    },
    {
        // 2
@@ -29,7 +29,9 @@ GLOBAL_MAP_DATA = [
        mapKey: 'kevn2-map',
        setKey: 'forest-tile', //key for tilemap
        
-       bgKey: 'kevn-bg'
+       bgKey: 'kevn-bg',
+       
+       music: 'oworld-song'
    },
    {
        // 3
@@ -47,7 +49,9 @@ GLOBAL_MAP_DATA = [
        mapKey: 'xanxik1-map',
        setKey: 'forest-tile', //key for tilemap
        
-       bgKey: 'xanzik-bg'
+       bgKey: 'xanzik-bg',
+       
+       music: 'oworld-song'
    },
    {
        // 5
@@ -56,7 +60,9 @@ GLOBAL_MAP_DATA = [
        mapKey: 'ice1-map',
        setKey: 'ice-tile', //key for tilemap
        
-       bgKey: 'hatu-bg'
+       bgKey: 'hatu-bg',
+       
+       music: 'oworld-song'
    },
    {
        // 6
@@ -65,7 +71,19 @@ GLOBAL_MAP_DATA = [
        mapKey: 'forestbattle',
        setKey: 'forest-tile', //key for tilemap
        
-       bgKey: 'kevn-bg'
+       bgKey: 'kevn-bg',
+       
+       music: 'battle-song'
+   },
+   {
+       // 7
+       //hero sanctuary map
+       mapKey: 'herosanctuary',
+       setKey: 'forest-tile',
+       
+       bgKey: 'kevn-bg',
+       
+       music: 'title-song'
    }
 ]
 
@@ -76,3 +94,4 @@ const HATU_2 = 3;
 const XANZIK_1 = 4;
 const ICE_1 = 5;
 const FORESTBATTLE_1 = 6;
+const HERO_SANCTUARY = 7;

@@ -39,6 +39,8 @@ Load.prototype = {
 
       // an array of keys and files; listed in pairs
       let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png','titleart','TitleArt.png', 'gameOver', 'gameOver.png','hatu-bg','hatu-bg.png'];
+      
+      let sceneList = ['cutscene1','cutscene1.png'];
 
       let spriteList = ['arrow','crossbowBolt.png'];
 
@@ -46,7 +48,7 @@ Load.prototype = {
 
       let tilesetList = ['oworld-tile','oworld-tile.png','forest-tile','forest-tile.png','ice-tile','ice-tile.png','mountain-tile','mountain-tile.png'];
 
-      let jsonList = ['oworld','oworld-complete.json','forestbattle','forest-battle.json','forestbattle2','forest-battle2.json','kevn1-map','kevn1.json','kevn2-map','kevn2.json','xanzik1-map','xanzik1.json','ice1-map','ice-platform1.json','hatu1-map','hatu1.json'];
+      let jsonList = ['oworld','oworld-complete.json','forestbattle','forest-battle.json','forestbattle2','forest-battle2.json','kevn1-map','kevn1.json','kevn2-map','kevn2.json','xanzik1-map','xanzik1.json','ice1-map','ice-platform1.json','hatu1-map','hatu1.json','herosanctuary','hero-sanctuary.json'];
 
       let musicList = ['oworld-song','overworld.ogg','battle-song','engage.ogg','title-song','savior-among-us.ogg','gameover-song','failure.ogg'];
 
@@ -58,8 +60,10 @@ Load.prototype = {
       game.load.path = 'assets/img/';
 
       for(let i=0; i<imgList.length; i+= 2) {game.load.image(imgList[i],imgList[i+1]);}
-
       
+      // load cutscene backgrounds
+      game.load.path = 'assets/img/cutscenes/';
+      for(let i=0; i<sceneList.length; i+= 2) {game.load.image(sceneList[i],sceneList[i+1]);}
 
       // load sprite graphics
       game.load.path = 'assets/img/sprites/';

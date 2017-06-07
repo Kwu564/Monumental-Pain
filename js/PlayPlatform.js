@@ -174,7 +174,7 @@ PlayPlatform.prototype = {
       bulletGroup.enableBody = true;
 
       //play music
-      song = this.add.audio('battle-song');
+      song = this.add.audio(mapObj.music);
       if(global_playMusic) song.play('', 0, 1, true);
 
       this.attackSound = game.add.audio('attackSound');
@@ -268,15 +268,10 @@ PlayPlatform.prototype = {
       //Do something here
       canEnter = false;
       player.body.velocity.x = 0;
+      player.animations.stop();
       
       textObj = TEXT_DATA[npc.textbox];
       textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
-      
-      let timer = game.time.create();
-      timer.add(800, function() {
-         canEnter = true;
-      }, this);
-      timer.start();
    },
    enterDoor: function(player, door) {
       game.sound.stopAll();
