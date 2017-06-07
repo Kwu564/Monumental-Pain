@@ -6,17 +6,19 @@
 created prefab, takes in (this,game,X scale, Y scale, x position, y position, 'asset key', frame key)
 */
 'use strict';
-var npcBuild = function(game,scaleX,scaleY,x,y,src,frame){
+var npcBuild = function(game,scaleX,scaleY,x,y,src,frame,interact){
 	console.log("npcBuild: create");
 	Phaser.Sprite.call(this,game,x,y,src,frame);
 
     // add child sprite for vision
     this.rFlag = 0;
-    this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
-    this.vision.scale.set(200, 49);
-    this.vision.anchor.set(.5,.5);
-    this.vision.alpha = 0;
-    game.physics.arcade.enable(this.vision);
+    //this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
+    //this.vision.scale.set(200, 49);
+    //this.vision.anchor.set(.5,.5);
+    //this.vision.alpha = 0;
+    //game.physics.arcade.enable(this.vision);
+    
+    this.textbox = interact;
 
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
@@ -56,8 +58,8 @@ npcBuild.prototype.switchDir = function() {
 //  Specific NPCs   //
 //////////////////////
 // OVERALLDUDE
-var overallDude = function(game,scaleX,scaleY,x,y,src,frame) { 
-   npcBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
+var overallDude = function(game,scaleX,scaleY,x,y,src,frame,interact) { 
+   npcBuild.call(this,game,scaleX,scaleY,x,y,src,frame,interact);
    // walk speed
    //this.speed = 100;
    this.speed = 100;
@@ -84,11 +86,11 @@ overallDude.prototype.chase = function(){
 overallDude.prototype.update = function(){
   if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
-        if(this.direction < 0){
+        /*if(this.direction < 0){
           this.vision.body.position.x = this.body.position.x -192;
         }else{
           this.vision.body.position.x = this.body.position.x +48;
-        }
+        }*/
     }
     if(this.direction < 0) {
         this.body.velocity.x = -this.speed;
@@ -112,8 +114,8 @@ overallDude.prototype.animate = function(){
 }
 
 // SKIRTDUDETTE
-var skirtDudette = function(game,scaleX,scaleY,x,y,src,frame) { 
-   npcBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
+var skirtDudette = function(game,scaleX,scaleY,x,y,src,frame,interact) { 
+   npcBuild.call(this,game,scaleX,scaleY,x,y,src,frame,interact);
    // walk speed
    //this.speed = 100;
    this.speed = 100;
@@ -140,11 +142,11 @@ skirtDudette.prototype.chase = function(){
 skirtDudette.prototype.update = function(){
   if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
-        if(this.direction < 0){
+        /*if(this.direction < 0){
           this.vision.body.position.x = this.body.position.x -192;
         }else{
           this.vision.body.position.x = this.body.position.x +48;
-        }
+        }*/
     }
     if(this.direction < 0) {
         this.body.velocity.x = -this.speed;

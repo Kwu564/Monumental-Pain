@@ -89,6 +89,10 @@ const TEXT_DATA = [{
          align: 'center',
          backgroundColor: '#CFA26B'
       }
+   },
+   {
+      text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.','That\'s how much of a fool you are'],
+      style: GLOBAL_TEXT_STYLE
    }
 ]
 
@@ -102,6 +106,7 @@ const TEXT_DATA = [{
 const PLATWORLD_TEXTBOX_TEST = 0;
 const OWORLD_TEXTBOX_TEST = 1;
 const HELP = 2;
+const YOU_ARE_A_FOOL = 3;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //
