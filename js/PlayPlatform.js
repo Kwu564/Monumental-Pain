@@ -174,7 +174,7 @@ PlayPlatform.prototype = {
       bulletGroup.enableBody = true;
 
       //play music
-      song = this.add.audio('battle-song');
+      song = this.add.audio(mapObj.music);
       if(global_playMusic) song.play('', 0, 1, true);
 
       this.attackSound = game.add.audio('attackSound');
