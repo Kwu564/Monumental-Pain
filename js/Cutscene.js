@@ -24,7 +24,7 @@ Cutscene.prototype = {
        
        // Finally, display the appropriate text box
        var textObj = TEXT_DATA[sceneObj.text];
-       textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
+       textBox(game, game.camera.width/2, game.camera.height/2 -210, 0.5, 0.5, !NAVIGABLE, textObj);
    },
    update: function() {
        if(canEnter) {
