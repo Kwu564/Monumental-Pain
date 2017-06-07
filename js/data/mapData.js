@@ -84,6 +84,16 @@ GLOBAL_MAP_DATA = [
        bgKey: 'kevn-bg',
        
        music: 'title-song'
+   },
+   {
+       // 8
+       //Boss fight
+       mapKey: 'boss-battle',
+       setKey: 'mountain-tile',
+       
+       bgKey: 'boss-bg',
+       
+       music: 'gameover-song'
    }
 ]
 
@@ -95,3 +105,4 @@ const XANZIK_1 = 4;
 const ICE_1 = 5;
 const FORESTBATTLE_1 = 6;
 const HERO_SANCTUARY = 7;
+const BOSS_FIGHT = 8;

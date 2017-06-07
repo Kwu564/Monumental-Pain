@@ -126,7 +126,7 @@
                      "retY":"int"
                     },
                  "rotation":0,
-                 "type":"6",
+                 "type":"4",
                  "visible":true,
                  "width":59,
                  "x":2563,
@@ -147,7 +147,7 @@
                      "retY":"int"
                     },
                  "rotation":0,
-                 "type":"6",
+                 "type":"8",
                  "visible":true,
                  "width":32,
                  "x":1664,
@@ -518,7 +518,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":47,
+ "nextobjectid":48,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,
