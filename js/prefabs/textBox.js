@@ -6,6 +6,7 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    console.log("textBox.create");
    this.counter = 0;
    this.text = game.add.text(x, y, textDataObj.text[counter], textDataObj.style);
+   this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
    this.text.anchor.set(anchorX, anchorY);
    this.text.fixedToCamera = true;
    this.text.cameraOffset.setTo(x, y);
@@ -27,7 +28,7 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
          //console.log("window.onkeyup: executing");
          if(counter < textDataObj.text.length-1){ // I'm not completely sure why the minus one is necessary but it is
             counter++;
-            this.text.text = textDataObj.text[counter];
+            this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
          }
          else {
             this.text.destroy();
@@ -53,7 +54,7 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
       else if(keyCode === Phaser.Keyboard.Q && navigable){
          if(counter > 0){
             counter--;
-            this.text.text = textDataObj.text[counter];
+            this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
          }
       }
    }

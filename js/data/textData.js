@@ -28,6 +28,16 @@ const PAUSE_BUTTON_TEXT_STYLE = {
    backgroundColor: "#CFA26B"
 }
 
+const STORY_STYLE = {
+   font: "Courier",
+   fontSize: "18px",
+   fill: 'black',
+   wordWrap: true,
+   wordWrapWidth: 500,
+   align: 'center',
+   backgroundColor: "#CFA26B"
+}
+
 // TEXT_DATA will contain words of all text boxes pass objects from 
 // this array to the function in the text prefab to create text boxes
 // Psuedo code format for TEXT_DATA objects
@@ -92,12 +102,12 @@ const TEXT_DATA = [{
    },
    {
       text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.','That\'s how much of a fool you are'],
-      style: GLOBAL_TEXT_STYLE
+      style: STORY_STYLE
    },
    {
       //First textbox/piece of exposition
       text: ['Protector, you are needed in the forest village of Kevn.','Draw your sword and bow against those who wish to destroy the great monument of this land.'],
-      style: GLOBAL_TEXT_STYLE
+      style: STORY_STYLE
    },
    {
       //Cutscene1
