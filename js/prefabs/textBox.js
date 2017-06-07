@@ -9,15 +9,15 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    this.text.anchor.set(anchorX, anchorY);
    this.text.fixedToCamera = true;
    this.text.cameraOffset.setTo(x, y);
-   console.log("textBox placed");
+   //console.log("textBox placed");
    canPause = false;
    if(!game.paused) game.paused = true;
    
-   window.onkeyup = function(event){
+   window.onkeydown = function(event){
       var keyCode = event.keyCode || event.which;
       // console.log("window.onkeyup: entered");
       if(keyCode === Phaser.Keyboard.E){
-         console.log("window.onkeyup: executing");
+         //console.log("window.onkeyup: executing");
          if(counter < textDataObj.text.length-1){ // I'm not completely sure why the minus one is necessary but it is
             counter++;
             this.text.text = textDataObj.text[counter];
