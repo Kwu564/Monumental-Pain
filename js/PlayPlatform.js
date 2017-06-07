@@ -101,7 +101,6 @@ PlayPlatform.prototype = {
       
       var enemyLayer = map.objects.enemies;
       
-      if(enemyLayer.length > 0) {
       for(let i = 0; i < enemyLayer.length; i++) {
          let obj = enemyLayer[i];
          
@@ -114,7 +113,6 @@ PlayPlatform.prototype = {
             enemy = new lesserDemon(this.game,1,1,obj.x,obj.y,'lesserDemon');
          }
          enemyGroup.add(enemy);
-      }
       }
       
       enemyGroup.setAll('body.gravity.y',1500);
@@ -133,9 +131,9 @@ PlayPlatform.prototype = {
          
          let npc;
          if(obj.name === 'dude') {
-            npc = new overallDude(this.game,1,1,obj.x,obj.y,'overallDude-npc');
+            npc = new overallDude(this.game,1,1,obj.x,obj.y,'overallDude-npc',0,obj.type);
          } else if(obj.name === 'dudette') {
-            npc = new skirtDudette(this.game,1,1,obj.x,obj.y,'skirtDudette-npc');
+            npc = new skirtDudette(this.game,1,1,obj.x,obj.y,'skirtDudette-npc',0,obj.type);
          }
          npcGroup.add(npc);
       }
@@ -143,64 +141,8 @@ PlayPlatform.prototype = {
       
       npcGroup.setAll('body.gravity.y',1500);
       npcGroup.setAll('body.collideWorldBounds',true);
-      
-      /*
-      //
-      //TESTING BLOCK, NPC SPAWN
-      //      
 
-      npcOverallDude = new overallDude(this.game,1,1,700,300,'overallDude-npc');
-      npcSkirtDudette = new skirtDudette(this.game,1,1,900,300,'skirtDudette-npc');
-
-      npcGroup = this.game.add.group();
-
-      npcGroup.add(npcOverallDude);
-      npcGroup.add(npcSkirtDudette);
-
-      npcOverallDude.body.gravity.y = 1500;
-      npcOverallDude.body.collideWorldBounds = true;
-
-      npcSkirtDudette.body.gravity.y = 1500;
-      npcSkirtDudette.body.collideWorldBounds = true;
-
-      //
-      //END TESTING BLOCK, NPC SPAWN
-      //
-
-      //
-      //TESTING BLOCK, ENEMY SPAWN
-      //
-
-      enemyAxeMan = new axeMan(this.game,1,1,600,300,'axeMan-enemy');
-      enemySwordsMan = new axeMan(this.game,1,1,1000,300,'swordsMan-enemy');
-      enemyLesserDemon1 = new lesserDemon(this.game,1,1,900,300,'lesserDemon');
-      enemyLesserDemon2 = new lesserDemon(this.game,1,1,800,300,'lesserDemon');
-
-      enemyGroup = this.game.add.group();
-
-      enemyGroup.add(enemyAxeMan);
-      enemyGroup.add(enemySwordsMan);
-      enemyGroup.add(enemyLesserDemon1);
-      enemyGroup.add(enemyLesserDemon2);
-
-      enemyAxeMan.body.gravity.y = 1500;
-      enemyAxeMan.body.collideWorldBounds = true;
-
-      enemySwordsMan.body.gravity.y = 1500;
-      enemySwordsMan.body.collideWorldBounds = true;
-
-      enemyLesserDemon1.body.gravity.y = 1500;
-      enemyLesserDemon1.body.collideWorldBounds = true;
-
-      enemyLesserDemon2.body.gravity.y = 1500;
-      enemyLesserDemon2.body.collideWorldBounds = true;
-
-      //
-      //END TESTING BLOCK, ENEMY SPAWN
-      //
-      */
-
-      //
+      /*/
       //TESTING BLOCK, dark wizard SPAWN
       //
       darkWizard = new wizardBuild(this.game,1,1,800,300,'darkWizard');
@@ -213,6 +155,7 @@ PlayPlatform.prototype = {
       //END TESTING BLOCK, dark wizard SPAWN
       //
       
+      /*
       //
       //TESTING BLOCK, bossDemon SPAWN
       //
@@ -224,7 +167,7 @@ PlayPlatform.prototype = {
       bossDemon.body.collideWorldBounds = true;
       //
       //END TESTING BLOCK, bossDemon SPAWN
-      //      
+      //*/   
       
       //BULLETS
       bulletGroup = this.game.add.group();
@@ -290,8 +233,11 @@ PlayPlatform.prototype = {
       game.physics.arcade.overlap(player, screenEdges, this.enterOver, null, this);
       
       // Using doors on map
-      if(game.input.keyboard.justPressed(Phaser.Keyboard.E)) {
-         game.physics.arcade.overlap(player, doorSpots, this.enterDoor, null, this);
+      if(game.input.keyboard.justPressed(Phaser.Keyboard.E) && canEnter) {
+         game.physics.arcade.overlap(player, npcGroup, this.interactNPC, null, this);
+         if(canEnter) {
+            game.physics.arcade.overlap(player, doorSpots, this.enterDoor, null, this);
+         }
       }
       // Contrived Text box 2
       if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
@@ -317,6 +263,20 @@ PlayPlatform.prototype = {
    bulletHit: function(bullet,enemy) {
       enemy.health -= 1;
       bullet.kill();
+   },
+   interactNPC: function(player, npc) {
+      //Do something here
+      canEnter = false;
+      player.body.velocity.x = 0;
+      
+      textObj = TEXT_DATA[npc.textbox];
+      textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
+      
+      let timer = game.time.create();
+      timer.add(800, function() {
+         canEnter = true;
+      }, this);
+      timer.start();
    },
    enterDoor: function(player, door) {
       game.sound.stopAll();
