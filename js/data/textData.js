@@ -12,10 +12,28 @@ const GLOBAL_TEXT_STYLE = {
    backgroundColor: '#CFA26B'
 }
 
-const BUTTON_TEXT_STYLE = {
+const MAIN_BUTTON_TEXT_STYLE = {
    font: "Courier",
    fontSize: "32px",
    fill: 'black',
+   align: 'center',
+   backgroundColor: "#CFA26B"
+}
+
+const PAUSE_BUTTON_TEXT_STYLE = {
+   font: "Courier",
+   fontSize: "64px",
+   fill: 'black',
+   align: 'center',
+   backgroundColor: "#CFA26B"
+}
+
+const STORY_STYLE = {
+   font: "Courier",
+   fontSize: "18px",
+   fill: 'black',
+   wordWrap: true,
+   wordWrapWidth: 500,
    align: 'center',
    backgroundColor: "#CFA26B"
 }
@@ -81,6 +99,28 @@ const TEXT_DATA = [{
          align: 'center',
          backgroundColor: '#CFA26B'
       }
+   },
+   {
+      text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.','That\'s how much of a fool you are'],
+      style: STORY_STYLE
+   },
+   {
+      //First textbox/piece of exposition
+      text: ['Protector, you are needed in the forest village of Kevn.','Draw your sword and bow against those who wish to destroy the great monument of this land.'],
+      style: STORY_STYLE
+   },
+   {
+      //Cutscene1
+      text: ['Someone wishes to destroy this place.',''],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      }
    }
 ]
 
@@ -94,6 +134,8 @@ const TEXT_DATA = [{
 const PLATWORLD_TEXTBOX_TEST = 0;
 const OWORLD_TEXTBOX_TEST = 1;
 const HELP = 2;
+const YOU_ARE_A_FOOL = 3;
+const CUTSCENE1 = 4;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //

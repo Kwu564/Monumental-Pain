@@ -17,17 +17,19 @@ var global_x = 592;
 var global_y = 768;
 var global_playMusic = true;
 var canPause = true;
+var global_save_point = 0;
 
 window.onload = function() {
     //scaled dimensions: 600, 400
    game =  new Phaser.Game(800, 600, Phaser.CANVAS);
    // define states
-   // Add gameOver state
    game.state.add('Boot', Boot);
    game.state.add('Load', Load);
    game.state.add('Title', Title);
    game.state.add('PlayOver', PlayOver);
    game.state.add('PlayPlatform', PlayPlatform);
+   game.state.add('GameOver', GameOver);
+   game.state.add('Cutscene', Cutscene);
    game.state.start('Boot');
    
 }

@@ -6,39 +6,55 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    console.log("textBox.create");
    this.counter = 0;
    this.text = game.add.text(x, y, textDataObj.text[counter], textDataObj.style);
+   this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
    this.text.anchor.set(anchorX, anchorY);
    this.text.fixedToCamera = true;
    this.text.cameraOffset.setTo(x, y);
-   console.log("textBox placed");
+   //console.log("textBox placed");
    canPause = false;
-   if(!game.paused) game.paused = true;
+   //if(!game.paused) game.paused = true;
+   game.physics.arcade.isPaused = true;
+   canEnter = false;
    
-   window.onkeyup = function(event){
+   let timer = game.time.create();
+   timer.add(200, function() {
+      canEnter = true;
+   }, this);
+   
+   window.onkeydown = function(event){
       var keyCode = event.keyCode || event.which;
       // console.log("window.onkeyup: entered");
       if(keyCode === Phaser.Keyboard.E){
-         console.log("window.onkeyup: executing");
+         //console.log("window.onkeyup: executing");
          if(counter < textDataObj.text.length-1){ // I'm not completely sure why the minus one is necessary but it is
             counter++;
-            this.text.text = textDataObj.text[counter];
+            this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
          }
          else {
             this.text.destroy();
             counter++;
-            game.paused = false;
+            game.physics.arcade.isPaused = false;
+            
+            //start the timer to set canEnter to true again
+            timer.start();
+            
             canPause = true;
          }
       }
       else if(keyCode === Phaser.Keyboard.ESC && navigable){
             this.text.destroy();
             counter++;
-            game.paused = false;
+            game.physics.arcade.isPaused = false;
+            
+            //start the timer to set canEnter to true again
+            timer.start();
+         
             canPause = true;
       }
       else if(keyCode === Phaser.Keyboard.Q && navigable){
          if(counter > 0){
             counter--;
-            this.text.text = textDataObj.text[counter];
+            this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
          }
       }
    }

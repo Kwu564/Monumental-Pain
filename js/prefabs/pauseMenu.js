@@ -14,24 +14,24 @@ var pauseMenu = function(game){
    var centerY = game.camera.height/2;
 
    // resume game
-   var resumeButton = game.add.text(0, 0, " ~Resume~ ", BUTTON_TEXT_STYLE);
+   var resumeButton = game.add.text(0, 0, " ~Resume~ ", PAUSE_BUTTON_TEXT_STYLE);
    resumeButton.anchor.set(0.5);
    resumeButton.fixedToCamera = true;
    resumeButton.cameraOffset.setTo(centerX, centerY -128);
 
    // return to title state
-   var titleButton = game.add.text(0, 0, " ~Main Menu~ ", BUTTON_TEXT_STYLE);
+   var titleButton = game.add.text(0, 0, " ~Main Menu~ ", PAUSE_BUTTON_TEXT_STYLE);
    titleButton.anchor.set(0.5);
    titleButton.fixedToCamera = true;
    titleButton.cameraOffset.setTo(centerX, centerY);
 
    // stop music
-   var musicButton = game.add.text(0, 0, global_playMusic? " ~Turn Music Off~ ":" ~Turn Music On~ ", BUTTON_TEXT_STYLE);
+   var musicButton = game.add.text(0, 0, global_playMusic? " ~Turn Music Off~ ":" ~Turn Music On~ ", PAUSE_BUTTON_TEXT_STYLE);
    musicButton.anchor.set(0.5);
    musicButton.fixedToCamera = true;
    musicButton.cameraOffset.setTo(centerX, centerY + 128);
 /*
-   var helpButton = game.add.text(0, 0, " ~Help~ ", BUTTON_TEXT_STYLE);
+   var helpButton = game.add.text(0, 0, " ~Help~ ", PAUSE_BUTTON_TEXT_STYLE);
    helpButton.anchor.set(0.5);
    helpButton.fixedToCamera = true;
    helpButton.cameraOffset.setTo(centerX, centerY + 160);
@@ -57,10 +57,10 @@ var pauseMenu = function(game){
 //   helpButton.events.onInputOver.add(function(item){item.fill = "#EFEBCE";}, this);
 
    // moving the mouse off the button will change it back
-   titleButton.events.onInputOut.add(function(item){item.fill = BUTTON_TEXT_STYLE.fill;}, this);
-   musicButton.events.onInputOut.add(function(item){item.fill = BUTTON_TEXT_STYLE.fill;}, this);
-   resumeButton.events.onInputOut.add(function(item){item.fill = BUTTON_TEXT_STYLE.fill;}, this);
-//   helpButton.events.onInputOut.add(function(item){item.fill = BUTTON_TEXT_STYLE.fill;}, this);
+   titleButton.events.onInputOut.add(function(item){item.fill = PAUSE_BUTTON_TEXT_STYLE.fill;}, this);
+   musicButton.events.onInputOut.add(function(item){item.fill = PAUSE_BUTTON_TEXT_STYLE.fill;}, this);
+   resumeButton.events.onInputOut.add(function(item){item.fill = PAUSE_BUTTON_TEXT_STYLE.fill;}, this);
+//   helpButton.events.onInputOut.add(function(item){item.fill = PAUSE_BUTTON_TEXT_STYLE.fill;}, this);
 
    // if the main menu button is pushed
    titleButton.events.onInputDown.add(function(){

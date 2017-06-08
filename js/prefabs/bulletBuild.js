@@ -1,6 +1,6 @@
 'use strict';
 var bulletBuild = function(game,x,y,direction){
-	console.log("spritePlayOver: create");
+	console.log("bulletBuild: create");
 	Phaser.Sprite.call(this,game,x,y,'arrow',0);
 
 	this.game.physics.arcade.enableBody(this);
