@@ -176,8 +176,17 @@
  "tileheight":64,
  "tilesets":[
         {
+         "columns":10,
          "firstgid":1,
-         "source":"..\/..\/..\/Tiled Files\/mountain-tile.tsx"
+         "image":"..\/img\/tilesets\/mountain-tile.png",
+         "imageheight":576,
+         "imagewidth":640,
+         "margin":0,
+         "name":"mountain-tile",
+         "spacing":0,
+         "tilecount":90,
+         "tileheight":64,
+         "tilewidth":64
         }],
  "tilewidth":64,
  "type":"map",
