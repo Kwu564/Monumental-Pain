@@ -22,6 +22,8 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
 	this.anchor.setTo(.5,.5);
 	this.scale.setTo(scaleX,scaleY);
 	game.physics.arcade.enableBody(this);
+
+  this.attackSound = game.add.audio('attackSound');
     
     this.direction = -1; //positive = right, negative = left
 };
@@ -40,7 +42,7 @@ enemyBuild.prototype.update = function(){
         this.body.velocity.x = this.speed;
     }
     this.animate();
-}
+};
 enemyBuild.prototype.switchDir = function() {
     if(this.direction < 0) {
         this.direction = 1;
@@ -49,7 +51,7 @@ enemyBuild.prototype.switchDir = function() {
         this.direction = -1;
         this.body.position.x -= 1;
     }
-}
+};
 //enemyBuild.prototype.
 
 
@@ -70,7 +72,7 @@ var axeMan = function(game,scaleX,scaleY,x,y,src,frame) {
    this.animations.add('AxeSlashLeft', [12, 13, 14, 15], 10, true);
 
    
-}
+};
 
 axeMan.prototype = Object.create(enemyBuild.prototype);
 axeMan.prototype.constructor = axeMan;
@@ -93,7 +95,7 @@ axeMan.prototype.chase = function(){
 
     //game.state.start('PlayOver');
   }
-}
+};
 
 axeMan.prototype.update = function(){
   if(this.body.blocked.right || this.body.blocked.left) {
@@ -116,7 +118,7 @@ axeMan.prototype.update = function(){
     }
     //game.physics.arcade.collide(this.body,player);
     game.physics.arcade.overlap(player,this.vision,this.chase,null,this);
-}
+};
 
 // animates the npc, this is called in enemyBuild's update function
 axeMan.prototype.animate = function(){
@@ -125,7 +127,7 @@ axeMan.prototype.animate = function(){
    } else if ( this.body.velocity.x == 100 ) {
       this.animations.play('AxeWalkRight');
    }   
-}
+};
 
 // SWORDSMAN
 var swordsMan = function(game,scaleX,scaleY,x,y,src,frame) { 
@@ -137,7 +139,7 @@ var swordsMan = function(game,scaleX,scaleY,x,y,src,frame) {
    this.animations.add('SwordWalkLeft', [4, 5, 6, 7], 10, true);
    this.animations.add('SwordSlashRight', [8, 9, 10, 11], 10, true);
    this.animations.add('SwordSlashLeft', [12, 13, 14, 15], 10, true);
-}
+};
 
 swordsMan.prototype = Object.create(enemyBuild.prototype);
 swordsMan.prototype.constructor = swordsMan;
@@ -149,7 +151,7 @@ swordsMan.prototype.animate = function(){
    } else if ( this.body.velocity.x == 100 ) {
       this.animations.play('AxeWalkRight');
    }   
-}
+};
 
 // LESSERDEMON
 var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) { 
@@ -169,7 +171,7 @@ var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) {
    this.animations.add('WalkLeft', [4, 5, 6, 7], 10, true);
    this.animations.add('SlashRight', [8, 9, 10, 11], 10, true);
    this.animations.add('SlashLeft', [12, 13, 14, 15], 10, true);   
-}
+};
 
 lesserDemon.prototype = Object.create(enemyBuild.prototype);
 lesserDemon.prototype.constructor = lesserDemon;
@@ -181,7 +183,7 @@ lesserDemon.prototype.animate = function(){
    } else if ( this.body.velocity.x == 100 ) {
       this.animations.play('WalkRight');
    }
-}
+};
 
 lesserDemon.prototype.update = function(){
   if(this.body.blocked.right || this.body.blocked.left || game.physics.arcade.overlap(player,this.vision)) {
@@ -204,18 +206,37 @@ lesserDemon.prototype.update = function(){
         this.destroy();
     }   
     game.physics.arcade.overlap(player,this.vision2,this.lunge,null,this);
-}
+    game.physics.arcade.overlap(player,this,damagePlayer(),null,this);
+};
 
 lesserDemon.prototype.lunge = function(){
   this.body.velocity.x = 3.5*this.body.velocity.x;
   if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
       if(this.direction > 0){
-          this.animations.play('SlashRight');
+        this.playDemonAttack('SlashRight');
+        //this.animations.play('SlashRight');
+        }
       }else{
-          this.animations.play('SlashLeft');
+        this.playDemonAttack('SlashLeft');
+        //this.animations.play('SlashLeft');
       }
-      player.body.velocity.x = 8*this.body.velocity.x;
+     /* player.body.velocity.x = 8*this.body.velocity.x;
       player.body.velocity.y = -400;
-      player.health -= 1;
-  } 
+      player.health -= 1;*/
+}; 
+
+lesserDemon.prototype.playDemonAttack = function(src){
+  this.src.onComplete.add(function() {this.isAnimDone == 1}, this);
+  if(this.isAnimDone == 1){
+    damagePlayer();
+    this.isAnimDone == 0;
+  }else{
+    this.attackSound.play();
+  }
+};
+
+var damagePlayer = function(){
+  player.body.velocity.x = 8*this.body.velocity.x;
+  player.body.velocity.y = -400;
+  player.health -= 1;
 }
