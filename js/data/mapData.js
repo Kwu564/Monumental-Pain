@@ -96,6 +96,46 @@ GLOBAL_MAP_DATA = [
        bgKey: 'boss-bg',
        
        music: 'gameover-song'
+   },
+   {
+      // 9
+      //forestbattle2
+      mapKey: 'forestbattle2',
+      setKey: 'forest-tile',
+      
+      bgKey: 'kevn-bg',
+      
+      music: 'battle-song'
+   },
+   {
+      // 10
+      //mountainbattle1
+      mapKey: 'mountainbattle1',
+      setKey: 'mountain-tile',
+      
+      bgKey: 'hatu-bg',
+      
+      music: 'battle-song'
+   },
+   {
+      // 11
+      //mountainbattle2
+      mapKey: 'mountainbattle2',
+      setKey: 'mountain-tile',
+      
+      bgKey: 'hatu-bg',
+      
+      music: 'battle-song'
+   },
+   {
+      // 12
+      //plainsbattle1
+      mapKey: 'plainsbattle1',
+      setKey: 'forest-tile',
+      
+      bgKey: 'kevn-bg',
+      
+      music: 'battle-song'
    }
 ]
 
@@ -108,3 +148,7 @@ const ICE_1 = 5;
 const FORESTBATTLE_1 = 6;
 const HERO_SANCTUARY = 7;
 const BOSS_FIGHT = 8;
+const FORESTBATTLE_2 = 9;
+const MOUNTAINBATTLE_1 = 10;
+const MOUNTAINBATTLE_2 = 11;
+const PLAINSBATTLE_1 = 12;

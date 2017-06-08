@@ -14,7 +14,7 @@ Cutscene.prototype = {
        // Global cutscene data
        sceneObj = GLOBAL_CUTSCENE_DATA[global_save_point];
        
-       currentBg = this.add.sprite(0,0,sceneObj.bg[0]);
+       currentBg = this.add.sprite(0,0,sceneObj.bg);
        
        global_destination = sceneObj.dest;
        
@@ -25,6 +25,8 @@ Cutscene.prototype = {
        // Finally, display the appropriate text box
        var textObj = TEXT_DATA[sceneObj.text];
        textBox(game, game.camera.width/2, game.camera.height/2 -210, 0.5, 0.5, !NAVIGABLE, textObj);
+       
+       sceneObj.execute();
    },
    update: function() {
        if(canEnter) {

@@ -132,6 +132,17 @@
                  "width":64,
                  "x":1984,
                  "y":640
+                }, 
+                {
+                 "height":64,
+                 "id":11,
+                 "name":"swordsMan",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":704,
+                 "y":640
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -149,7 +160,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":11,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":64,
