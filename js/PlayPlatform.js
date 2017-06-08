@@ -15,7 +15,7 @@ Added invisible gate at far left of world to return to the overworld
 */
 var canShoot = true;
 var PlayPlatform = function(game) {
-    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup, killZone, deathExists;
+    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup, killZone, deathExists, playerHealthText, playerHealthBar, playerHealthBarBack;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -25,7 +25,7 @@ PlayPlatform.prototype = {
       
       //fades camera instantly, black while creating things
       game.camera.fade(0x000000, 1);
-      
+
       //acces the appropriate index of GLOBAL_MAP_DATA based on the
       //global variable set by the Door in Overworld state
       
@@ -160,6 +160,23 @@ PlayPlatform.prototype = {
       npcGroup.setAll('body.gravity.y',1500);
       npcGroup.setAll('body.collideWorldBounds',true);
 
+      // PLAYER UI ELEMENTS
+      playerHealthText = game.add.text(70, 30, "Health:", {font:"Courier",fontSize: "26px", fill: "white"});
+      playerHealthText.fontWeight = 'bold';
+      playerHealthText.stroke = '#000000';
+      playerHealthText.strokeThickness = 6;      
+      playerHealthText.anchor.setTo(.5);
+      playerHealthText.fixedToCamera = true;
+
+      playerHealthBarBack = game.add.sprite(70, 64, 'healthbarback');
+      playerHealthBarBack.anchor.setTo(.5);
+      playerHealthBarBack.fixedToCamera = true;
+
+      playerHealthBar = game.add.sprite(70, 64, 'healthbar');
+      playerHealthBar.anchor.setTo(.5);
+      playerHealthBar.fixedToCamera = true;
+      playerHealthBar.scale.setTo(1, 1);      
+
       /*/
       //TESTING BLOCK, dark wizard SPAWN
       //
@@ -210,7 +227,9 @@ PlayPlatform.prototype = {
       canEnter = true;
 
    },
-   update: function() {      
+   update: function() {
+      //scale player's health bar to match its current health
+      playerHealthBar.scale.setTo(player.health/4, 1);
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
       if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
