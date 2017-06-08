@@ -57,6 +57,10 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     //direction value: positive is right, negative is left
     this.direction = 1;
     
+    // Make an 'E' that appears over the player's head when they're on a door/npc
+    this.notifier = this.addChild(game.make.text(0,-64,'E',{font:'Courier',fontsize:'24px',fill:'white',align:'center'}));
+    this.notifier.visible = false;
+    
     // PLAYER STATUS
     // this will determine what should happen during each update frame
     // eg. which animation to play, whether the player can move, 
