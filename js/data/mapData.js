@@ -40,7 +40,9 @@ GLOBAL_MAP_DATA = [
        mapKey: 'hatu1-map',
        setKey: 'mountain-tile', //key for tilemap
        
-       bgKey: 'hatu-bg'
+       bgKey: 'hatu-bg',
+       
+       music: 'oworld-song'
    },
    {
        // 4
