@@ -96,6 +96,16 @@ GLOBAL_MAP_DATA = [
        bgKey: 'boss-bg',
        
        music: 'gameover-song'
+   },
+   {
+      // 9
+      //forestbattle2
+      mapKey: 'forestbattle2',
+      setKey: 'forest-tile',
+      
+      bgKey: 'kevn-bg',
+      
+      music: 'battle-song'
    }
 ]
 
@@ -108,3 +118,4 @@ const ICE_1 = 5;
 const FORESTBATTLE_1 = 6;
 const HERO_SANCTUARY = 7;
 const BOSS_FIGHT = 8;
+const FORESTBATTLE_2 = 9;
