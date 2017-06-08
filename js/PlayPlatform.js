@@ -305,7 +305,7 @@ PlayPlatform.prototype = {
    },
    weaponAttack: function(weapon, enemy) {
       //Add knockback, etc. here
-      player.status = 'attacking';
+      //player.status = 'attacking';
       console.log(enemy);
       enemy.health -= 1;
       //enemy.destroy();

@@ -111,11 +111,38 @@ const TEXT_DATA = [{
    },
    {
       //Cutscene1
-      text: ['Someone wishes to destroy this place.',''],
+      text: ['Someone wishes to destroy this place.','His power grows quietly as the time draws near. You must stop him.'],
       style: {
          font: 'Georgia',
          fontSize: '18px',
          fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      }
+   },
+   {
+      //Cutscene2
+      text: ['The town of Kevn is in danger. You must protect the tree.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      }
+   },
+   {
+      //Cutscene3
+      //Final boss intro
+      text: ['Finally.','You have arrived just in time.','My power has finally grown enough.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'red',
          wordWrap: true,
          wordWrapWidth: 800,
          align: 'center',
@@ -135,7 +162,10 @@ const PLATWORLD_TEXTBOX_TEST = 0;
 const OWORLD_TEXTBOX_TEST = 1;
 const HELP = 2;
 const YOU_ARE_A_FOOL = 3;
-const CUTSCENE1 = 4;
+const EXPOSITION = 4;
+const CUTSCENE1 = 5;
+const CUTSCENE2 = 6;
+const CUTSCENE3 = 7;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //
