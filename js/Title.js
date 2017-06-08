@@ -3,7 +3,7 @@
 // -- A help button to explain the controls of the game
 
 var Title = function(game){
-   var playButton, helpButton, song;
+   var playButton, helpButton, continueButton, song, restart = false;
 };
 
 Title.prototype = {
@@ -21,21 +21,19 @@ Title.prototype = {
       //text.anchor.set(0.3);
 
       // make the buttons appear and asign them variables
-      playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Play~ ", MAIN_BUTTON_TEXT_STYLE);
+      playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~New Game~ ", MAIN_BUTTON_TEXT_STYLE);
       helpButton = game.add.text(game.world.centerX, game.world.centerY + 64, " ~Help~ ", MAIN_BUTTON_TEXT_STYLE);
       musicButton = game.add.text(0, 0, global_playMusic? " ~Turn Music Off~ ":" ~Turn Music On~ ", MAIN_BUTTON_TEXT_STYLE);
-
-
 
       // Double check that text appears in the right area of the camera
       //text.fixedToCamera = true;
       //text.cameraOffset.setTo(game.camera.width/2, 200);
       playButton.fixedToCamera = true;
-      playButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 );
+      playButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 40);
       helpButton.fixedToCamera = true;
-      helpButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 40);
+      helpButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 80);
       musicButton.fixedToCamera = true;
-      musicButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 80);
+      musicButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 120);
 
       // set anchors so that they appear centered
       playButton.anchor.set(0.5);
@@ -61,10 +59,24 @@ Title.prototype = {
       helpButton.events.onInputDown.add(this.help, this);
 
       // if the player clicks on the play button go to function this.play
-      playButton.events.onInputDown.add(this.play, this);
+      playButton.events.onInputDown.add(this.newGame, this);
 
       // if the player clicks the music button go to function this.music
       musicButton.events.onInputDown.add(this.music, this);
+      
+      // Add the continue button, if there is save data
+      if(global_save_point > 0) {
+         //Perform all of the actions on the continue button all at once to avoid
+         //repetitive if statements
+         continueButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Continue~ ", MAIN_BUTTON_TEXT_STYLE);
+         continueButton.fixedToCamera = true;
+         continueButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 );
+         continueButton.anchor.set(0.5);
+         continueButton.inputEnabled = true;
+         continueButton.events.onInputOver.add(this.over, this);
+         continueButton.events.onInputOut.add(this.out, this);
+         continueButton.events.onInputDown.add(this.continueGame, this);
+      }
 
       song = this.add.audio('title-song');
       if(global_playMusic) song.play('', 0, 1, true);
@@ -100,9 +112,16 @@ Title.prototype = {
       }
    },
 
-   play: function() {
-      // start the playOver state
+   newGame: function() {
        game.sound.stopAll();
+       //restart player's progress, if any exists
+       global_save_point = 0;
+       //play the first cutscene
+       game.state.start('Cutscene');
+   },
+   continueGame: function() {
+      game.sound.stopAll();
+      //play the most recent cutscene
       game.state.start('Cutscene');
    }
 }
