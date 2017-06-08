@@ -13,6 +13,7 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.timer = game.time.create();
     // add child sprite for vision
     this.rFlag = 0;
+    this.stopFlag = 0;
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
     this.vision.scale.set(200, 49);
     this.vision.anchor.set(.5,.5);
@@ -25,7 +26,8 @@ var enemyBuild = function(game,scaleX,scaleY,x,y,src,frame){
 
   this.attackSound = game.add.audio('attackSound');
     
-    this.direction = -1; //positive = right, negative = left
+  this.direction = -1; //positive = right, negative = left
+  this.isAnimDone = 0;
 };
 
 enemyBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -52,6 +54,37 @@ enemyBuild.prototype.switchDir = function() {
         this.body.position.x -= 1;
     }
 };
+enemyBuild.prototype.mobDamagePlayer = function(){
+    if(this.direction == player.direction){
+        player.body.velocity.x = -8*player.body.velocity.x;
+        player.body.velocity.y = -600;
+        player.health -= 1;
+    }else{
+        player.body.velocity.x = 8*this.body.velocity.x;
+        player.body.velocity.y = -600;
+        player.health -= 1;
+    }
+    this.stopFlag = 1;
+    this.vision.destroy();   
+    game.time.events.add(Phaser.Timer.SECOND*1,this.respawnVision,this);
+};
+enemyBuild.prototype.respawnVision = function(){
+    if(this.direction == -1){
+        this.vision = this.addChild(game.make.sprite(-128,0,'collider'));
+        this.vision.scale.set(200,49);
+        this.vision.anchor.set(.5,.5);
+        this.vision.alpha = 0;
+        game.physics.arcade.enable(this.vision);
+    }else{
+        this.vision = this.addChild(game.make.sprite(128,0,'collider'));
+        this.vision.scale.set(200,49);
+        this.vision.anchor.set(.5,.5);
+        this.vision.alpha = 0;
+        game.physics.arcade.enable(this.vision);
+    }
+    this.stopFlag = 0;
+}
+
 //enemyBuild.prototype.
 
 
@@ -66,10 +99,10 @@ var axeMan = function(game,scaleX,scaleY,x,y,src,frame) {
    this.speed = 100;
    this.health = 3;
    // add animations
-   this.animations.add('AxeWalkRight', [0, 1, 2, 3], 10, true);
-   this.animations.add('AxeWalkLeft', [4, 5, 6, 7], 10, true);
-   this.animations.add('AxeSlashRight', [8, 9, 10, 11], 10, true);
-   this.animations.add('AxeSlashLeft', [12, 13, 14, 15], 10, true);
+   this.animations.add('AxeWalkRight', [0, 1, 2, 3], 10, false);
+   this.animations.add('AxeWalkLeft', [4, 5, 6, 7], 10, false);
+   this.axeSlashright = this.animations.add('AxeSlashRight', [8, 9, 10, 11], 10, true);
+   this.axeSlashleft = this.animations.add('AxeSlashLeft', [12, 13, 14, 15], 10, true);
 
    
 };
@@ -85,13 +118,13 @@ axeMan.prototype.chase = function(){
   }
   if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
     if(this.direction > 0){
-      this.animations.play('AxeSlashRight');
+      this.playAttack();
     }else{
-      this.animations.play('AxeSlashLeft');
+      this.playAttack();
     }
-    player.body.velocity.x = 6*this.body.velocity.x;
+    /*player.body.velocity.x = 6*this.body.velocity.x;
     player.body.velocity.y = -600;
-    player.health -= 1;
+    player.health -= 1;*/
 
     //game.state.start('PlayOver');
   }
@@ -101,15 +134,27 @@ axeMan.prototype.update = function(){
   if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
         if(this.direction < 0){
-          this.vision.body.position.x = this.body.position.x -192;
+          if(this.stopFlag == 0){
+            this.vision.body.position.x = this.body.position.x -192;
+          }
         }else{
-          this.vision.body.position.x = this.body.position.x +48;
+          if(this.stopFlag == 0){
+            this.vision.body.position.x = this.body.position.x +48;
+          }
         }
     }
     if(this.direction < 0) {
+      if(this.stopFlag == 0){
         this.body.velocity.x = -this.speed;
-    } else {
+      }else{
+        this.body.velocity.x = 0;
+      }
+    }else{
+      if(this.stopFlag == 0){
         this.body.velocity.x = this.speed;
+      }else{
+        this.body.velocity.x = 0;
+      }
     }
     this.animate();
     
@@ -118,15 +163,34 @@ axeMan.prototype.update = function(){
     }
     //game.physics.arcade.collide(this.body,player);
     game.physics.arcade.overlap(player,this.vision,this.chase,null,this);
+    game.physics.arcade.collide(player,this,this.mobDamagePlayer,null,this);
 };
 
 // animates the npc, this is called in enemyBuild's update function
 axeMan.prototype.animate = function(){
    if ( this.body.velocity.x == -100 ) {
-      this.animations.play('AxeWalkLeft');
+      if(this.stopFlag == 0){
+        this.animations.play('AxeWalkLeft');
+      }else{
+        this.animations.stop();
+      }
    } else if ( this.body.velocity.x == 100 ) {
-      this.animations.play('AxeWalkRight');
+      if(this.stopFlag == 0){
+        this.animations.play('AxeWalkRight');
+      }else{
+        this.animations.stop();
+      }
    }   
+};
+axeMan.prototype.playAttack = function(){
+
+  this.axeSlashright.onComplete.add(function() {this.isAnimDone == 1;}, this);
+  if(this.isAnimDone == 1){
+    console.log("attack is happening");
+    this.mobDamagePlayer;
+    this.isAnimDone == 0;
+    this.attackSound.play();
+  }
 };
 
 // SWORDSMAN
@@ -158,6 +222,7 @@ var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) {
    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
    // walk speed
    this.speed = -100;
+   this.speed2 = -100;
    this.health = 2;
    //
    this.vision2 = this.addChild(game.make.sprite(96, 0, 'collider'));
@@ -169,8 +234,8 @@ var lesserDemon = function(game,scaleX,scaleY,x,y,src,frame) {
    // add animations
    this.animations.add('WalkRight', [0, 1, 2, 3], 10, true);
    this.animations.add('WalkLeft', [4, 5, 6, 7], 10, true);
-   this.animations.add('SlashRight', [8, 9, 10, 11], 10, true);
-   this.animations.add('SlashLeft', [12, 13, 14, 15], 10, true);   
+   this.slashRight = this.animations.add('SlashRight', [8, 9, 10, 11], 10, false);
+   this.slashLeft = this.animations.add('SlashLeft', [12, 13, 14, 15], 10, false);   
 };
 
 lesserDemon.prototype = Object.create(enemyBuild.prototype);
@@ -206,18 +271,18 @@ lesserDemon.prototype.update = function(){
         this.destroy();
     }   
     game.physics.arcade.overlap(player,this.vision2,this.lunge,null,this);
-    game.physics.arcade.overlap(player,this,damagePlayer(),null,this);
+    game.physics.arcade.overlap(player,this,this.mobDamagePlayer,null,this);
 };
 
 lesserDemon.prototype.lunge = function(){
   this.body.velocity.x = 3.5*this.body.velocity.x;
   if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
       if(this.direction > 0){
-        this.playDemonAttack('SlashRight');
+        this.playAttack(slashRight);
         //this.animations.play('SlashRight');
         }
       }else{
-        this.playDemonAttack('SlashLeft');
+        this.playAttack(slashLeft);
         //this.animations.play('SlashLeft');
       }
      /* player.body.velocity.x = 8*this.body.velocity.x;
@@ -225,18 +290,15 @@ lesserDemon.prototype.lunge = function(){
       player.health -= 1;*/
 }; 
 
-lesserDemon.prototype.playDemonAttack = function(src){
-  this.src.onComplete.add(function() {this.isAnimDone == 1}, this);
+lesserDemon.prototype.playAttack = function(src){
+  this.src.onComplete.add(function() {
+    this.isAnimDone == 1;
+  }, this);
   if(this.isAnimDone == 1){
-    damagePlayer();
+    this.mobDamagePlayer();
     this.isAnimDone == 0;
   }else{
     this.attackSound.play();
   }
 };
 
-var damagePlayer = function(){
-  player.body.velocity.x = 8*this.body.velocity.x;
-  player.body.velocity.y = -400;
-  player.health -= 1;
-}
