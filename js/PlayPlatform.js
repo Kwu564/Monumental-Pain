@@ -149,9 +149,9 @@ PlayPlatform.prototype = {
          
          let npc;
          if(obj.name === 'dude') {
-            npc = new overallDude(this.game,1,1,obj.x,obj.y,'overallDude-npc',0,obj.type);
+            npc = new overallDude(this.game,1,1,obj.x,obj.y,'overallDude-npc',0,obj.type,obj.properties.moves);
          } else if(obj.name === 'dudette') {
-            npc = new skirtDudette(this.game,1,1,obj.x,obj.y,'skirtDudette-npc',0,obj.type);
+            npc = new skirtDudette(this.game,1,1,obj.x,obj.y,'skirtDudette-npc',0,obj.type,obj.properties.moves);
          }
          npcGroup.add(npc);
       }
@@ -273,7 +273,16 @@ PlayPlatform.prototype = {
       // Walking off the edge of the screen to enter Overworld
       game.physics.arcade.overlap(player, screenEdges, this.enterOver, null, this);
       
-      // Using doors on map
+      // Make an 'E' appear over the player if overlapping with a door or NPC
+      if(game.physics.arcade.overlap(player, npcGroup) 
+         || game.physics.arcade.overlap(player, doorSpots)) {
+         
+         player.notifier.visible = true;
+      } else {
+         player.notifier.visible = false;
+      }
+      
+      // Using doors/NPCs on map
       if(game.input.keyboard.justPressed(Phaser.Keyboard.E) && canEnter) {
          game.physics.arcade.overlap(player, npcGroup, this.interactNPC, null, this);
          if(canEnter) {
