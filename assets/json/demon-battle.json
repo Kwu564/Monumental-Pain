@@ -36,17 +36,27 @@
         {
          "draworder":"topdown",
          "name":"enemies",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "name":"events",
          "objects":[
                 {
-                 "height":64,
-                 "id":2,
-                 "name":"darkWizard",
+                 "height":192,
+                 "id":6,
+                 "name":"startFight",
                  "rotation":0,
-                 "type":"",
+                 "type":"0",
                  "visible":true,
-                 "width":64,
-                 "x":1216,
-                 "y":576
+                 "width":192,
+                 "x":960,
+                 "y":512
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -117,7 +127,7 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":896,
+                 "x":1024,
                  "y":576
                 }],
          "opacity":1,
@@ -126,7 +136,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":6,
+ "nextobjectid":8,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":64,

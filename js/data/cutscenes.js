@@ -12,7 +12,9 @@ GLOBAL_CUTSCENE_DATA = [
       dest: HERO_SANCTUARY,
       execute: function() {
          global_save_point = 1;
-      }
+      },
+      onetime: false,
+      played: false
    },
    {
       // "Protect Kevn"
@@ -23,7 +25,9 @@ GLOBAL_CUTSCENE_DATA = [
       dest: KEVN_1,
       execute: function() {
          //empty
-      }
+      },
+      onetime: false,
+      played: false
    },
    {
       //Boss fight
@@ -33,7 +37,9 @@ GLOBAL_CUTSCENE_DATA = [
       state: 'PlayPlatform',
       dest: BOSS_FIGHT,
       execute: function() {
-         console.log('boss fight started');
-      }
+         //empty
+      },
+      onetime: false,
+      played: false
    }
 ]
