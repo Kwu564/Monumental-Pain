@@ -64,11 +64,14 @@ enemyBuild.prototype.mobDamagePlayer = function(){
     if(this.direction == player.direction){
         player.body.velocity.x = -8*player.body.velocity.x;
         player.body.velocity.y = -600;
-        player.health -= 1;
     }else{
         player.body.velocity.x = 8*this.body.velocity.x;
         player.body.velocity.y = -600;
+    } 
+    if(player.invincibility == 0){
         player.health -= 1;
+        player.invincibility = 1;
+        game.time.events.add(Phaser.Timer.SECOND,function() {player.invincibility = 0},this);
     }
 };
 enemyBuild.prototype.respawnVision = function(){
