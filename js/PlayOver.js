@@ -12,7 +12,7 @@
 var canEnter, canSpawn;
 
 var PlayOver = function(game) {
-   var map, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj, spawnGroup, foeGroup;
+   var map, mapData, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj, spawnGroup, foeGroup, eventGroup;
 };
 PlayOver.prototype = {
    create: function() {
@@ -37,7 +37,7 @@ PlayOver.prototype = {
       }, this);
       timer.start();
       
-      var mapData = GLOBAL_MAP_DATA[O_WORLD];
+      mapData = GLOBAL_MAP_DATA[O_WORLD];
       
       //TILEMAP SETUP
       map = game.add.tilemap(mapData.mapKey);
@@ -63,7 +63,7 @@ PlayOver.prototype = {
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         town = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height,obj.properties.retX,obj.properties.retY);
+         town = new Door(game,obj.x,obj.y,obj.type,obj.width,obj.height,obj.properties.retX,obj.properties.retY);
          townGroup.add(town);
       }
       
@@ -94,6 +94,20 @@ PlayOver.prototype = {
       spawnGroup.alpha = 0;
       spawnGroup.setAll('body.immovable', true);
       
+      //EVENTS
+      eventGroup = this.game.add.group();
+      eventGroup.enableBody = true;
+      
+      for(let i = 0; i < map.objects.events.length; i++) {
+         let obj = map.objects.events[i];
+         
+         let event = new Event(game,obj.x,obj.y,obj.width,obj.height,mapData.events[i]);
+         eventGroup.add(event);
+      }
+      
+      eventGroup.alpha = 0;
+      eventGroup.setAll('immovable',true);
+      
       //PREFAB SETUP
       playerGroup = this.game.add.group();
       
@@ -122,6 +136,7 @@ PlayOver.prototype = {
       
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
       game.physics.arcade.overlap(player, spawnGroup, this.spawnFoe, null, this);
+      game.physics.arcade.overlap(player, eventGroup, this.callEvent, null, this);
       
       //Foe collisions, if any foes exist at the time
       if(foeGroup.children.length > 0) {
@@ -159,6 +174,9 @@ PlayOver.prototype = {
       timer.start();
       
       //game.state.start('PlayPlatform');
+   },
+   callEvent: function(player, event) {
+      mapData.events[0]();
    },
    spawnFoe: function(player, foemap) {
       if(foemap.active === false && canSpawn) {

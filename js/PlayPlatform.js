@@ -14,8 +14,10 @@ Fixed the collision issues. Added player and ground as vars within the scope of 
 Added invisible gate at far left of world to return to the overworld
 */
 var canShoot = true;
+var spawnBoss = false;
+
 var PlayPlatform = function(game) {
-    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup, killZone, deathExists, playerHealthText, playerHealthBar, playerHealthBarBack;
+    var player, timer, map, bg, layer1, layer2, layer3, enemyGroup, bossGroup, textObj, bulletGroup, killZone, deathExists, playerHealthText, playerHealthBar, playerHealthBarBack, eventGroup, checkEvents, mapObj;
     var onHitKey = 0;
 };
 PlayPlatform.prototype = {
@@ -29,7 +31,7 @@ PlayPlatform.prototype = {
       //acces the appropriate index of GLOBAL_MAP_DATA based on the
       //global variable set by the Door in Overworld state
       
-      var mapObj = GLOBAL_MAP_DATA[global_destination];
+      mapObj = GLOBAL_MAP_DATA[global_destination];
       
       //TILEMAP SETUP
       map = game.add.tilemap(mapObj.mapKey);
@@ -57,7 +59,7 @@ PlayPlatform.prototype = {
       for(let i = 0; i < edges.length; i++) {
          let obj = edges[i];
          
-         door = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
+         door = new Door(game,obj.x,obj.y,obj.type,obj.width,obj.height);
          screenEdges.add(door);
       }
       
@@ -74,7 +76,7 @@ PlayPlatform.prototype = {
          killZone.enableBody = true;
          
          var obj = map.objects.death[0];
-         var death = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
+         var death = new Door(game,obj.x,obj.y,obj.type,obj.width,obj.height);
          killZone.add(death);
          killZone.alpha = 0;
          killZone.setAll('immovable',true);
@@ -90,12 +92,32 @@ PlayPlatform.prototype = {
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         door = new Door(game,obj.x,obj.y,'collider',0,obj.type,obj.width,obj.height);
+         door = new Door(game,obj.x,obj.y,obj.type,obj.width,obj.height);
          doorSpots.add(door);
       }
       
       doorSpots.alpha = 0;
       doorSpots.setAll('immovable',true);
+      
+      // EVENTS
+      checkEvents = false; //by default
+      
+      if(map.objects.events != undefined) {
+         //whether there are events to check overlaps for
+         checkEvents = true;
+         eventGroup = this.game.add.group();
+         eventGroup.enableBody = true;
+         
+         for(let i = 0; i < map.objects.events.length; i++) {
+            let obj = map.objects.events[i];
+            
+            let event = new Event(game,obj.x,obj.y,obj.width,obj.height,obj.type);
+            eventGroup.add(event);
+         }
+         
+         eventGroup.alpha = 1;
+         eventGroup.setAll('immovable',true);
+      }
 
       //PREFAB SETUP
       var playerGroup = this.game.add.group();
@@ -228,6 +250,17 @@ PlayPlatform.prototype = {
 
    },
    update: function() {
+      //Spawn the boss if the global is active, then set it false again
+      if(spawnBoss) {
+         let boss = new bossDemonBuild(this.game,1,1,1216,476,'bossDemon');
+         
+         bossGroup.add(boss);
+         
+         boss.body.gravity.y = 1500;
+         boss.body.collideWorldBounds = true;
+         
+         spawnBoss = false;
+      }
       //scale player's health bar to match its current health
       playerHealthBar.scale.setTo(player.health/4, 1);
       //updates collision physics
@@ -260,8 +293,13 @@ PlayPlatform.prototype = {
       game.physics.arcade.collide(npcGroup, layer2);
       game.physics.arcade.collide(bulletGroup, layer2, this.killBullet, null, this);
       
+      //Check for death zone
       if(deathExists) {
          game.physics.arcade.overlap(player, killZone, this.gameover, null, this);
+      }
+      //Check for events on the stage
+      if(checkEvents) {
+         game.physics.arcade.overlap(player, eventGroup, this.callEvent, null, this);
       }
       
       //Bullets hitting enemies
@@ -322,6 +360,32 @@ PlayPlatform.prototype = {
       
       textObj = TEXT_DATA[npc.textbox];
       textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
+   },
+   callEvent: function(player, event) {
+      //make sure update doesn't call the event more times before it
+      //executes
+      checkEvents = false;
+      //Function drawn from the Global map data
+      mapObj.events[event.execute]();
+      event.destroy(); //remove the event; may be conditional in future
+      
+      //If there aren't any events left, stop checking for overlaps
+      if(eventGroup.children.length > 0) {
+         checkEvents = true;
+      }
+   },
+   enterCutscene: function(which) {
+      global_save_point = which;
+      
+      //Enter Cutscene state
+      canEnter = false; // removes player control
+      
+      game.camera.fade(0x000000, 200);
+      let timer = game.time.create();
+      timer.add(180, function() {
+         game.state.start('Cutscene');
+      }, this);
+      timer.start();
    },
    enterDoor: function(player, door) {
       game.sound.stopAll();
