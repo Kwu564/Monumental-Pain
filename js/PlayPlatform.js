@@ -362,9 +362,17 @@ PlayPlatform.prototype = {
       textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
    },
    callEvent: function(player, event) {
+      //make sure update doesn't call the event more times before it
+      //executes
       checkEvents = false;
-      mapObj.events[0]();
-      event.destroy();
+      //Function drawn from the Global map data
+      mapObj.events[event.execute]();
+      event.destroy(); //remove the event; may be conditional in future
+      
+      //If there aren't any events left, stop checking for overlaps
+      if(eventGroup.children.length > 0) {
+         checkEvents = true;
+      }
    },
    enterCutscene: function(which) {
       global_save_point = which;

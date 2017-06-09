@@ -13,7 +13,7 @@ GLOBAL_MAP_DATA = [
        
        events: [
           function() {
-             //enter boss
+             //enter boss fight
              game.sound.stopAll();
              global_save_point = 2;
              game.state.start('Cutscene');
@@ -125,27 +125,29 @@ GLOBAL_MAP_DATA = [
             canEnter = false;
           
             //put the wizard on the floor
-            var wizard = game.add.sprite(1216,576,'darkWizard');
+            var wizard = game.add.sprite(1216,576,'darkWizard',4);
           
-            let x = 0;
-            while(x < 1000) {
-               x++;
-            }
-          
-            game.sound.stopAll();
-          
-            wizard.tint = 0xff0000;
-            var sound = game.add.audio('transformation');
-            var song = game.add.audio('gameover-song');
-            sound.play();
-            var timer = game.time.create();
-            timer.add(7000, function() {
-               wizard.kill();
-               spawnBoss = true;
-               canEnter = true;
-               song.play();
-            }, this);
-            timer.start();
+            let timer = game.time.create();
+             timer.add(2000, function() {
+                game.sound.stopAll();
+            
+               wizard.tint = 0xff0000; //turn wizard red
+               var sound = game.add.audio('transformation');
+               var song = game.add.audio('gameover-song');
+               sound.play();
+               //wait for the sound effect to be done
+               //then kill the wizard and tell PlayPlatform
+               //it's demon time
+               var timer = game.time.create();
+               timer.add(7000, function() {
+                  wizard.kill();
+                  spawnBoss = true;
+                  canEnter = true;
+                  song.play();
+               }, this);
+               timer.start();
+             }, this);
+             timer.start();
          }
        ]
    },
