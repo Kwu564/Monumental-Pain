@@ -39,6 +39,8 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.health = 4;
     //flag for determining when attack animation is finished playing 
     this.isAnimDone = 1;
+    this.invincibility = 0;
+    this.invincibilityDelay = 1;
     this.slashAnimRight = null;
     this.slashAnimLeft = null;
     this.crossbowAnimRight = null;
@@ -107,21 +109,14 @@ spriteBuild.prototype.constructor = spriteBuild;
     
 // UPDATE
 spriteBuild.prototype.update = function() {
-    /*
-        if ( this.attackAnim1.isFinished || this.attackAnim2.isFinished ) {
-            this.isAnimDone = 1;
-        }
-        */
-    //if(weapon == 'sword'){
-    //    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
-    //    this.sword.scale.set(30, 49);
-    //   this.sword.alpha = 1.0;
-    //    game.physics.arcade.enable(this.sword);
+    if(this.invincibility == 1){
+        this.alpha = .5;  
+    }else{
+        this.alpha = 1;
+    }
     if(weapon != 'sword'){
         this.sword.destroy();
     }  
-    //only allow input if the game says so
-    //this is a global pause on player movement
     if(canEnter) {      
     if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR) || this.isAnimDone == 0 ) {
         //console.log(this.frame);
