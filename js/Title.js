@@ -1,6 +1,13 @@
-// This is the title state it will contain
-// -- A start button to begin the game
-// -- A help button to explain the controls of the game
+/* Title.js
+ * 6/13/2017
+ * This file contains the Title state which has the title menu, the title menu includes
+ *    Background art
+ *    Play Button
+ *    Help button
+ *    Music toggle button
+ *    Continue game button if there is save data
+*/
+
 
 var Title = function(game){
    var playButton, helpButton, continueButton, song, restart = false;
@@ -13,21 +20,17 @@ Title.prototype = {
       // stop all other sounds so we don't get weird overlap
       game.sound.stopAll();
 
-      // Kevn background is being used as a placeholder image
+      // Create background art on title screen
       game.add.image(0,0, 'kevn-bg');
       game.add.image(0,0, 'titleart');
 
-      //let text = game.add.text(game.world.centerX, 80, "Monumental Pain", {font: 'Courier', fontSize: '55px', align: 'center'});
-      //text.anchor.set(0.3);
-
-      // make the buttons appear and asign them variables
-      playButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~New Game~ ", MAIN_BUTTON_TEXT_STYLE);
-      helpButton = game.add.text(game.world.centerX, game.world.centerY + 64, " ~Help~ ", MAIN_BUTTON_TEXT_STYLE);
+      // make the buttons appear and asign them variables, position given in the declaration is irreleven
+      // as they will be repositioned in after they are fixed to the camera
+      playButton = game.add.text(0, 0, " ~New Game~ ", MAIN_BUTTON_TEXT_STYLE);
+      helpButton = game.add.text(0, 0, " ~Help~ ", MAIN_BUTTON_TEXT_STYLE);
       musicButton = game.add.text(0, 0, global_playMusic? " ~Turn Music Off~ ":" ~Turn Music On~ ", MAIN_BUTTON_TEXT_STYLE);
 
       // Double check that text appears in the right area of the camera
-      //text.fixedToCamera = true;
-      //text.cameraOffset.setTo(game.camera.width/2, 200);
       playButton.fixedToCamera = true;
       playButton.cameraOffset.setTo((game.camera.width/2)+170, game.camera.height/2 + 40);
       helpButton.fixedToCamera = true;
@@ -66,7 +69,7 @@ Title.prototype = {
       
       // Add the continue button, if there is save data
       if(global_save_point > 0) {
-         //Perform all of the actions on the continue button all at once to avoid
+         //Perform all of the actions on the continue button simultaneously to avoid
          //repetitive if statements
          continueButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Continue~ ", MAIN_BUTTON_TEXT_STYLE);
          continueButton.fixedToCamera = true;
@@ -78,6 +81,7 @@ Title.prototype = {
          continueButton.events.onInputDown.add(this.continueGame, this);
       }
 
+      // add the song and begin playing it if music is toggled on
       song = this.add.audio('title-song');
       if(global_playMusic) song.play('', 0, 1, true);
    },
@@ -95,7 +99,7 @@ Title.prototype = {
    help: function() {
       // creates a text box to explain the game
 
-      var textObj = TEXT_DATA[HELP];
+      let textObj = TEXT_DATA[HELP];
       textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, NAVIGABLE, textObj);
    },
 
@@ -112,6 +116,7 @@ Title.prototype = {
       }
    },
 
+   // this function will reset all progress and start a new game
    newGame: function() {
        game.sound.stopAll();
        //restart player's progress, if any exists
@@ -119,6 +124,8 @@ Title.prototype = {
        //play the first cutscene
        game.state.start('Cutscene');
    },
+   
+   // like newGame but it does not reset progress
    continueGame: function() {
       game.sound.stopAll();
       //play the most recent cutscene
