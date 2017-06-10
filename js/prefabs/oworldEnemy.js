@@ -21,8 +21,8 @@ var oworldEnemy = function(game,obj,zone){
     this.deathTimer.add(20000,function(){this.destroy();},this);
     this.deathTimer.start();
 
-	this.anchor.setTo(.5,.5);
-	game.physics.arcade.enableBody(this);
+    this.anchor.setTo(.5,.5);
+    game.physics.arcade.enableBody(this);
     
     // Which map the it takes you to, for global_destination
     this.destination = obj.type;
@@ -31,6 +31,7 @@ var oworldEnemy = function(game,obj,zone){
    
     this.spawning = true;
     
+    this.justTurned = false;
 };
 
 oworldEnemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -76,31 +77,36 @@ oworldEnemy.prototype.switchDir = function() {
 }
 oworldEnemy.prototype.moveTowardPlayer = function() {
     // Move horizontally toward player
-    if(this.body.position.x < player.body.position.x) {
-        //this.animations.play('OWorldEnemyWalkEast');
-        this.body.velocity.x += 10;
-    } else if(this.body.position.x > player.body.position.x) {
-        //this.animations.play('OWorldEnemyWalkWest');
-        this.body.velocity.x -= 10;
-    } else {
-        this.body.velocity.x = 0; //equal X value to player
+    if(!this.justTurned){
+        if(this.body.position.x < player.body.position.x) {
+            //this.animations.play('OWorldEnemyWalkEast');
+            this.body.velocity.x += 10;
+        } else if(this.body.position.x > player.body.position.x) {
+            //this.animations.play('OWorldEnemyWalkWest');
+            this.body.velocity.x -= 10;
+        } else {
+            this.body.velocity.x = 0; //equal X value to player
+        }
+        
+        // Move vertically toward player
+        if(this.body.position.y < player.body.position.y) {
+            //this.animations.play('OWorldEnemyWalkNorth');
+            this.body.velocity.y += 10;
+        } else if(this.body.position.y > player.body.position.y) {
+            //this.animations.play('OWorldEnemyWalkSouth');
+            this.body.velocity.y -= 10;
+        } else {
+            this.body.velocity.y = 0; //on the same Y level as player
+        }
+        
+        // Cap horizontal speed
+        if(this.body.velocity.x > 50) {this.body.velocity.x = 50;}
+        else if(this.body.velocity.x < -50) {this.body.velocity.x = -50;}
+        // Cap vertical speed
+        if(this.body.velocity.y > 50) {this.body.velocity.y = 50;}
+        else if(this.body.velocity.y < -50) {this.body.velocity.y = -50;}
+        this.justTurned = true;
+        game.time.events.add(100, function(){this.justTurned = false;}, this);
     }
     
-    // Move vertically toward player
-    if(this.body.position.y < player.body.position.y) {
-        //this.animations.play('OWorldEnemyWalkNorth');
-        this.body.velocity.y += 10;
-    } else if(this.body.position.y > player.body.position.y) {
-        //this.animations.play('OWorldEnemyWalkSouth');
-        this.body.velocity.y -= 10;
-    } else {
-        this.body.velocity.y = 0; //on the same Y level as player
-    }
-    
-    // Cap horizontal speed
-    if(this.body.velocity.x > 50) {this.body.velocity.x = 50;}
-    else if(this.body.velocity.x < -50) {this.body.velocity.x = -50;}
-    // Cap vertical speed
-    if(this.body.velocity.y > 50) {this.body.velocity.y = 50;}
-    else if(this.body.velocity.y < -50) {this.body.velocity.y = -50;}
 }
