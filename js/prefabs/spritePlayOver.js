@@ -18,9 +18,11 @@ var spritePlayOver = function(game,x,y,src,frame){
     this.animations.add('OWorldHeroWalkNorthEast',[24, 25, 26, 27], 10, true);
     this.animations.add('OWorldHeroWalkNorthWest',[28, 29, 30, 31], 10, true);
 
-	this.anchor.setTo(.5,.5);
-	this.game.physics.arcade.enableBody(this);
+    this.anchor.setTo(.5,.5);
+    this.game.physics.arcade.enableBody(this);
     this.body.collideWorldBounds = true;
+    // changes the size of the hitbox with arguments (width, height, offsetX, offsetY)
+    this.body.setSize(12, 32, 8, 0);
 };
 
 spritePlayOver.prototype = Object.create(Phaser.Sprite.prototype);
