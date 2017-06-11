@@ -1,8 +1,8 @@
 /* Monumental Pain
  * A game created by Syzygy
  * Jacob Wynd, Kevin Wu, Kiefer Nemeth, and Kindon Smith
+ * main.js
  * 6/13/2017
- * Main.js
  * This file contains global control variables, the creation of the game object, 
  * it also adds all states and starts the Boot state
 */
@@ -16,6 +16,7 @@ var global_y = 768;            // Holds the y position on the overworld map
 var global_playMusic = true;   // A toggle true if the music is supposed to be playing
 var canPause = true;           // This is used to ensure that multiple pause menus cannot be opened
 var global_save_point = 0;     // Checkpoint in game, allows the player to continue playing from a certain point after game over
+var canEnter;                  // CanEnter actually determines whether or not the player has control over the carachter, the name is a holdover
 
 window.onload = function() {
 

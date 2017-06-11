@@ -6,9 +6,6 @@
 */
 
 
-
-
-
 var Load = function(game) {};
 
 Load.prototype = {

@@ -3,6 +3,7 @@
  * This file contains the boot state, which loads the minimum assets necessary
  * to create a loading bar then goes into the load state
 */
+
 var Boot = function(game){};
 
 Boot.prototype = {

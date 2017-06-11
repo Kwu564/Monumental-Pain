@@ -8,6 +8,8 @@
  * start the PlayPlatform state where are npcs, buildings, and battle occur
 */
 
+// canSpawn needs to be global but is never called outside this file
+// so it remains here instead of in main.js
 var canSpawn;
 
 var PlayOver = function(game) {
