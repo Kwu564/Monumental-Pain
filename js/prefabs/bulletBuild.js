@@ -22,17 +22,18 @@ var bulletBuild = function(game, x, y, direction){
     
     // set anchor based on direction so that the bolt looks normal
     // when it is fired
-    if(direction === 0) {
+    if(direction === 1) {
         this.anchor.setTo(.5,1);
         this.body.velocity.x = this.speed;
     }
-    else if(direction === 180) {
+    else if(direction === -1) {
         this.anchor.setTo(.5,0);
         this.body.velocity.x = -this.speed;
     }
-    
+
     // ensure the sprite is facing the right direction
-    this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
+    this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);    
+
 };
 
 bulletBuild.prototype = Object.create(Phaser.Sprite.prototype);
