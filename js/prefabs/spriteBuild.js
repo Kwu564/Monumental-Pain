@@ -4,21 +4,17 @@
  * PlayPlatform
 */
 'use strict';
-// globals
-// determines whether the player should face right or left
-// 0 degrees means right and 180 degrees means left
-// this value is also used to set which direction to fire arrows at
-var fireAngle = 0;
-// defines default active weapon when entering a town
-// there are three weapons: crossbow, sword, and sheathed
-// sheathed just means the character puts away all weapons
-var weapon = 'sword';
-
 var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     console.log("spriteBuild: create");
     Phaser.Sprite.call(this,game,x,y,src,frame);
     //creates timer for the sprite
     var spriteTimer = game.time.create();
+
+    // defines default active weapon when entering a town
+    // there are three weapons: crossbow, sword, and sheathed
+    // sheathed just means the character puts away all weapons
+    this.weapon = 'sword';
+
     // player health
     this.health = 4;
     //flag for determining when attack animation is finished playing 
@@ -59,10 +55,20 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.airTime = 0;             //determines whether a thud sound is played on landing
     
     // add child sprite for sword
-    this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
-    this.sword.scale.set(30, 49);
+    this.sword = this.addChild(game.make.sprite(8, -23, 'collider'));
+    this.sword.scale.set(30, 60);
     this.sword.alpha = 0;
     game.physics.arcade.enable(this.sword);
+
+    // Add child sprite for the sword impact effect.
+    // This creates an impact sprite that is attached to the player sprite and
+    // faces the direction of the enemy the player's sword has hit.
+    // By default its alpha is 0; its alpha is set to 1 whenever the sword collider
+    // collides with an enemy sprite. 
+    this.swordImpact = this.addChild(game.make.sprite(8, -23, 'swordImpact'));
+    this.swordImpact.scale.set(1, 1);
+    this.swordImpact.alpha = 0;
+    game.physics.arcade.enable(this.swordImpact);
     
     // add a bunch of animations for a plethora of situations
     this.animations.add('SheathedWalkRight', [0, 1, 2, 3], 10, true);
@@ -93,9 +99,9 @@ spriteBuild.prototype.update = function() {
         // otherwise they return to full opacity
         this.alpha = 1;
     }
-    // destroy the sword sprite if the player isn't using a sward
-    if(weapon != 'sword'){
-        this.sword.destroy();
+    // disable the sword sprite's collision physics if the player isn't using a sword
+    if(this.weapon != 'sword'){
+        this.sword.body.moves = false;
     }  
     if(canEnter) {  
         // attack with spacebar
@@ -103,7 +109,7 @@ spriteBuild.prototype.update = function() {
             //console.log(this.frame);
 
             // if they have a weapon set the players status to attacking
-            if ( weapon !== 'sheathed' ) {
+            if ( this.weapon !== 'sheathed' ) {
                 this.status = 'attacking';
             }
 
@@ -115,7 +121,7 @@ spriteBuild.prototype.update = function() {
         // move right if the player presses D
         } else if ( game.input.keyboard.isDown(Phaser.Keyboard.D) ) {
             this.isAnimDone = 1;
-            fireAngle = 0;
+            this.direction = 1;
             this.status = 'walkingRight';
             // Increase the velocity by a factor, to provide acceleration
             if(this.body.onFloor()) {
@@ -124,12 +130,16 @@ spriteBuild.prototype.update = function() {
                 this.body.velocity.x += 10; // less control in air
             }
             //make sure the sword hitbox is on the right side of the player
-            this.sword.position.x = 8;
+            this.sword.position.x = 2;
+            //make sure that the sword impact sprite is on the right side of the player
+            this.swordImpact.position.x = 2;
+            //make sure that the sword impact sprite is facing on the right side of the player
+            this.swordImpact.scale.set(1, 1);
 
         // move left if the player presses A
         } else if ( game.input.keyboard.isDown(Phaser.Keyboard.A) ) {
             this.isAnimDone = 1;
-            fireAngle = 180;
+            this.direction = -1;
             this.status = 'walkingLeft';
             // Decrease the velocity by a factor, to provide acceleration
             if(this.body.onFloor()) {
@@ -139,7 +149,11 @@ spriteBuild.prototype.update = function() {
             }
 
             //make sure the sword hitbox is on the right side of the player
-            this.sword.position.x = (-18) - this.sword.width;
+            this.sword.position.x = (-2) - this.sword.width;
+            //make sure the sword impact sprite is on the right side of the player
+            this.swordImpact.position.x = (-30) - this.swordImpact.width;
+            //make sure that the sword impact sprite is facing on the left side of the player
+            this.swordImpact.scale.set(-1, 1);
         // if player is not jumping, or attacking, they are considered idle
         } else if ( !game.input.keyboard.isDown(Phaser.Keyboard.W) ){
             this.isAnimDone = 1;
@@ -175,15 +189,13 @@ spriteBuild.prototype.update = function() {
         // EQUIP DIFFERENT WEAPONS
         // press 1 to equip sword, 2 for crossbow, 3 to sheath all weapons
         if ( game.input.keyboard.justPressed(Phaser.Keyboard.ONE) ) {
-            weapon = 'sword';
-            this.sword = this.addChild(game.make.sprite(8, -16, 'collider'));
-            this.sword.scale.set(30, 49);
-            this.sword.alpha = 0;
+            this.weapon = 'sword';
+            // enable the sword's collision physics if player switches to a sword
             game.physics.arcade.enable(this.sword);
         } else if ( game.input.keyboard.justPressed(Phaser.Keyboard.TWO) ) {
-            weapon = 'crossbow';
+            this.weapon = 'crossbow';
         } else if ( game.input.keyboard.justPressed(Phaser.Keyboard.THREE) ) {
-            weapon = 'sheathed';
+            this.weapon = 'sheathed';
         }
         
         // Perform actions on player based on this.status
@@ -256,21 +268,21 @@ spriteBuild.prototype.playAttack = function() {
     } else {
         // play the attack animations if isAnimDone = 0
         // play attack sounds and animations in the correct direction
-        if ( weapon === 'sword' ) {
+        if ( this.weapon === 'sword' ) {
             this.attackSound.play();
-            if ( fireAngle === 0 ) {
+            if ( this.direction === 1 ) {
                 this.animations.play('SwordSlashRight');
-            } else if ( fireAngle === 180 ) {
+            } else if ( this.direction === -1 ) {
                 this.animations.play('SwordSlashLeft');
             }
-        } else if ( weapon === 'crossbow' ) {
+        } else if ( this.weapon === 'crossbow' ) {
             this.isAnimDone = 1;
-            if ( fireAngle === 0 ) {
+            if ( this.direction === 1 ) {
                 this.animations.play('CrossbowFireRight');
-            } else if ( fireAngle === 180 ) {
+            } else if ( this.direction === -1 ) {
                 this.animations.play('CrossbowFireLeft');
             }      
-        } else if ( weapon === 'sheathed' ) {
+        } else if ( this.weapon === 'sheathed' ) {
             this.isAnimDone = 1;
             //do nothing
         }
@@ -281,14 +293,14 @@ spriteBuild.prototype.playWalking = function() {
     if(this.body.onFloor()) { //only walk animate if on the ground
         
     // Analyze the current weapon and direction, then assign the correct animation
-    if(weapon === 'sheathed') {
-        if(fireAngle === 0) {this.currentAnimation = this.animations.play('SheathedWalkRight');} 
+    if(this.weapon === 'sheathed') {
+        if(this.direction === 1) {this.currentAnimation = this.animations.play('SheathedWalkRight');} 
         else {this.currentAnimation = this.animations.play('SheathedWalkLeft');}
-    } else if(weapon === 'sword') {
-        if(fireAngle === 0) {this.currentAnimation = this.animations.play('SwordWalkRight');} 
+    } else if(this.weapon === 'sword') {
+        if(this.direction === 1) {this.currentAnimation = this.animations.play('SwordWalkRight');} 
         else {this.currentAnimation = this.animations.play('SwordWalkLeft');}
-    } else if(weapon === 'crossbow') {
-        if(fireAngle === 0) {this.currentAnimation = this.animations.play('CrossbowWalkRight');} 
+    } else if(this.weapon === 'crossbow') {
+        if(this.direction === 1) {this.currentAnimation = this.animations.play('CrossbowWalkRight');} 
         else {this.currentAnimation = this.animations.play('CrossbowWalkLeft');}
     }
         
@@ -302,14 +314,14 @@ spriteBuild.prototype.playWalking = function() {
 // IDLE
 spriteBuild.prototype.playIdle = function() {
     // Analyze the weapon and direction and set the right frame
-    if(weapon === 'sheathed') {
-        if(fireAngle === 0) {this.frame = 0} // Sheathed right
+    if(this.weapon === 'sheathed') {
+        if(this.direction === 1) {this.frame = 0} // Sheathed right
         else {this.frame = 4} // Sheathed left
-    } else if(weapon === 'sword') {
-        if(fireAngle === 0) {this.frame = 8} // Sword right
+    } else if(this.weapon === 'sword') {
+        if(this.direction === 1) {this.frame = 8} // Sword right
         else {this.frame = 12} // Sword left
-    } else if(weapon === 'crossbow') {
-        if(fireAngle === 0) {this.frame = 22} // Crossbow right
+    } else if(this.weapon === 'crossbow') {
+        if(this.direction === 1) {this.frame = 22} // Crossbow right
         else {this.frame = 26} // Crossbow left
     }
     
@@ -320,60 +332,3 @@ spriteBuild.prototype.playJump = function() {
     this.airTime++;
     this.playIdle();
 }
-
-
-// BULLETS
-
-//  Our core Bullet class
-//  This is a simple Sprite object that we set a few properties on
-//  It is fired by all of the Weapon classes
-var Bullet = function(game, key) {
-
-    Phaser.Sprite.call(this, game, 0, 0, key);
-
-    this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
-
-    this.anchor.set(0.5);
-
-    this.enableBody = true;
-    this.checkWorldBounds = true;
-    this.outOfBoundsKill = true;
-    this.exists = false;
-
-    this.tracking = false;
-    this.scaleSpeed = 0;
-
-};
-
-// Set Bullet as a subclass of Sprite
-Bullet.prototype = Object.create(Phaser.Sprite.prototype);
-// Set Bullet's constructer to the function Bullet
-Bullet.prototype.constructor = Bullet;
-
-// this sets the bullet to fire in the right direction
-Bullet.prototype.fire = function (x, y, speed, gx, gy) {
-
-    gx = gx || 0;
-    gy = gy || 0;
-
-    this.reset(x, y);
-    this.scale.set(1);
-    this.game.physics.arcade.velocityFromAngle(fireAngle, speed, this.body.velocity);
-
-    this.angle = fireAngle;
-    this.body.gravity.set(gx, gy);
-
-};
-
-Bullet.prototype.update = function() {
-    if (this.tracking)
-    {
-        this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
-    }
-
-    if (this.scaleSpeed > 0)
-    {
-        this.scale.x += this.scaleSpeed;
-        this.scale.y += this.scaleSpeed;
-    }
-};
