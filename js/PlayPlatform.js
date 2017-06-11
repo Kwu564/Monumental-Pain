@@ -335,7 +335,7 @@ PlayPlatform.prototype = {
    // called when a bullet hits the enemy
    bulletHit: function(bullet,enemy) {
       enemy.health -= 1;
-      bullet.destroy();
+      bullet.kill();
    },
    // allows the player to talk with the npcs
    interactNPC: function(player, npc) {
