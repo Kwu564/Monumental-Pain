@@ -1,4 +1,8 @@
-// An array file for all text boxes and related data
+/* textData.js
+ * 6/13/2017
+ * This file contains an array of data objects used in textboxes
+ * it also contains various contant text styles
+*/
 
 // Text stlyes
 
@@ -42,7 +46,7 @@ const STORY_STYLE = {
 // this array to the function in the text prefab to create text boxes
 // Psuedo code format for TEXT_DATA objects
 /*
-* {
+ {
    // Place a comment here explaining what this textbox is for and any other relevent information
    text: ['text that goes in first screen',
          'text that goes in second screen',
@@ -110,7 +114,8 @@ const TEXT_DATA = [{
       }
    },
    {
-      text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.','That\'s how much of a fool you are'],
+      text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.',
+            'That\'s how much of a fool you are'],
       style: STORY_STYLE,
       after: function() {
          //empty
@@ -118,7 +123,8 @@ const TEXT_DATA = [{
    },
    {
       //First textbox/piece of exposition
-      text: ['Protector, you are needed in the forest village of Kevn.','Draw your sword and bow against those who wish to destroy the great monument of this land.'],
+      text: ['Protector, you are needed in the forest village of Kevn.',
+            'Draw your sword and bow against those who wish to destroy the great monument of this land.'],
       style: STORY_STYLE,
       after: function() {
          //empty
@@ -126,7 +132,8 @@ const TEXT_DATA = [{
    },
    {
       //Cutscene1
-      text: ['Someone wishes to destroy this place.','His power grows quietly as the time draws near. You must stop him.'],
+      text: ['Someone wishes to destroy this place.',
+            'His power grows quietly as the time draws near. You must stop him.'],
       style: {
          font: 'Georgia',
          fontSize: '18px',
@@ -159,7 +166,12 @@ const TEXT_DATA = [{
    {
       //Cutscene3
       //Final boss intro
-      text: ['Finally.','You have arrived just in time.','The people of this land are so easily manipulated. Those pitiful rocks and bushes you call monuments are worthless.','And yet, so many were wildly motivated by the thought of their destruction, by the thought that it may bring liberation.','Now, you. It was pointless coming here. You should have continued hiding in that forest of yours.','Now you must be destroyed as well.'],
+      text: ['Finally.',
+            'You have arrived just in time.',
+            'The people of this land are so easily manipulated. Those pitiful rocks and bushes you call monuments are worthless.',
+            'And yet, so many were wildly motivated by the thought of their destruction, by the thought that it may bring liberation.',
+            'Now, you. It was pointless coming here. You should have continued hiding in that forest of yours.',
+            'Now you must be destroyed as well.'],
       style: {
          font: 'Georgia',
          fontSize: '18px',
