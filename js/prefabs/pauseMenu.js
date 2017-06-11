@@ -1,7 +1,7 @@
-// pauseMenu.js
-// This contains the pause menu which allows you to stop the game,
-// Return to the title menu,
-// Start and stop the music
+/* npcBuild.js
+ * 6/13/2017
+ * This file is a prefab for creating the pause menu
+*/
 
 var pauseMenu = function(game){
    console.log("pauseMenu create");
@@ -25,17 +25,11 @@ var pauseMenu = function(game){
    titleButton.fixedToCamera = true;
    titleButton.cameraOffset.setTo(centerX, centerY);
 
-   // stop music
+   // toggle music
    var musicButton = game.add.text(0, 0, global_playMusic? " ~Turn Music Off~ ":" ~Turn Music On~ ", PAUSE_BUTTON_TEXT_STYLE);
    musicButton.anchor.set(0.5);
    musicButton.fixedToCamera = true;
    musicButton.cameraOffset.setTo(centerX, centerY + 128);
-/*
-   var helpButton = game.add.text(0, 0, " ~Help~ ", PAUSE_BUTTON_TEXT_STYLE);
-   helpButton.anchor.set(0.5);
-   helpButton.fixedToCamera = true;
-   helpButton.cameraOffset.setTo(centerX, centerY + 160);
-   */
 
    // Allow input from player
    titleButton.inputEnabled =  true;
@@ -43,12 +37,7 @@ var pauseMenu = function(game){
    resumeButton.inputEnabled = true;
 //   helpButton.inputEnabled =   true;
 
-   ////////////////////////////
-   // I have no idea why,    //
-   // but I could only get   //
-   // the following to work  //
-   // with in line functions //
-   ////////////////////////////
+   // for some reason these button functions only work when writing the function in-line
    game.paused = true;
    // hovering the mouse over the mouse button changes the text color
    titleButton.events.onInputOver.add(function(item){item.fill = "#EFEBCE";}, this);
@@ -85,23 +74,9 @@ var pauseMenu = function(game){
       this.resumeButton.destroy();
       this.musicButton.destroy();
       this.titleButton.destroy();
-//      this.helpButton.destroy();
+
       if(global_playMusic) song.play('', 0, 1, true);
       canPause = true;
       this.game.paused = false;
-   }, {resumeButton: resumeButton, musicButton: musicButton, titleButton: titleButton, /*helpButton: helpButton,*/ game: game});
-   /*
-   helpButton.events.onInputDown.add(function() {
-      // creates a text box to explain the game
-      this.game.paused = false;
-      var textObj = TEXT_DATA[HELP];
-      textBox(this.game, this.centerX, this.centerY, 0.5, 0.5, NAVIGABLE, textObj);
-      var timer = game.time.create();
-      timer.add(380, function() {
-         this.game.paused = true;
-      }, this);
-      timer.start();
-      
-   }, {game: game});*/
-
+   }, {resumeButton: resumeButton, musicButton: musicButton, titleButton: titleButton, game: game});
 }
