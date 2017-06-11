@@ -198,6 +198,7 @@ bossDemonBuild.prototype.stopAnimation = function(){
 
 // called to make the demon start walking again
 bossDemonBuild.prototype.startWalking = function(){
+    this.swordSlashDamage.destroy();
     this.state = 'walking';
 };
 
@@ -225,7 +226,7 @@ var createSwordSlashHit = function(){
 // this function causes the player to take damage from the demon
 // and places a knockback effect on the player
 var damagePlayer2 = function(){
-    this.swordSlashDamage.destroy();
+    //this.swordSlashDamage.destroy();
     //demon is always facing target for attack, no need for checks here
     player.body.velocity.x = 8*this.speed;
     player.body.velocity.y = -800;
