@@ -10,6 +10,15 @@ GLOBAL_MAP_DATA = [
        //TILEMAP FILES
        mapKey: 'oworld', //key for tilemap
        setKey: 'oworld-tile',
+       
+       events: [
+          function() {
+             //enter boss fight
+             game.sound.stopAll();
+             global_save_point = 2;
+             game.state.start('Cutscene');
+          }
+       ]
    },
    {
        // 1
@@ -20,7 +29,9 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'kevn-bg',
        
-       music: 'oworld-song'
+       music: 'oworld-song',
+       
+       events: []
    },
    {
        // 2
@@ -31,7 +42,9 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'kevn-bg',
        
-       music: 'oworld-song'
+       music: 'oworld-song',
+       
+       events: []
    },
    {
        // 3
@@ -42,7 +55,9 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'hatu-bg',
        
-       music: 'oworld-song'
+       music: 'oworld-song',
+       
+       events: []
    },
    {
        // 4
@@ -53,7 +68,9 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'xanzik-bg',
        
-       music: 'oworld-song'
+       music: 'oworld-song',
+       
+       events: []
    },
    {
        // 5
@@ -64,7 +81,9 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'hatu-bg',
        
-       music: 'oworld-song'
+       music: 'oworld-song',
+       
+       events: []
    },
    {
        // 6
@@ -75,7 +94,9 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'kevn-bg',
        
-       music: 'battle-song'
+       music: 'battle-song',
+       
+       events: []
    },
    {
        // 7
@@ -85,7 +106,9 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'kevn-bg',
        
-       music: 'title-song'
+       music: 'title-song',
+       
+       events: []
    },
    {
        // 8
@@ -95,47 +118,86 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'boss-bg',
        
-       music: 'gameover-song'
+       music: 'gameover-song',
+       
+       events: [
+          function() {
+            canEnter = false;
+          
+            //put the wizard on the floor
+            var wizard = game.add.sprite(1216,576,'darkWizard',4);
+          
+            let timer = game.time.create();
+             timer.add(2000, function() {
+                game.sound.stopAll();
+            
+               wizard.tint = 0xff0000; //turn wizard red
+               var sound = game.add.audio('transformation');
+               var song = game.add.audio('gameover-song');
+               sound.play();
+               //wait for the sound effect to be done
+               //then kill the wizard and tell PlayPlatform
+               //it's demon time
+               var timer = game.time.create();
+               timer.add(7000, function() {
+                  wizard.kill();
+                  spawnBoss = true;
+                  canEnter = true;
+                  song.play();
+               }, this);
+               timer.start();
+             }, this);
+             timer.start();
+         }
+       ]
    },
    {
-      // 9
-      //forestbattle2
-      mapKey: 'forestbattle2',
-      setKey: 'forest-tile',
+       // 9
+       //forestbattle2
+       mapKey: 'forestbattle2',
+       setKey: 'forest-tile',
       
-      bgKey: 'kevn-bg',
+       bgKey: 'kevn-bg',
       
-      music: 'battle-song'
+       music: 'battle-song',
+       
+       events: []
    },
    {
-      // 10
-      //mountainbattle1
-      mapKey: 'mountainbattle1',
-      setKey: 'mountain-tile',
+       // 10
+       //mountainbattle1
+       mapKey: 'mountainbattle1',
+       setKey: 'mountain-tile',
       
-      bgKey: 'hatu-bg',
+       bgKey: 'hatu-bg',
       
-      music: 'battle-song'
+       music: 'battle-song',
+       
+       events: []
    },
    {
-      // 11
-      //mountainbattle2
-      mapKey: 'mountainbattle2',
-      setKey: 'mountain-tile',
+       // 11
+       //mountainbattle2
+       mapKey: 'mountainbattle2',
+       setKey: 'mountain-tile',
       
-      bgKey: 'hatu-bg',
+       bgKey: 'hatu-bg',
       
-      music: 'battle-song'
+       music: 'battle-song',
+       
+       events: []
    },
    {
-      // 12
-      //plainsbattle1
-      mapKey: 'plainsbattle1',
-      setKey: 'forest-tile',
+       // 12
+       //plainsbattle1
+       mapKey: 'plainsbattle1',
+       setKey: 'forest-tile',
       
-      bgKey: 'kevn-bg',
+       bgKey: 'kevn-bg',
       
-      music: 'battle-song'
+       music: 'battle-song',
+       
+       events: []
    }
 ]
 

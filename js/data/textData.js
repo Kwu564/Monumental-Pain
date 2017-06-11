@@ -61,7 +61,10 @@ const TEXT_DATA = [{
       text: ['Screen 1: Platworld test textbox using GLOBAL_TEXT_STYLE',
             'Screen 2: This sentence is very long so that I can see how the world wrap works using this style and so that others can see the world wrap as well',
             'Screen 3: Press \'E\' to continue'],
-      style: GLOBAL_TEXT_STYLE
+      style: GLOBAL_TEXT_STYLE,
+      after: function() {
+         //empty
+      }
    },
    {
       // This is the overworld test text box 
@@ -79,6 +82,9 @@ const TEXT_DATA = [{
          wordWrapWidth: 500,
          align: 'center',
          backgroundColor: '#CFA26B'
+      },
+      after: function() {
+         //empty
       }
    },
    {
@@ -98,16 +104,25 @@ const TEXT_DATA = [{
          wordWrapWidth: 600,
          align: 'center',
          backgroundColor: '#CFA26B'
+      },
+      after: function() {
+         //empty
       }
    },
    {
       text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.','That\'s how much of a fool you are'],
-      style: STORY_STYLE
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
    },
    {
       //First textbox/piece of exposition
       text: ['Protector, you are needed in the forest village of Kevn.','Draw your sword and bow against those who wish to destroy the great monument of this land.'],
-      style: STORY_STYLE
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
    },
    {
       //Cutscene1
@@ -120,6 +135,9 @@ const TEXT_DATA = [{
          wordWrapWidth: 800,
          align: 'center',
          backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
       }
    },
    {
@@ -133,12 +151,15 @@ const TEXT_DATA = [{
          wordWrapWidth: 800,
          align: 'center',
          backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
       }
    },
    {
       //Cutscene3
       //Final boss intro
-      text: ['Finally.','You have arrived just in time.','My power has finally grown enough.'],
+      text: ['Finally.','You have arrived just in time.','The people of this land are so easily manipulated. Those pitiful rocks and bushes you call monuments are worthless.','And yet, so many were wildly motivated by the thought of their destruction, by the thought that it may bring liberation.','Now, you. It was pointless coming here. You should have continued hiding in that forest of yours.','Now you must be destroyed as well.'],
       style: {
          font: 'Georgia',
          fontSize: '18px',
@@ -147,6 +168,9 @@ const TEXT_DATA = [{
          wordWrapWidth: 800,
          align: 'center',
          backgroundColor: 'black'
+      },
+      after: function() {
+         
       }
    }
 ]

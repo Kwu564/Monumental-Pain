@@ -1,9 +1,7 @@
-// This is the state for platformer play in battle and possibly in towns.
-// If we decide to make each level a different state, use this as a baseline
-// We should consider making a more descriptive log of all changes made, until
-// we do please log changes bellow, do not delete anything from the changelog. Include the date
-/* 5/7/2017, KINDON
-created prefab, takes in (this,game,X scale, Y scale, x position, y position, 'asset key', frame key)
+/* bossDemonBuild.js
+ * 6/13/2017
+ * This file is a prefab for creating the final boss in the game
+ * it is necessary because the final boss has several unique properties
 */
 'use strict';
 var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
@@ -18,16 +16,20 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.animations.add('DemonBossSlashRight', [16, 17, 18], 10, true);
     this.animations.add('DemonBossSlashLeft', [19, 20, 21], 10, true);
 
-
-    this.state = 'walking'
+    // timer for use in this prefab
     this.timer = game.time.create();
+
+    // properties of the boss demon on spawn
+    this.state = 'walking'
     this.health = 100;
     this.speed = 100;
     this.enraged = 0;
-    this.enragedTimer = 4; //initial value is 10 seconds(this is a cooldown)
+    this.enragedTimer = 4;   //initial value is 10 seconds(this is a cooldown)
     this.enragedDivider = 2; //initially half second delay, enraged is quarter second
-    this.swordSlashDamage = this.addChild(game.make.sprite(0,0,'collider'));
+    this.swordSlashDamage = this.addChild(game.make.sprite(0, 0, 'collider'));
+
     // add child sprite for vision
+    // the sight of the demon is an invisible sprite that works on overlap with the player
     this.rFlag = 0;
     this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
     this.vision.scale.set(200, 49);
@@ -35,20 +37,21 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.vision.alpha = 0;
     game.physics.arcade.enable(this.vision);
 
-    this.swordSlashHit = this.addChild(game.make.sprite(0,160, 'collider'));
+    // values and sprite to use with the demons sword
+    this.swordSlashHit = this.addChild(game.make.sprite(0, 160, 'collider'));
     this.swordSlashHit.scale.set(400,50);
     this.swordSlashHit.anchor.set(.5,.5);
     this.swordSlashHit.alpha = 0;
     game.physics.arcade.enable(this.swordSlashHit);
 
 
-	
-	game.physics.arcade.enableBody(this);
-    //this.anchor.setTo(.5,.5);
+    // properties of the boss's body
+    game.physics.arcade.enableBody(this);
     this.scale.setTo(scaleX,scaleY);
     this.body.setSize(140,180,140,140);
     this.anchor.setTo(.5,.5);
     
+    // Initial direction of movement
     this.direction = -1; //positive = right, negative = left
 };
 
@@ -56,20 +59,22 @@ bossDemonBuild.prototype = Object.create(Phaser.Sprite.prototype);
 bossDemonBuild.prototype.constructor = npcBuild;
 
 bossDemonBuild.prototype.update = function(){
+    // this checks for an enraged power for the boss,
+    // when it is at low health, it becomes faster and more powerful
     if(this.health < 40 && this.enraged == 0){
         this.speed = 2*this.speed;
         this.enragedTimer = 2;
         this.enragedDivider = 8;
         this.enraged = 1;
     }
-    //game.physics.arcade.overlap(player, vision, this.enterDoor, null, this);
+    // the demon will turn around if it can move no further
     if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
     }
-    /*if(this.body.position.x > 200+this.x || this.body.position.x < this.x-200){
-        this.switchDir();
-    }*/
-    if(this.state == 'walking') {
+
+    // makes the demon move when it is in the walking state
+    // plays the correct animations depending on direction
+    if(this.state === 'walking') {
         if(this.direction<0){
             this.body.velocity.x = -this.speed;
             this.animations.play('DemonBossWalkLeft');
@@ -77,17 +82,25 @@ bossDemonBuild.prototype.update = function(){
             this.body.velocity.x = this.speed;
             this.animations.play('DemonBossWalkRight');
         }
-    }else{
+    } else {
+        // if it is not walking, then it should not be moving
         this.body.velocity.x = 0;
     }
-   
-    game.physics.arcade.overlap(player,this.swordSlashDamage,damagePlayer,null,this);
-    if(this.health == 0){
+    // if the sprite for damaging the player overlaps with the player, the player will take damage
+    game.physics.arcade.overlap(player, this.swordSlashDamage, damagePlayer, null, this);
+
+    // if the demon has 0 or less health, it will be destroyed
+    if(this.health <= 0){
         this.destroy();
     }
-    game.physics.arcade.collide(player,this);
-    game.physics.arcade.overlap(player,this.swordSlashHit,this.swordSlashtimer,null,this);
+
+    // the player will collide withthe demon making it difficult to manuever around
+    game.physics.arcade.collide(player, this);
+
+    // if the the sword did hit the player, set a timer so that the demon will not immediately attack again
+    game.physics.arcade.overlap(player, this.swordSlashHit, this.swordSlashtimer, null, this);
 };
+// this function will make the boss switch directions
 bossDemonBuild.prototype.switchDir = function() {
     if(this.direction < 0) {
         this.direction = 1;
@@ -101,16 +114,22 @@ bossDemonBuild.prototype.switchDir = function() {
         this.body.position.x -= 1;
     }
 };
+
+// this function stops the sword from immediately attacking again
 bossDemonBuild.prototype.swordSlashtimer = function(){
     this.state = 'swordslashing'
     this.stopAnimation();
-    //this.switchDir();
     this.swordSlashHit.destroy();
-    game.time.events.add(Phaser.Timer.SECOND/this.enragedDivider,this.swordSlashAnimated,this);
+    game.time.events.add(Phaser.Timer.SECOND/this.enragedDivider, this.swordSlashAnimated, this); // no need to start the timer because game.time is allways running
 };
+
+// this function deels with when and how the demon will wield the sword
 bossDemonBuild.prototype.swordSlashAnimated = function(){
+    // if the boss is facing left
     if(this.direction < 0){
-        if(this.enraged == 0){
+        // and if it is not enraged
+        if(this.enraged === 0){
+            // play the animation and create the damaging sprite
             this.animations.play('DemonBossSlashLeft',10,false);
             game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
             this.swordSlashDamage = this.addChild(game.make.sprite(0,160,'collider'));
@@ -118,18 +137,21 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
             this.swordSlashDamage.anchor.set(.5,.5);
             this.swordSlashDamage.alpha = 0;
             game.physics.arcade.enable(this.swordSlashDamage);
-        }else{
+        }else{ // i.e. it is enraged
+            // play the animation and create a different damaging sprite
             this.animations.play('DemonBossSlashLeft',20,false);
             game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
             this.swordSlashDamage = this.addChild(game.make.sprite(-96,160,'collider'));
             this.swordSlashDamage.scale.set(-160,50);
             this.swordSlashDamage.anchor.set(.5,.5);
-            this.swordSlashDamage.alpha = 1;
+            this.swordSlashDamage.alpha = 0;
             game.physics.arcade.enable(this.swordSlashDamage);
             
         }
-    }else{
-        if(this.enraged == 0){
+    }else{ // if the boss is facing right
+        // and if the boss is not enraged
+        if(this.enraged === 0){
+            // play the right facing animation and create the damaging sprite
             this.animations.play('DemonBossSlashRight',10,false);
             game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
             this.swordSlashDamage = this.addChild(game.make.sprite(96,160,'collider'));
@@ -137,7 +159,8 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
             this.swordSlashDamage.anchor.set(.5,.5);
             this.swordSlashDamage.alpha = 0;
             game.physics.arcade.enable(this.swordSlashDamage);
-        }else{
+        }else{ // if the boss is enraged
+            // create the other damaging sprite
             this.animations.play('DemonBossSlashRight',20,false);
             game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
             this.swordSlashDamage = this.addChild(game.make.sprite(96,160,'collider'));
@@ -147,17 +170,24 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
             game.physics.arcade.enable(this.swordSlashDamage);
         }
     }
-    //this.swordSlashDamage.destroy();
-    game.time.events.add(Phaser.Timer.SECOND*this.enragedTimer, createSwordSlashHit,this);
-    game.time.events.add(Phaser.Timer.SECOND, this.startWalking,this);
+
+    // timer controlling when the sword can attack and when the demon will start walking again
+    game.time.events.add(Phaser.Timer.SECOND*this.enragedTimer, createSwordSlashHit, this);
+    game.time.events.add(Phaser.Timer.SECOND, this.startWalking, this);
     //this.state = 'walking'
 };
+
+// this is called to stop all animations
 bossDemonBuild.prototype.stopAnimation = function(){
     this.animations.stop(null,true);
 };
+
+// called to make the demon start walking again
 bossDemonBuild.prototype.startWalking = function(){
     this.state = 'walking';
 };
+
+// Kindon please comment this, I'm not sure exactly what is going on
 var createSwordSlashHit = function(){
     this.swordSlashHit = this.addChild(game.make.sprite(-90,160, 'collider'));
     this.swordSlashHit.scale.set(250,50);
@@ -165,11 +195,12 @@ var createSwordSlashHit = function(){
     this.swordSlashHit.alpha = 0;
     game.physics.arcade.enable(this.swordSlashHit);
 };
+
+// this function causes the player to take damage from the demon
+// and places a knockback effect on the player
 var damagePlayer = function(){
     this.swordSlashDamage.destroy();
     player.health -=2;
     player.body.velocity.x = 8*this.speed;
     player.body.velocity.y = -800;
 }
-
-//enemyBuild.prototype.
