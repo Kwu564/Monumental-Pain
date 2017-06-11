@@ -1,10 +1,14 @@
-// A game over state, called when the player is at zero health or out of lives if we end up implementing that
-
+/* GameOver.js
+ * 6/13/2017
+ * This file contains game over state which resets all variable and
+ * contains a button to send the player back to the main menu
+*/
 var GameOver = function(game){};
 
 GameOver.prototype = {
    create: function(){
       console.log("GameOver: create");
+
       // add background
       game.add.image(0, 0, 'gameOver');
        
@@ -32,14 +36,14 @@ GameOver.prototype = {
       menuButton.events.onInputOut.add(this.out, this);
 
       // when it is clicked on, return to the main menu
-      // with all global variables set to their original values it will be like a new game
+      // clicking continue from the main menu should set the player back to the last checkpoint
       menuButton.events.onInputDown.add(this.menu, this);
 
       // fade in the camera
       game.camera.resetFX();
       game.camera.flash(0x000000, 500);
 
-      // Dramatic game over music controls go here
+      // Play the game over music
       song = this.add.audio('gameover-song');
       if(global_playMusic) song.play('', 0, 1, true);
 
@@ -56,6 +60,7 @@ GameOver.prototype = {
    },
 
    menu: function(){
+      // start the title state
       game.state.start('Title');
    }
 }
