@@ -233,7 +233,7 @@ var damagePlayer2 = function(){
     if(player.invincibility == 0){
         player.health -= 2;
         player.invincibility = 1;
-        //timer to reset players invincibility back to 0
+        //timer to reset players invincibility
         game.time.events.add(Phaser.Timer.SECOND*1.5,function() {player.invincibility = 0},this);
     }
 };
