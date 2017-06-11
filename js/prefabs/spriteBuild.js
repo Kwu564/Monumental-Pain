@@ -63,14 +63,6 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.sword.scale.set(30, 49);
     this.sword.alpha = 0;
     game.physics.arcade.enable(this.sword);
-
-    this.weapons = [];
-    this.currentWeapon = 0;
-    this.weaponName = null;
-
-    // push ammo type into array weapons
-    // right now there's only one weapon type
-    this.weapons.push(new Weapon.SingleBullet(this.game));
     
     // add a bunch of animations for a plethora of situations
     this.animations.add('SheathedWalkRight', [0, 1, 2, 3], 10, true);
@@ -384,47 +376,4 @@ Bullet.prototype.update = function() {
         this.scale.x += this.scaleSpeed;
         this.scale.y += this.scaleSpeed;
     }
-};  
-
-
-//////////////////////////////////////////////////////
-//  A single bullet is fired in front of the player //
-//////////////////////////////////////////////////////
-
-Weapon.SingleBullet = function(game) {
-
-Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
-    this.nextFire = 10;
-    this.bulletSpeed = 600;
-    this.fireRate = 400;
-    this.ref = null;
-
-
-    for (var i = 0; i < 64; i++)
-    {   
-        this.ref = new Bullet(game, 'arrow');
-        this.add(this.ref, true);
-
-    }
-    return this;
-
-};
-
-// Set SingleBullet as a subclass of Group
-Weapon.SingleBullet.prototype = Object.create(Phaser.Group.prototype);
-// Set SingleBullet's constructor to the function SingleBullet
-Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
-
-Weapon.SingleBullet.prototype.fire = function(source) {
-
-  if (this.game.time.time < this.nextFire) { return; }
-
-  var x = source.x - 8;
-  var y = source.y + 3;
-
-  // spawn location, orientation and weight of the bullet
-  this.getFirstExists(false).fire(x, y, this.bulletSpeed, 0, 0);
-
-  this.nextFire = this.game.time.time + this.fireRate;
-
 };
