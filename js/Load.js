@@ -35,7 +35,7 @@ Load.prototype = {
 
       // an array of keys and files; listed in pairs i.e. ['key', 'key.file',...]
       // Varius images
-      let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png','titleart','TitleArt.png', 'gameOver', 'gameOver.png','hatu-bg','hatu-bg.png','boss-bg','boss-bg.png','healthbar','healthbar.png','healthbarback','healthbarback.png'];
+      let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png','titleart','TitleArt.png', 'gameOver', 'gameOver.png','hatu-bg','hatu-bg.png','boss-bg','boss-bg.png','healthbar','healthbar.png','healthbarback','healthbarback.png','swordImpact','swordImpact.png'];
       
       // cutscenes
       let sceneList = ['cutscene1','cutscene1.png'];

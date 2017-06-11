@@ -251,13 +251,13 @@ PlayPlatform.prototype = {
       //updates collision physics
       //checks mouse pressed and overlap, kills the enemy if true.
       if ( game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR)) {
-         if(weapon === 'sword') {
+         if(player.weapon === 'sword') {
             game.physics.arcade.overlap(player.sword, enemyGroup, this.weaponAttack, null, this);
             game.physics.arcade.overlap(player.sword, bossGroup, this.weaponAttack, null, this);
          }
-         else if(weapon === 'crossbow' && canShoot) {
+         else if(player.weapon === 'crossbow' && canShoot) {
             canShoot = false;
-            let bullet = new bulletBuild(this.game,player.body.position.x+16,player.body.position.y+32,fireAngle);
+            let bullet = new bulletBuild(this.game,player.body.position.x+16,player.body.position.y+32,player.direction);
             this.attackSound.play();
 
             // create a timer to limit the speed with witch one can fire a crossbow
@@ -330,13 +330,22 @@ PlayPlatform.prototype = {
    weaponAttack: function(weapon, enemy) {
 
       console.log(enemy);
+      // make the sword impact sprite visible
+      player.swordImpact.alpha = 1;
+      // fade out the impact sprite right after 200 milliseconds
+      game.time.events.add(200, this.fadePlayerSwordImpact, this);
       enemy.health -= 2;
    },
    // called when a bullet hits the enemy
-   bulletHit: function(bullet,enemy) {
+   bulletHit: function(bullet,enemy) {     
       enemy.health -= 1;
       bullet.kill();
-   },
+   },   
+   // called when the timer from weaponAttack: function(weapon, enemy) expires
+   fadePlayerSwordImpact: function() {
+      // fades the sword impact sprite in 100 milliseconds
+      game.add.tween(player.swordImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);
+   },   
    // allows the player to talk with the npcs
    interactNPC: function(player, npc) {
       
@@ -410,7 +419,7 @@ PlayPlatform.prototype = {
    },
    killBullet: function(bullet) {
       bullet.kill();
-   },
+   },   
    gameover: function() {
       canEnter = false; // removes player control 
       player.body.collideWorldBounds = false; //lets player walk offscreen

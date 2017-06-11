@@ -19,7 +19,7 @@ var enemyBuild = function(game, scaleX, scaleY, x, y, src, frame){
    this.vision = this.addChild(game.make.sprite(-128, 0, 'collider')); // add child sprite for vision
    this.vision.scale.set(200, 49);
    this.vision.anchor.set(.5,.5);
-   this.vision.alpha = .8;
+   this.vision.alpha = .1;
    game.physics.arcade.enable(this.vision);
 
    // set scale and anchor points for the enemies
@@ -181,9 +181,9 @@ axeMan.prototype.playAttack = function(){
       console.log("axeman is attacking");
       // playe the correct animation based on where the sprite is facing
       if(this.direction < 0){
-         this.animations.play('AxeSlashLeft');
+          this.animations.play('AxeSlashLeft');
       }else{
-         this.animations.play('AxeSlashRight');
+          this.animations.play('AxeSlashRight');
       }
       
       // play the attacking sound
@@ -194,45 +194,18 @@ axeMan.prototype.playAttack = function(){
 // animates the npc, this is called in enemyBuild's update function
 axeMan.prototype.animate = function(){
     if ( this.body.velocity.x == -100 ) {
-       this.animations.play('AxeWalkLeft');
+        this.animations.play('AxeWalkLeft');
     }else if ( this.body.velocity.x == 100 ) {
-       this.animations.play('AxeWalkRight');
+        this.animations.play('AxeWalkRight');
     }else{
-       if(this.direction < 0){
-          this.animations.play('AxeSlashLeft');
-       }else{
-          this.animations.play('AxeSlashRight');
-       }
+        if(this.direction < 0){
+            this.animations.play('AxeSlashLeft');
+        }else{
+            this.animations.play('AxeSlashRight');
+        }
     }
 };
 
-
-// SWORDSMAN 
-
-// I'm very confused by whats going on with the swordsman and its prototypes, pleas look at it and clean it
-
-var swordsMan = function(game, scaleX, scaleY, x, y, src, frame) { 
-    enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
-    // walk speed
-    this.speed = -100;
-    // add animations
-    this.animations.add('SwordWalkRight', [0, 1, 2, 3], 10, true);
-    this.animations.add('SwordWalkLeft', [4, 5, 6, 7], 10, true);
-    this.animations.add('SwordSlashRight', [8, 9, 10, 11], 10, true);
-    this.animations.add('SwordSlashLeft', [12, 13, 14, 15], 10, true);
-};
-
-swordsMan.prototype = Object.create(enemyBuild.prototype);
-swordsMan.prototype.constructor = swordsMan;
-
-// animates the npc, this is called in enemyBuild's update function
-swordsMan.prototype.animate = function(){
-    if ( this.body.velocity.x == -100 ) {
-         this.animations.play('AxeWalkLeft');
-    } else if ( this.body.velocity.x == 100 ) {
-         this.animations.play('AxeWalkRight');
-    }    
-};
 
 // LESSERDEMON
 var lesserDemon = function(game, scaleX, scaleY, x, y, src, frame) { 
@@ -261,9 +234,15 @@ lesserDemon.prototype.constructor = lesserDemon;
 // animates the npc, this is called in enemyBuild's update function
 lesserDemon.prototype.animate = function(){
     if ( this.body.velocity.x == -100 ) {
-         this.animations.play('WalkLeft');
-    } else if ( this.body.velocity.x == 100 ) {
-         this.animations.play('WalkRight');
+        this.animations.play('WalkLeft');
+    }else if ( this.body.velocity.x == 100 ) {
+        this.animations.play('WalkRight');
+    }else{
+        if(this.direction < 0){
+            this.animations.play('SlashLeft');
+        }else{
+            this.animations.play('SlashRight');
+        }
     }
 };
 
@@ -272,18 +251,24 @@ lesserDemon.prototype.update = function(){
    if(this.body.blocked.right || this.body.blocked.left || game.physics.arcade.overlap(player,this.vision)) {
         this.switchDir();
         if(this.direction < 0){
-           this.vision.body.position.x = this.body.position.x -192;
-           this.vision2.body.position.x = this.body.position.x +48;
+            this.vision.body.position.x = this.body.position.x -192;
+            this.vision2.body.position.x = this.body.position.x +48;
         }else{
-           this.vision.body.position.x = this.body.position.x +48;
-           this.vision2.body.position.x = this.body.position.x -192;
+            this.vision.body.position.x = this.body.position.x +48;
+            this.vision2.body.position.x = this.body.position.x -192;
         }
     }
     // ensures proper velocity based on speed
-    if(this.direction < 0) {
-          this.body.velocity.x = -this.speed;
-    } else {
-          this.body.velocity.x = this.speed;
+    if(this.state === 'walking'){
+        if(this.direction < 0) {
+            this.body.velocity.x = -this.speed;
+        } else {
+            this.body.velocity.x = this.speed;
+        }
+    }
+
+    if(this.state === 'attacking'){
+        this.body.velocity.x = 0;
     }
     // begin animation
     this.animate();
@@ -293,31 +278,33 @@ lesserDemon.prototype.update = function(){
     }
     // demon will seek to attack player and does damage on overlap
     game.physics.arcade.overlap(player, this.vision2, this.lunge, null, this);
-    game.physics.arcade.overlap(player, this, this.mobDamagePlayer, null, this);
+    game.physics.arcade.overlap(player, this, this.playAttack, null, this);
 };
+
 
 // the demon will chase down and attack the player
 lesserDemon.prototype.lunge = function(){
-   this.body.velocity.x = 3.5*this.body.velocity.x;
-   if((player.body.position.x - this.body.position.x) < 20 && (player.body.position.x - this.body.position.x) > -20){
-       if(this.direction > 0){
-          this.playAttack(slashRight);
-        }
-   }else{
-      this.playAttack(slashLeft);
-   }
+    this.body.velocity.x = 3.5*this.body.velocity.x;
 }; 
 
-// kindon, not exactly sure what this does, please add description
+// this is the demons attack function
 lesserDemon.prototype.playAttack = function(src){
-   this.src.onComplete.add(function() {
-      this.isAnimDone === 1;
-   }, this);
-   if(this.isAnimDone === 1){
-      this.mobDamagePlayer();
-      this.isAnimDone === 0;
-   }else{
-      this.attackSound.play();
-   }
+    //this function acts the same as axeman.playAttack, see above for comments on it
+    this.state = 'attacking';
+    this.slashRight.onComplete.add(function() {this.isAnimDone === 1; this.state = 'walking'},this);
+    this.slashLeft.onComplete.add(function() {this.isAnimDone ===1; this.state = 'walking'},this);
+
+    if(this.isAnimDone === 1){
+        this.isAnimDone = 0;
+    }else{
+        this.mobDamagePlayer();
+        if(this.direction < 0){
+            this.animations.play('slashLeft');
+        }else{
+            this.animations.play('slashRight');
+        }
+
+        this.attackSound.play();
+    }
 };
 

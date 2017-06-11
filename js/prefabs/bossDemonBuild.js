@@ -13,8 +13,8 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.y = y;
     this.animations.add('DemonBossWalkRight', [0, 1, 2, 3, 4, 5, 6, 7], 7, true);
     this.animations.add('DemonBossWalkLeft', [8, 9, 10, 11, 12, 13, 14, 15], 7, true);
-    this.animations.add('DemonBossSlashRight', [16, 17, 18], 10, true);
-    this.animations.add('DemonBossSlashLeft', [19, 20, 21], 10, true);
+    this.demonBossSlashRight = this.animations.add('DemonBossSlashRight', [16, 17, 18], 10, false);
+    this.demonBossSlashLeft = this.animations.add('DemonBossSlashLeft', [19, 20, 21], 10, false);
 
     // timer for use in this prefab
     this.timer = game.time.create();
@@ -31,8 +31,8 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     // add child sprite for vision
     // the sight of the demon is an invisible sprite that works on overlap with the player
     this.rFlag = 0;
-    this.vision = this.addChild(game.make.sprite(-128, 0, 'collider'));
-    this.vision.scale.set(200, 49);
+    this.vision = this.addChild(game.make.sprite(0, 128, 'collider'));
+    this.vision.scale.set(1000, 49);
     this.vision.anchor.set(.5,.5);
     this.vision.alpha = 0;
     game.physics.arcade.enable(this.vision);
@@ -41,7 +41,7 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.swordSlashHit = this.addChild(game.make.sprite(0, 160, 'collider'));
     this.swordSlashHit.scale.set(400,50);
     this.swordSlashHit.anchor.set(.5,.5);
-    this.swordSlashHit.alpha = 0;
+    this.swordSlashHit.alpha = 1;
     game.physics.arcade.enable(this.swordSlashHit);
 
 
@@ -53,6 +53,9 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     
     // Initial direction of movement
     this.direction = -1; //positive = right, negative = left
+
+    //sound
+    this.attackSound = game.add.audio('attackSound');
 };
 
 bossDemonBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -87,7 +90,7 @@ bossDemonBuild.prototype.update = function(){
         this.body.velocity.x = 0;
     }
     // if the sprite for damaging the player overlaps with the player, the player will take damage
-    game.physics.arcade.overlap(player, this.swordSlashDamage, damagePlayer, null, this);
+    game.physics.arcade.overlap(player, this.swordSlashDamage, damagePlayer2, null, this);
 
     // if the demon has 0 or less health, it will be destroyed
     if(this.health <= 0){
@@ -95,10 +98,13 @@ bossDemonBuild.prototype.update = function(){
     }
 
     // the player will collide withthe demon making it difficult to manuever around
-    game.physics.arcade.collide(player, this);
+    game.physics.arcade.collide(player, this, damagePlayer1,null,this);
 
     // if the the sword did hit the player, set a timer so that the demon will not immediately attack again
     game.physics.arcade.overlap(player, this.swordSlashHit, this.swordSlashtimer, null, this);
+
+    // overlap with vision hitbox, if inside he will follow you
+    game.physics.arcade.overlap(player, this.vision, this.bossChase, null, this);
 };
 // this function will make the boss switch directions
 bossDemonBuild.prototype.switchDir = function() {
@@ -119,7 +125,9 @@ bossDemonBuild.prototype.switchDir = function() {
 bossDemonBuild.prototype.swordSlashtimer = function(){
     this.state = 'swordslashing'
     this.stopAnimation();
+    //destroys detection hitbox
     this.swordSlashHit.destroy();
+    //delay before his attack goes down
     game.time.events.add(Phaser.Timer.SECOND/this.enragedDivider, this.swordSlashAnimated, this); // no need to start the timer because game.time is allways running
 };
 
@@ -131,16 +139,19 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
         if(this.enraged === 0){
             // play the animation and create the damaging sprite
             this.animations.play('DemonBossSlashLeft',10,false);
-            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
-            this.swordSlashDamage = this.addChild(game.make.sprite(0,160,'collider'));
-            this.swordSlashDamage.scale.set(-320,50);
-            this.swordSlashDamage.anchor.set(.5,.5);
-            this.swordSlashDamage.alpha = 0;
-            game.physics.arcade.enable(this.swordSlashDamage);
+            this.demonBossSlashRight.onComplete.add(function() {this.isAnimDone === 1;},this);
+            if(this.isAnimDone = 1){
+                game.physics.arcade.collide(player,this.body,damagePlayer2,null,this);
+                this.swordSlashDamage = this.addChild(game.make.sprite(-96,160,'collider'));
+                this.swordSlashDamage.scale.set(-320,50);
+                this.swordSlashDamage.anchor.set(.5,.5);
+                this.swordSlashDamage.alpha = 0;
+                game.physics.arcade.enable(this.swordSlashDamage);
+            }
         }else{ // i.e. it is enraged
             // play the animation and create a different damaging sprite
             this.animations.play('DemonBossSlashLeft',20,false);
-            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
+            game.physics.arcade.collide(player,this.body,damagePlayer2,null,this);
             this.swordSlashDamage = this.addChild(game.make.sprite(-96,160,'collider'));
             this.swordSlashDamage.scale.set(-160,50);
             this.swordSlashDamage.anchor.set(.5,.5);
@@ -153,7 +164,7 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
         if(this.enraged === 0){
             // play the right facing animation and create the damaging sprite
             this.animations.play('DemonBossSlashRight',10,false);
-            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
+            game.physics.arcade.collide(player,this.body,damagePlayer2,null,this);
             this.swordSlashDamage = this.addChild(game.make.sprite(96,160,'collider'));
             this.swordSlashDamage.scale.set(160,50);
             this.swordSlashDamage.anchor.set(.5,.5);
@@ -162,7 +173,7 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
         }else{ // if the boss is enraged
             // create the other damaging sprite
             this.animations.play('DemonBossSlashRight',20,false);
-            game.physics.arcade.collide(player,this.body,damagePlayer,null,this);
+            game.physics.arcade.collide(player,this.body,damagePlayer2,null,this);
             this.swordSlashDamage = this.addChild(game.make.sprite(96,160,'collider'));
             this.swordSlashDamage.scale.set(160,50);
             this.swordSlashDamage.anchor.set(.5,.5);
@@ -171,7 +182,10 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
         }
     }
 
+    //plays sound
+    this.attackSound.play();
     // timer controlling when the sword can attack and when the demon will start walking again
+    // timer is shorter when the demon is enraged, so his attack is faster
     game.time.events.add(Phaser.Timer.SECOND*this.enragedTimer, createSwordSlashHit, this);
     game.time.events.add(Phaser.Timer.SECOND, this.startWalking, this);
     //this.state = 'walking'
@@ -184,23 +198,73 @@ bossDemonBuild.prototype.stopAnimation = function(){
 
 // called to make the demon start walking again
 bossDemonBuild.prototype.startWalking = function(){
+    this.swordSlashDamage.destroy();
     this.state = 'walking';
 };
 
-// Kindon please comment this, I'm not sure exactly what is going on
+// this funciton allows the boss to chase after the player if he's on the same platform
+bossDemonBuild.prototype.bossChase = function(){
+    if((this.body.position.x > player.body.position.x) && (this.direction > 0)){
+        this.switchDir();
+    }
+    if((this.body.position.x < player.body.position.x) && (this.direction < 0)){
+        this.switchDir();
+    }
+
+}
+
+// Creates the hitbox for the actual strike, enables physics,
+// this allows it to  be called as an overlap in update
 var createSwordSlashHit = function(){
     this.swordSlashHit = this.addChild(game.make.sprite(-90,160, 'collider'));
     this.swordSlashHit.scale.set(250,50);
     this.swordSlashHit.anchor.set(.5,.5);
-    this.swordSlashHit.alpha = 0;
+    this.swordSlashHit.alpha = 1;
     game.physics.arcade.enable(this.swordSlashHit);
 };
 
 // this function causes the player to take damage from the demon
 // and places a knockback effect on the player
-var damagePlayer = function(){
-    this.swordSlashDamage.destroy();
-    player.health -=2;
+var damagePlayer2 = function(){
+    //this.swordSlashDamage.destroy();
+    //demon is always facing target for attack, no need for checks here
     player.body.velocity.x = 8*this.speed;
     player.body.velocity.y = -800;
+    //if not invincible, damage and set invincible
+    if(player.invincibility == 0){
+        player.health -= 2;
+        player.invincibility = 1;
+        //timer to reset players invincibility
+        game.time.events.add(Phaser.Timer.SECOND*1.5,function() {player.invincibility = 0},this);
+    }
+};
+
+//this function causes the player to take 1 damage, not 2
+var damagePlayer1 = function(){
+    // if the player is to the left of the demon, and the demon is facing left, launch left
+    if((player.body.position.x < this.body.position.x) && (this.direction < 0)){
+        player.body.velocity.x = 8*this.speed;
+    }else{
+    // else, the player is to the left of the demon, and the demon is facing right, launch left
+        player.body.velocity.x = -8*this.speed;
+    }
+
+    // if the player is to the right of the demon, and the demon is facing right, launch right
+    if((player.body.position.x > this.body.position.x) && (this.direction > 0)){
+        player.body.velocity.x = 8*this.speed;
+    }else{
+    // else the player is to the right, and the demon is facing left, launch right
+        player.body.velocity.x = -8*this.speed;
+    }
+
+    // player goes flying
+    player.body.velocity.y = -800;
+
+    // if player is not currently invincible, damage and set invincible
+    if(player.invincibility == 0){
+        player.health -= 1;
+        player.invincibility = 1;
+        //timer to reset players invincibility back to 0
+        game.time.events.add(Phaser.Timer.SECOND*1.5,function() {player.invincibility = 0},this);
+    }
 }
