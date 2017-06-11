@@ -1,17 +1,17 @@
-// This is the state for top down play on the world map.
-// If we need multiple overworld states use this as a baseline.
-// We should consider making a more descriptive log of all changes made, until
-// we do please log changes bellow, do not delete anything from the changelog. Include the date
-/*5/7/2017, KINDON
-/* Updated to include prefab with instantiated controls for topdown view, described inputs for prefab
- * as they are currently, if you want to modify prefab, its spriteBuild.js
- *5/10/2017, JACOB
- * Update so that entering town will start PlayPlatform state
+/* PlayOver.js
+ * 6/13/2017
+ * This file contains the PlayOver state.
+ * The PlayOver state is one of the two primary gameplay states,
+ * in this state the player is on a top down view of the world which
+ * doubles as a map. In this map the player can move around, enter towns
+ * or encounter enemies, any situation which involves entering a place will
+ * start the PlayPlatform state where are npcs, buildings, and battle occur
 */
 
-var canEnter, canSpawn;
+var canSpawn;
 
 var PlayOver = function(game) {
+   // declare all variables local to PlayOver
    var map, mapData, layer1, layer2, layer3, player, wall, town, townGroup, playerGroup, timer, song, textObj, spawnGroup, foeGroup, eventGroup;
 };
 PlayOver.prototype = {
@@ -21,22 +21,28 @@ PlayOver.prototype = {
       //fade camera instantly, makes screen black while creating things
       game.camera.fade(0x000000, 1);
       
+      // Set relevent globals to false to prevent the player from instantly entering another state
+      // this is especially useful when going from PlayPlatform to PlayOver
       canEnter = false;
       canSpawn = false;
+
       // TIMER SETUP
-      timer = game.time.create(); // this timer will prevent player from immediately re-entering a city by accident
-      //timer repurposed to prevent player from moving immediately after leaving town
+      // The timer is mainly used to control when the player can move and what can spawn
+      timer = game.time.create(); 
+
       timer.add(600, function(){
          console.log('canEnter = true at: '+timer.ms);
          canEnter = true;
       }, this);
-      // Deley over world enemy spawn
+
+      // Delay over world enemy spawn
       timer.add(2200, function(){
-         console.log('canSpawn = true at: '+timer.ms);
+         console.log('canSpawn = true at: '+timer.ms); 
          canSpawn = true;
       }, this);
       timer.start();
       
+      // set the map data to come from the overworld tilemap
       mapData = GLOBAL_MAP_DATA[O_WORLD];
       
       //TILEMAP SETUP
@@ -49,24 +55,29 @@ PlayOver.prototype = {
       layer3 = map.createLayer('overlay');
       
       //WALLMAP SETUP
+      // all tiles not listed can be colided with
       map.setCollisionByExclusion([6,21,24], true, layer2);
       map.setCollisionByExclusion([1,2,3,5,17,18,66], true, layer3);
       
+      // resize the world bounds to fit the tilemap
       layer1.resizeWorld();
 
       //CREATE DOORS
+      // the doors are used to sent the player to the next map, from the overworld it will always
+      // change states to PlayPlatform
       townGroup = this.game.add.group();
       townGroup.enableBody = true;
       
       var doors = map.objects.towns;
 
+      // the Door prefab can be found in Door.js
       for(let i = 0; i < doors.length; i++) {
          let obj = doors[i];
          
-         town = new Door(game,obj.x,obj.y,obj.type,obj.width,obj.height,obj.properties.retX,obj.properties.retY);
+         town = new Door(game, obj.x, obj.y, obj.type, obj.width, obj.height, obj.properties.retX, obj.properties.retY);
          townGroup.add(town);
       }
-      
+      // sets all of the doors to be invisible and immovable, the player will see the tile art under them
       townGroup.alpha = 0;
       townGroup.setAll('body.immovable', true);
       
@@ -74,14 +85,14 @@ PlayOver.prototype = {
       spawnGroup = this.game.add.group();
       spawnGroup.enableBody = true;
       
-      // this is the group that stores the actual enemy sprites
+      // foeGroup stores the actual enemy sprites
       foeGroup = this.game.add.group();
       foeGroup.enableBody = true;
       
       var foemap = map.objects.foemap;
-      //enemySpots has the locations of individual enemies in Tiled
-      //info gets stored in each foemapBuild so they can create their own
-      //enemies
+
+      // enemySpots has the locations of individual enemies in Tiled info 
+      // gets stored in each foemapBuild so they can create their own enemies
       var enemySpots = map.objects.enemySpots;
       
       for(let i = 0; i < foemap.length; i++) {
@@ -91,49 +102,58 @@ PlayOver.prototype = {
          spawnGroup.add(zone);
       }
       
+      // sets the spawn locations to be invisible and immovable
       spawnGroup.alpha = 0;
       spawnGroup.setAll('body.immovable', true);
       
-      //EVENTS
+      // EVENTS
       eventGroup = this.game.add.group();
       eventGroup.enableBody = true;
       
+      // the events field of map data contains functions to execute
+      // these are usually empty but can progress the story or initiate events
+      // in the game, the transformation of the final boss is a key example
       for(let i = 0; i < map.objects.events.length; i++) {
          let obj = map.objects.events[i];
          
-         let event = new Event(game,obj.x,obj.y,obj.width,obj.height,mapData.events[i]);
+         let event = new Event(game, obj.x, obj.y, obj.width, obj.height, mapData.events[i]);
          eventGroup.add(event);
       }
       
+      // make the events objects invisible and immovable
       eventGroup.alpha = 0;
       eventGroup.setAll('immovable',true);
       
-      //PREFAB SETUP
+      // PREFAB SETUP
+      // first we create the player
       playerGroup = this.game.add.group();
       
+      // spritePlayOver is the prefab for the overworld sprite
       player = new spritePlayOver(this.game,global_x,global_y,'hero');
-      //this line adds the player onto the screen
+
+      // this line adds the player onto the screen
       playerGroup.add(player);
-      
+
+      // camera will follow the player
       game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, .3, .3);
       
-      //play music
+      // play music if it is on
       song = this.add.audio('oworld-song');
       if(global_playMusic) song.play('', 0, 1, true);
-      /*
-      this.instructions = game.add.text(400, 32, " WASD Keys to move, 'T' to see text box, enter town to see a new perspective ", GLOBAL_TEXT_STYLE);
-      this.instructions.anchor.set(0.5);
-      this.instructions.fixedToCamera = true;
-      this.instructions.cameraOffset.setTo(game.camera.width/2, 32);
-      */
+
       //fades camera back in
       game.camera.resetFX();
       game.camera.flash(0x000000, 500);
    },
+
+
    update: function() {
+      // set collision with the player and the appropriate parts of the tilemap
       game.physics.arcade.collide(player, layer2);
       game.physics.arcade.collide(player, layer3);
       
+      // Calls events on overlaps, this will allow entering towns, enemies appearing in spawn zones
+      // and any events from mapData
       game.physics.arcade.overlap(player, townGroup, this.enterTown, null, this);
       game.physics.arcade.overlap(player, spawnGroup, this.spawnFoe, null, this);
       game.physics.arcade.overlap(player, eventGroup, this.callEvent, null, this);
@@ -142,47 +162,58 @@ PlayOver.prototype = {
       if(foeGroup.children.length > 0) {
          game.physics.arcade.collide(foeGroup, layer2);
          game.physics.arcade.collide(foeGroup, layer3);
-         
+         game.physics.arcade.collide(foeGroup, foeGroup);
+
+         // if the player overlaps with a foe, they are sent to a platform battle
          game.physics.arcade.overlap(player,foeGroup,this.enterBattle,null,this);
       }
 
-      // This is a contrived way to put a textbox onscreen until we have an npc to talk to.
-      if(game.input.keyboard.justPressed(Phaser.Keyboard.T)){
-         textObj = TEXT_DATA[OWORLD_TEXTBOX_TEST];
-         textBox(game, game.camera.width/2 , 64, 0.5, 0, !NAVIGABLE, textObj);
-      }
+      // The pause menu will open when the player hits the escape key
       if(game.input.keyboard.justPressed(Phaser.Keyboard.ESC) && canPause){
          pauseMenu(game);
       }
    },
+
+   // this function is called to send the player to a town
    enterTown: function(player, townGroup) {
+      // send the player to the correct map
       global_destination = townGroup.destination;
+
+      // mark the overworld spawn position as being near the town that was just entered
       global_x = townGroup.retX;
       global_y = townGroup.retY;
       
-      canEnter = false; //prevents player from moving
+      // this will prevent the player from moving
+      canEnter = false; 
       player.body.velocity.set(0,0);
       
       //stops all sounds
       game.sound.stopAll();
       
+      // after the camera fades out, enter the PlayPlatform state
       game.camera.fade();
       timer = game.time.create();
       timer.add(480, function() {
          game.state.start('PlayPlatform');
       }, this);
       timer.start();
-      
-      //game.state.start('PlayPlatform');
    },
+
+   // if the player does trigger a map data event, this function will
+   // get the specific function that was triggered
    callEvent: function(player, event) {
       mapData.events[0]();
    },
+
+   // creates an enemy in the spawn zone
    spawnFoe: function(player, foemap) {
+      // canSpawn has a timer so that an enemy cannot spawn on top of a player that just
+      // escaped from the platform world
       if(foemap.active === false && canSpawn) {
          
          foemap.active = true;
-      
+         
+         // foemap.size limits the amount of enemies that can spawn in a particular spawn zone
          for(let i = 0; i < foemap.size; i++) {
             let foe = new oworldEnemy(game,foemap.enemySpots[i],foemap);
          
@@ -192,17 +223,23 @@ PlayOver.prototype = {
          
       }
    },
+
+   // this will start a platform battle when the player encounters a foe
    enterBattle: function(player, foe) {
+      // set which platform battle map to enter and set return position near 
+      // where the encounter occured
       global_destination = foe.destination;
       global_x = player.body.position.x + 16;
       global_y = player.body.position.y + 16;
       
-      canEnter = false; //prevents player from moving
+      //prevents player from moving
+      canEnter = false; 
       player.body.velocity.set(0,0);
       
       //stops all sounds
       game.sound.stopAll();
       
+      // enter PlayPlatform after the fadeout
       game.camera.fade();
       timer = game.time.create();
       timer.add(480, function() {
