@@ -1,14 +1,13 @@
-// This is the state for platformer play in battle and possibly in towns.
-// If we decide to make each level a different state, use this as a baseline
-// We should consider making a more descriptive log of all changes made, until
-// we do please log changes bellow, do not delete anything from the changelog. Include the date
-/* 5/7/2017, KINDON
-created prefab, takes in (this,game,X scale, Y scale, x position, y position, 'asset key', frame key)
+/* wizardBuild.js
+ * 6/13/2017
+ * This file is a prefab for creating the wizard npc, used as one
+ * of the forms of the main enemy in the game
 */
+
 'use strict';
 var wizardBuild = function(game,scaleX,scaleY,x,y,src,frame){
-	console.log("wizardBuild: create");
-	Phaser.Sprite.call(this,game,x,y,src,frame);
+    console.log("wizardBuild: create");
+    Phaser.Sprite.call(this,game,x,y,src,frame);
 
     // add animations
     this.animations.add('DarkWizardWalkRight', [0, 1, 2, 3], 10, true);
@@ -23,9 +22,9 @@ var wizardBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.vision.alpha = 0;
     game.physics.arcade.enable(this.vision);
 
-	this.anchor.setTo(.5,.5);
-	this.scale.setTo(scaleX,scaleY);
-	game.physics.arcade.enableBody(this);
+    this.anchor.setTo(.5,.5);
+    this.scale.setTo(scaleX,scaleY);
+    game.physics.arcade.enableBody(this);
     
     this.direction = -1; //positive = right, negative = left
 };
@@ -34,7 +33,7 @@ wizardBuild.prototype = Object.create(Phaser.Sprite.prototype);
 wizardBuild.prototype.constructor = wizardBuild;
 
 wizardBuild.prototype.update = function(){
-    //game.physics.arcade.overlap(player, vision, this.enterDoor, null, this);
+    // contains the basic package, turn around when it hits a wall, uses appropriate speed and animations
     if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
     }
@@ -43,9 +42,9 @@ wizardBuild.prototype.update = function(){
     } else {
         this.body.velocity.x = 100;
     }
-   if ( this.body.velocity.x == -100 ) {
+   if ( this.body.velocity.x === -100 ) {
       this.animations.play('DarkWizardWalkLeft');
-   } else if ( this.body.velocity.x == 100 ) {
+   } else if ( this.body.velocity.x === 100 ) {
       this.animations.play('DarkWizardWalkRight');
    }
 }

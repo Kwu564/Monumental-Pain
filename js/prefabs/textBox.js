@@ -1,9 +1,13 @@
-// This is a prefab for creating all text and textboxes in the game
-// this has a built in feature so that whenever it is called
-// it will pause all other gameplay until it is dismissed
+/* textBox.js
+ * 6/13/2017
+ * This file is a prefab for creating textboxes which are used both while
+ * interacting with npcs, and during cutscenes. Textboxes rely on objects from
+ * textData.js
+*/
 
 var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
    console.log("textBox.create");
+   // declaring properties of textboxes
    this.counter = 0;
    this.text = game.add.text(x, y, textDataObj.text[counter], textDataObj.style);
    this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
@@ -21,11 +25,13 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
       canEnter = true;
    }, this);
    
+   // originally used window.onkeydown when we were using game.paused, we are using
+   // a different system now but this system remains effective
    window.onkeydown = function(event){
       var keyCode = event.keyCode || event.which;
-      // console.log("window.onkeyup: entered");
+      
       if(keyCode === Phaser.Keyboard.E){
-         //console.log("window.onkeyup: executing");
+         
          if(counter < textDataObj.text.length-1){ // I'm not completely sure why the minus one is necessary but it is
             counter++;
             this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
