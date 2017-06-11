@@ -41,7 +41,7 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.swordSlashHit = this.addChild(game.make.sprite(0, 160, 'collider'));
     this.swordSlashHit.scale.set(400,50);
     this.swordSlashHit.anchor.set(.5,.5);
-    this.swordSlashHit.alpha = 0;
+    this.swordSlashHit.alpha = 1;
     game.physics.arcade.enable(this.swordSlashHit);
 
 
@@ -53,6 +53,9 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     
     // Initial direction of movement
     this.direction = -1; //positive = right, negative = left
+
+    //sound
+    this.attackSound = game.add.audio('attackSound');
 };
 
 bossDemonBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -95,10 +98,10 @@ bossDemonBuild.prototype.update = function(){
     }
 
     // the player will collide withthe demon making it difficult to manuever around
-    game.physics.arcade.collide(player, this, damagePlayer1);
+    game.physics.arcade.collide(player, this, damagePlayer1,null,this);
 
     // if the the sword did hit the player, set a timer so that the demon will not immediately attack again
-    game.physics.arcade.overlap(player, this.swordSlashDAmage, this.swordSlashtimer, null, this);
+    game.physics.arcade.overlap(player, this.swordSlashHit, this.swordSlashtimer, null, this);
 
     // overlap with vision hitbox, if inside he will follow you
     game.physics.arcade.overlap(player, this.vision, this.bossChase, null, this);
@@ -122,7 +125,9 @@ bossDemonBuild.prototype.switchDir = function() {
 bossDemonBuild.prototype.swordSlashtimer = function(){
     this.state = 'swordslashing'
     this.stopAnimation();
+    //destroys detection hitbox
     this.swordSlashHit.destroy();
+    //delay before his attack goes down
     game.time.events.add(Phaser.Timer.SECOND/this.enragedDivider, this.swordSlashAnimated, this); // no need to start the timer because game.time is allways running
 };
 
@@ -177,6 +182,8 @@ bossDemonBuild.prototype.swordSlashAnimated = function(){
         }
     }
 
+    //plays sound
+    this.attackSound.play();
     // timer controlling when the sword can attack and when the demon will start walking again
     // timer is shorter when the demon is enraged, so his attack is faster
     game.time.events.add(Phaser.Timer.SECOND*this.enragedTimer, createSwordSlashHit, this);
@@ -211,7 +218,7 @@ var createSwordSlashHit = function(){
     this.swordSlashHit = this.addChild(game.make.sprite(-90,160, 'collider'));
     this.swordSlashHit.scale.set(250,50);
     this.swordSlashHit.anchor.set(.5,.5);
-    this.swordSlashHit.alpha = 0;
+    this.swordSlashHit.alpha = 1;
     game.physics.arcade.enable(this.swordSlashHit);
 };
 
@@ -226,6 +233,8 @@ var damagePlayer2 = function(){
     if(player.invincibility == 0){
         player.health -= 2;
         player.invincibility = 1;
+        //timer to reset players invincibility back to 0
+        game.time.events.add(Phaser.Timer.SECOND*1.5,function() {player.invincibility = 0},this);
     }
 };
 
@@ -244,7 +253,7 @@ var damagePlayer1 = function(){
         player.body.velocity.x = 8*this.speed;
     }else{
     // else the player is to the right, and the demon is facing left, launch right
-        player.body.velocity = -8*this.speed;
+        player.body.velocity.x = -8*this.speed;
     }
 
     // player goes flying
@@ -254,5 +263,7 @@ var damagePlayer1 = function(){
     if(player.invincibility == 0){
         player.health -= 1;
         player.invincibility = 1;
+        //timer to reset players invincibility back to 0
+        game.time.events.add(Phaser.Timer.SECOND*1.5,function() {player.invincibility = 0},this);
     }
 }
