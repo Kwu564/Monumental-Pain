@@ -4,7 +4,7 @@
 'use strict';
 var oworldEnemy = function(game,obj,zone){
 	console.log("oworldEnemy: create");
-	Phaser.Sprite.call(this,game,obj.x+16,obj.y+16,obj.name,0);
+	Phaser.Sprite.call(this, game, obj.x+16, obj.y+16, obj.name, 0);
 
     this.animations.add('OWorldEnemyWalkSouth',[0, 1, 2, 3], 10, true);
     this.animations.add('OWorldEnemyWalkNorth',[4, 5, 6, 7], 10, true);
@@ -23,6 +23,9 @@ var oworldEnemy = function(game,obj,zone){
 
     this.anchor.setTo(.5,.5);
     game.physics.arcade.enableBody(this);
+    
+    // changes the size of the hitbox with arguments (width, height, offsetX, offsetY)
+    this.body.setSize(12, 32, 8, 0);
     
     // Which map the it takes you to, for global_destination
     this.destination = obj.type;
