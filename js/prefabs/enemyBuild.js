@@ -27,6 +27,9 @@ var enemyBuild = function(game, scaleX, scaleY, x, y, src, frame){
    this.scale.setTo(scaleX,scaleY);
    game.physics.arcade.enableBody(this);
 
+    // change collision box size
+    this.body.setSize(25, 59, 20, 5); //(width, height, offsetX, offsetY)
+
    // add the attack sound for use when attacking
    this.attackSound = game.add.audio('attackSound');
 
