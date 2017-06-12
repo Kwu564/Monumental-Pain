@@ -13,10 +13,28 @@ GLOBAL_MAP_DATA = [
        
        events: [
           function() {
+             //enter Kevn Monument battle
+             if(global_save_point === 1) {
+                game.sound.stopAll();
+                global_save_point = 2;
+                game.state.start('Cutscene');
+             }
+          },
+          function() {
+             //enter Hatu Monument battle
+             if(global_save_point === 4) {
+                game.sound.stopAll();
+                global_save_point = 5;
+                game.state.start('Cutscene');
+             }
+          },
+          function() {
              //enter boss fight
-             game.sound.stopAll();
-             global_save_point = 2;
-             game.state.start('Cutscene');
+             if(global_save_point === 7) {
+                game.sound.stopAll();
+                global_save_point = 8;
+                game.state.start('Cutscene');
+             }
           }
        ]
    },
@@ -198,6 +216,30 @@ GLOBAL_MAP_DATA = [
        music: 'battle-song',
        
        events: []
+   },
+   {
+       // 13
+       //kevn-fight
+       mapKey: 'plainsbattle1',
+       setKey: 'forest-tile',
+      
+       bgKey: 'kevn-bg',
+      
+       music: 'battle-song',
+       
+       events: []
+   },
+   {
+       // 14
+       //hatu-fight
+       mapKey: 'plainsbattle1',
+       setKey: 'forest-tile',
+      
+       bgKey: 'kevn-bg',
+      
+       music: 'battle-song',
+       
+       events: []
    }
 ]
 
@@ -214,3 +256,5 @@ const FORESTBATTLE_2 = 9;
 const MOUNTAINBATTLE_1 = 10;
 const MOUNTAINBATTLE_2 = 11;
 const PLAINSBATTLE_1 = 12;
+const KEVN_FIGHT = 13;
+const HATU_FIGHT = 14;

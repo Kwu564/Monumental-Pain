@@ -219,7 +219,9 @@ const TEXT_DATA = [{
             'Please, protector. Do what you must to prevent this destruction.'],
       style: STORY_STYLE,
       after: function() {
-         global_save_point = 1;
+         if(global_save_point === 0) {
+            global_save_point = 1;
+         }
       }
    },
    {
@@ -232,7 +234,140 @@ const TEXT_DATA = [{
       after: function() {
          //empty
       }
-   }
+   },
+   {
+      //Kevn NPC 5
+      //Heals the player's health
+      text: ['You look weary, protector. Let me restore your health.'],
+      style: STORY_STYLE,
+      after: function() {
+         player.health = 5;
+      }
+   },
+   {
+      //Cutscene3
+      text: ['Burn it down! Burn it down! Burn it down!',
+            'Destroy our oppression! Release us from the binds of the past!'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'red',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene4
+      text: ['The Tree of Kevn has suffered serious scars from the attack.',
+            'It may not survive.',
+            'You must attempt to prevent this from happening again. The Tree of Kevn is not the only monument.',
+            'Head EAST, protector, to the mountain city of Hatu. They need your strength.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene5
+      text: ['The ancient pillars of Hatu still stand in the mountain town of Hatu.',
+            'Move swiftly to the east of Kevn. The monument\'s enemies will attack soon.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene6
+      text: ['Move the explosives! These pillars of fear no longer stand in our way!',
+            'We are beyond the age of oppression! Rise against these petty stones that stand in our way! Show them who is truly powerful!'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'red',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene7
+      text: ['It appears the destroyers have moved away from this place.',
+            'You cannot guarantee they will not return, but it is time to address the root of this violence.',
+            'Travel to the castle to the south of Hatu, where the advisor plots grander deployment of chaos.',
+            'As we speak, he calls upon dark magical power to assert dominance over the land.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene8
+      text: ['An evil power grows in the castle in the center of this continent.',
+            'Go, protector.\nYour final stand is there.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene10
+      text: ['The beast has been stopped.',
+            'His followers remain, and the destruction they caused is permanent, but from here you may help this world move forward.',
+            'Thank you, protector.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
 ]
 
 
@@ -249,11 +384,19 @@ const YOU_ARE_A_FOOL = 3;
 const EXPOSITION = 4;
 const CUTSCENE1 = 5;
 const CUTSCENE2 = 6;
-const CUTSCENE3 = 7;
+const CUTSCENE9 = 7;
 const KEVN_NPC1 = 8;
 const KEVN_NPC2 = 9;
 const KEVN_NPC3 = 10;
 const KEVN_NPC4 = 11;
+const KEVN_NPC5 = 12;
+const CUTSCENE3 = 13;
+const CUTSCENE4 = 14;
+const CUTSCENE5 = 15;
+const CUTSCENE6 = 16;
+const CUTSCENE7 = 17;
+const CUTSCENE8 = 18;
+const CUTSCENE10 = 19;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //
