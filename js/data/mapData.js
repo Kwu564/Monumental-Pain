@@ -92,14 +92,14 @@ GLOBAL_MAP_DATA = [
    },
    {
        // 5
-       //ice map definition
+       //Kevn battle definition
        //TILEMAP FILES
-       mapKey: 'ice1-map',
-       setKey: 'ice-tile', //key for tilemap
+       mapKey: 'kevnbattle',
+       setKey: 'forest-tile', //key for tilemap
        
-       bgKey: 'hatu-bg',
+       bgKey: 'kevn-bg',
        
-       music: 'oworld-song',
+       music: 'battle-song',
        
        events: []
    },
@@ -219,7 +219,7 @@ GLOBAL_MAP_DATA = [
    },
    {
        // 13
-       //kevn-fight
+       //UNDEFINED
        mapKey: 'plainsbattle1',
        setKey: 'forest-tile',
       
@@ -232,7 +232,7 @@ GLOBAL_MAP_DATA = [
    {
        // 14
        //hatu-fight
-       mapKey: 'hatu-battle',
+       mapKey: 'hatubattle',
        setKey: 'mountain-tile',
       
        bgKey: 'hatu-bg',
@@ -245,10 +245,10 @@ GLOBAL_MAP_DATA = [
 
 const O_WORLD = 0;
 const KEVN_1 = 1;
-const HATU_1 = 2;
-const HATU_2 = 3;
-const XANZIK_1 = 4;
-const ICE_1 = 5;
+const KEVN_2 = 2;
+const HATU_1 = 3;
+const HATU_2 = 4;
+const KEVN_BATTLE = 5;
 const FORESTBATTLE_1 = 6;
 const HERO_SANCTUARY = 7;
 const BOSS_FIGHT = 8;
@@ -256,5 +256,5 @@ const FORESTBATTLE_2 = 9;
 const MOUNTAINBATTLE_1 = 10;
 const MOUNTAINBATTLE_2 = 11;
 const PLAINSBATTLE_1 = 12;
-const KEVN_FIGHT = 13;
+const BLAHBLAH = 13;
 const HATU_FIGHT = 14;

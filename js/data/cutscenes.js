@@ -38,7 +38,7 @@ GLOBAL_CUTSCENE_DATA = [
       bg: null,
       music: 'gameover-song',
       state: 'PlayPlatform',
-      dest: KEVN_FIGHT,
+      dest: KEVN_BATTLE,
       execute: function() {
          //empty
       },
