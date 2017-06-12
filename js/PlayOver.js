@@ -118,7 +118,7 @@ PlayOver.prototype = {
       for(let i = 0; i < map.objects.events.length; i++) {
          let obj = map.objects.events[i];
          
-         let event = new Event(game, obj.x, obj.y, obj.width, obj.height, mapData.events[i]);
+         let event = new Event(game, obj.x, obj.y, obj.width, obj.height, i);
          eventGroup.add(event);
       }
       
@@ -204,7 +204,7 @@ PlayOver.prototype = {
    // if the player does trigger a map data event, this function will
    // get the specific function that was triggered
    callEvent: function(player, event) {
-      mapData.events[0]();
+      mapData.events[event.execute]();
    },
 
    // creates an enemy in the spawn zone

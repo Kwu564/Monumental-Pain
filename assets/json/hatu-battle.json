@@ -104,8 +104,16 @@
                  "height":64,
                  "id":6,
                  "name":"dudette",
+                 "properties":
+                    {
+                     "moves":0
+                    },
+                 "propertytypes":
+                    {
+                     "moves":"int"
+                    },
                  "rotation":0,
-                 "type":"3",
+                 "type":"26",
                  "visible":true,
                  "width":64,
                  "x":640,

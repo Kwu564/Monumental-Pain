@@ -95,7 +95,8 @@ bossDemonBuild.prototype.update = function(){
     // if the demon has 0 or less health, it will be destroyed and the victory screen will start
     if(this.health <= 0){
         this.destroy();
-        game.state.start('Victory');
+        global_save_point = 10;
+        game.state.start('Cutscene');
     }
 
     // the player will collide withthe demon making it difficult to manuever around

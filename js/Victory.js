@@ -26,7 +26,7 @@ Victory.prototype = {
 
       // create credits
       var vicText = game.add.text(0, 0, "VICTORY", {font: "Courier bold", fontSize:"48px", fill:"#238F23"});
-      var credits = game.add.text(0, 0, "Monumental Pain\na game by\nJacob Wynd\nKevin Wu\nKiefer Nemeth\nand Kindon Smith", {font: "Courier", fontSize: "28px", fill: "#EFEBCE", align: "center"});
+      var credits = game.add.text(0, 0, "Monumental Pain\na game by\nJacob Wynd\nKevin Wu\nKiefer Nemeth\nand Kindon Smith\n\nThank you for playing", {font: "Courier", fontSize: "28px", fill: "#EFEBCE", align: "center"});
       vicText.fixedToCamera = true;
       credits.fixedToCamera = true;
       vicText.cameraOffset.setTo(game.camera.width/2, 64);
@@ -55,7 +55,7 @@ Victory.prototype = {
       game.camera.flash(0x000000, 500);
 
       // Play the game over music
-      song = this.add.audio('gameover-song'); // Kiefer replace this song and delete this comment please
+      song = this.add.audio('title-song'); // Kiefer replace this song and delete this comment please
       if(global_playMusic) song.play('', 0, 1, true);
 
    },
