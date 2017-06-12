@@ -37,6 +37,7 @@ var textBox = function(game, x, y, anchorX, anchorY, navigable, textDataObj){
             this.text.text = textDataObj.text[counter] + "\n\n 'E' to continue";
          }
          else {
+            textDataObj.after();
             this.text.destroy();
             counter++;
             game.physics.arcade.isPaused = false;

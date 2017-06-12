@@ -134,7 +134,7 @@
                      "moves":"int"
                     },
                  "rotation":0,
-                 "type":"3",
+                 "type":"11",
                  "visible":true,
                  "width":64,
                  "x":768,
@@ -153,7 +153,7 @@
                      "moves":"int"
                     },
                  "rotation":0,
-                 "type":"3",
+                 "type":"10",
                  "visible":true,
                  "width":64,
                  "x":960,
