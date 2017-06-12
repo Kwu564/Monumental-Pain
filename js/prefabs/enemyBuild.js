@@ -74,10 +74,10 @@ enemyBuild.prototype.switchDir = function() {
 enemyBuild.prototype.mobDamagePlayer = function(){
     if(this.direction === player.direction){
         player.body.velocity.x = -8*player.body.velocity.x;
-        player.body.velocity.y = -60;
+        player.body.velocity.y = -600;
     }else{
         player.body.velocity.x = 8*this.body.velocity.x;
-        player.body.velocity.y = -60;
+        player.body.velocity.y = -600;
     } 
     if(player.invincibility === 0){
         player.health -= 1;
