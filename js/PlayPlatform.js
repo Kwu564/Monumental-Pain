@@ -523,7 +523,11 @@ PlayPlatform.prototype = {
    render: function() {
       //uncomment to view player collision info in platform
       //game.debug.bodyInfo(player, 64, 64);
-      //game.debug.body(player);
+      game.debug.body(player);
       //game.debug.body(bossDemon);
+      // debug every sprite under enemyGroup
+      for ( let i = 0, len = enemyGroup.children.length; i < len; i++ ) {
+         game.debug.body(enemyGroup.children[i]);
+      }
    }
 }
