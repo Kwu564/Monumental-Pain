@@ -73,11 +73,11 @@ enemyBuild.prototype.switchDir = function() {
 // this function deals with player damage and handles the knockback effect
 enemyBuild.prototype.mobDamagePlayer = function(){
     if(this.direction === player.direction){
+        player.body.velocity.y = -200;
         player.body.velocity.x = -8*player.body.velocity.x;
-        player.body.velocity.y = -600;
     }else{
+        player.body.velocity.y = -200;
         player.body.velocity.x = 8*this.body.velocity.x;
-        player.body.velocity.y = -600;
     } 
     if(player.invincibility === 0){
         player.health -= 1;
@@ -137,9 +137,15 @@ axeMan.prototype = Object.create(enemyBuild.prototype);
 axeMan.prototype.constructor = axeMan;
 
 axeMan.prototype.update = function(){
-   // if the axeman is blocked turn around
-   if(this.body.blocked.right || this.body.blocked.left) {
+    // if the axeman is blocked turn around
+    if(this.body.blocked.right || this.body.blocked.left) {
         this.switchDir();
+        //resets vision box
+        if(this.direction < 0){
+            this.vision.body.position.x = this.body.position.x - 192;
+        }else{
+            this.vision.body.position.x = this.body.position.x + 48;
+        }
     }
     // ensures that the axeman moves in the right direction 
     if(this.state === 'walking'){
