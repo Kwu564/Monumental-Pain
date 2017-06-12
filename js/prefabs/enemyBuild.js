@@ -235,7 +235,6 @@ axeMan.prototype.fadeEnemyWeaponImpact = function(){
    game.add.tween(this.weaponImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);   
 }
 
-
 // LESSERDEMON
 var lesserDemon = function(game, scaleX, scaleY, x, y, src, frame) { 
     enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
