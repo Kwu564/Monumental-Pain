@@ -30,6 +30,7 @@ window.onload = function() {
    game.state.add('PlayPlatform', PlayPlatform); // Found in PlayPlatform.js
    game.state.add('GameOver', GameOver);         // Found in GameOver.js
    game.state.add('Cutscene', Cutscene);         // Found in Cutscene.js
+   game.state.add('Victory', Victory);           // Found in Victory.js
    game.state.start('Boot');
    
 }
