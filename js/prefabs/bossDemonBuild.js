@@ -92,9 +92,10 @@ bossDemonBuild.prototype.update = function(){
     // if the sprite for damaging the player overlaps with the player, the player will take damage
     game.physics.arcade.overlap(player, this.swordSlashDamage, damagePlayer2, null, this);
 
-    // if the demon has 0 or less health, it will be destroyed
+    // if the demon has 0 or less health, it will be destroyed and the victory screen will start
     if(this.health <= 0){
         this.destroy();
+        game.state.start('Victory');
     }
 
     // the player will collide withthe demon making it difficult to manuever around
