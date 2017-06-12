@@ -28,7 +28,7 @@ var enemyBuild = function(game, scaleX, scaleY, x, y, src, frame){
    game.physics.arcade.enableBody(this);
 
     // change collision box size
-    this.body.setSize(25, 59, 20, 5); //(width, height, offsetX, offsetY)
+    this.body.setSize(25, 59, 17, 5); //(width, height, offsetX, offsetY)
 
    // add the attack sound for use when attacking
    this.attackSound = game.add.audio('attackSound');
@@ -65,9 +65,13 @@ enemyBuild.prototype.update = function(){
 // this function is makes the enemy turn around
 enemyBuild.prototype.switchDir = function() {
     if(this.direction < 0) {
+          // change collision box size
+          this.body.setSize(25, 59, 17, 5); //(width, height, offsetX, offsetY)      
         this.direction = 1;
         this.body.position.x += 1;
     } else{
+          // change collision box size
+          this.body.setSize(25, 59, 15, 5); //(width, height, offsetX, offsetY)      
         this.direction = -1;
         this.body.position.x -= 1;
     }
