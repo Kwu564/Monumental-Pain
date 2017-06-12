@@ -354,7 +354,7 @@ PlayPlatform.prototype = {
    fadePlayerSwordImpact: function() {
       // fades the sword impact sprite in 100 milliseconds
       game.add.tween(player.swordImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);
-   },   
+   },    
    // allows the player to talk with the npcs
    interactNPC: function(player, npc) {
       
