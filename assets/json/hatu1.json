@@ -72,9 +72,9 @@
                 {
                  "height":64,
                  "id":5,
-                 "name":"hatu1",
+                 "name":"hatu2",
                  "rotation":0,
-                 "type":"3",
+                 "type":"4",
                  "visible":true,
                  "width":64,
                  "x":832,
@@ -134,7 +134,7 @@
                      "moves":"int"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"21",
                  "visible":true,
                  "width":64,
                  "x":576,
@@ -153,7 +153,7 @@
                      "moves":"int"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"22",
                  "visible":true,
                  "width":64,
                  "x":1152,

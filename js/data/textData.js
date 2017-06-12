@@ -266,7 +266,7 @@ const TEXT_DATA = [{
       text: ['The Tree of Kevn has suffered serious scars from the attack.',
             'It may not survive.',
             'You must attempt to prevent this from happening again. The Tree of Kevn is not the only monument.',
-            'Head EAST, protector, to the mountain city of Hatu. They need your strength.'],
+            'Head EAST, protector, to the mountain city of Hatu. They need your strength. Be careful, for many will try to stop you along the way.'],
       style: {
          font: 'Georgia',
          fontSize: '18px',
@@ -368,6 +368,88 @@ const TEXT_DATA = [{
          //empty
       }
    },
+   {
+      //Kevn Fight Win
+      //reached the NPC in the Kevn Monument battle
+      text: ['Protector! You have come to save the Tree!',
+            'These men have dealt serious damage to the bark and leaves. I am afraid of how it will recover.',
+            'Please, we will stay here and attempt to recuperate. You must go stop them from causing further harm.'],
+      style: STORY_STYLE,
+      after: function() {
+         game.sound.stopAll();
+         global_save_point = 3;
+         game.state.start('Cutscene');
+      }
+   },
+   {
+      //Hatu NPC 1
+      //Welcome to Hatu
+      text: ['Welcome to Hatu. I\'m not sure I have seen you before.',
+            'You look like you are from the forest. What has made you come all this way?',
+            'Our town is not what it normally is. Many have left and the rest are arguing.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 2
+      //Pacing woman
+      text: ['I don\'t know what to do. When the king\'s advisor first began giving speeches, I found him inspiring.',
+            'He spoke of the hardships in life and how we can fix them. I wanted to fix them. It seemed hopeful.',
+            'But then he shifted his eyes toward the monuments of our lands. At that point I did not understand. What could the monuments have to do with hardship?',
+            'Why does he call for violence?'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 3
+      //Arguing person 1
+      text: ['How can you not see how counterintuitive this is? Why would you destroy something as harmless and historical as the Pillars of Hatu?',
+            'It will only cause more conflict!'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 4
+      //Arguing person 2
+      text: ['Places like the Pillars of Hatu have been looming over us, forcing us into a tradition we do not have consent of taking.',
+            'Since we are born, it is shoved down our throats to look up to these monuments, but why? It\'s not right! I want my freedom to practice culture and live my life as I choose.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 5
+      //Explosives information
+      text: ['Oh, no... this is terrible.',
+            'Protector! I heard from a friend in Kevn that you may come to our aide. Please help us!',
+            'My son, bless his heart, gathered together massive quantities of explosives we use for mining. He would not tell me where he was going, but I know he and others took them to the Pillars of Hatu',
+            'We cannot let them demolish the pillars, but I am too weak to fight them',
+            'Meet me at the Pillars of Hatu, and perhaps we can sabotage their plans.'],
+      style: STORY_STYLE,
+      after: function() {
+         global_save_point = 5;
+      }
+   },
+   {
+      //Hatu Fight Win
+      //reached the NPC in the Hatu Monument battle
+      text: ['You made it! I apologize for being in such an inconvenient location, but I had to find somewhere I may be safe.',
+            'While you distracted them, I collected as many explosives as I could and tried to douse them enough to make them useless.',
+            'I cannot express how grateful I am that you came. Thank you, protector.'],
+      style: STORY_STYLE,
+      after: function() {
+         game.sound.stopAll();
+         global_save_point = 7;
+         game.state.start('Cutscene');
+      }
+   }
 ]
 
 
@@ -397,6 +479,13 @@ const CUTSCENE6 = 16;
 const CUTSCENE7 = 17;
 const CUTSCENE8 = 18;
 const CUTSCENE10 = 19;
+const KEVN_FIGHT_WIN = 20;
+const HATU_NPC1 = 21;
+const HATU_NPC2 = 22;
+const HATU_NPC3 = 23;
+const HATU_NPC4 = 24;
+const HATU_NPC5 = 25;
+const HATU_FIGHT_WIN = 26;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //

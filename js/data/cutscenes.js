@@ -77,6 +77,20 @@ GLOBAL_CUTSCENE_DATA = [
    },
    {
       //5
+      //Protect Hatu
+      text: CUTSCENE5,
+      bg: null,
+      music: 'title-song',
+      state: 'PlayPlatform',
+      dest: KEVN_1,
+      execute: function() {
+         //empty
+      },
+      onetime: false,
+      played: false
+   },
+   {
+      //6
       //Hatu Monument Battle
       text: CUTSCENE6,
       bg: null,
@@ -90,7 +104,7 @@ GLOBAL_CUTSCENE_DATA = [
       played: false
    },
    {
-      //6
+      //7
       //Hatu Beat Monument
       text: CUTSCENE7,
       bg: null,
@@ -100,13 +114,13 @@ GLOBAL_CUTSCENE_DATA = [
       execute: function() {
          global_x = 1632;
          global_y = 864;
-         global_save_point = 7;
+         global_save_point = 8;
       },
       onetime: false,
       played: false
    },
    {
-      //7
+      //8
       //Go to the castle
       text: CUTSCENE8,
       bg: null,
@@ -120,7 +134,7 @@ GLOBAL_CUTSCENE_DATA = [
       played: false
    },
    {
-      //8
+      //9
       //Boss fight
       text: CUTSCENE9,
       bg: null,
@@ -134,7 +148,7 @@ GLOBAL_CUTSCENE_DATA = [
       played: false
    },
    {
-      //9
+      //10
       //Defeated boss
       text: CUTSCENE10,
       bg: null,

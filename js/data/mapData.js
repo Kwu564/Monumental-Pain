@@ -22,17 +22,17 @@ GLOBAL_MAP_DATA = [
           },
           function() {
              //enter Hatu Monument battle
-             if(global_save_point === 4) {
+             if(global_save_point === 5) {
                 game.sound.stopAll();
-                global_save_point = 5;
+                global_save_point = 6;
                 game.state.start('Cutscene');
              }
           },
           function() {
              //enter boss fight
-             if(global_save_point === 7) {
+             if(global_save_point === 8) {
                 game.sound.stopAll();
-                global_save_point = 8;
+                global_save_point = 9;
                 game.state.start('Cutscene');
              }
           }
@@ -79,12 +79,12 @@ GLOBAL_MAP_DATA = [
    },
    {
        // 4
-       //Xanxiz map definition
+       //Hatu2 map definition
        //TILEMAP FILES
-       mapKey: 'xanxik1-map',
-       setKey: 'forest-tile', //key for tilemap
+       mapKey: 'hatu2-map',
+       setKey: 'mountain-tile', //key for tilemap
        
-       bgKey: 'xanzik-bg',
+       bgKey: 'hatu-bg',
        
        music: 'oworld-song',
        
@@ -232,10 +232,10 @@ GLOBAL_MAP_DATA = [
    {
        // 14
        //hatu-fight
-       mapKey: 'plainsbattle1',
-       setKey: 'forest-tile',
+       mapKey: 'hatu-battle',
+       setKey: 'mountain-tile',
       
-       bgKey: 'kevn-bg',
+       bgKey: 'hatu-bg',
       
        music: 'battle-song',
        
