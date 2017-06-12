@@ -11,8 +11,8 @@
 
 var game;                      // Variable used to hold the game object
 var global_destination;        // Use this variable to set where we are going
-var global_x = 592;            // Holds the x position on the overworld map
-var global_y = 768;            // Holds the y position on the overworld map
+var global_x = 508;            // Holds the x position on the overworld map
+var global_y = 448;            // Holds the y position on the overworld map
 var global_playMusic = true;   // A toggle true if the music is supposed to be playing
 var canPause = true;           // This is used to ensure that multiple pause menus cannot be opened
 var global_save_point = 0;     // Checkpoint in game, allows the player to continue playing from a certain point after game over

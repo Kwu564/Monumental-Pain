@@ -160,6 +160,9 @@ PlayPlatform.prototype = {
             enemy = new lesserDemon(this.game, 1, 1, obj.x, obj.y, 'lesserDemon');
          } else if(obj.name === 'darkWizard') {
             enemy = new wizardBuild(this.game, 1, 1, obj.x, obj.y, 'darkWizard');
+         } else if(obj.name === 'demonSpawner') {
+            //create spawner here
+            enemy = new lesserDemon(this.game, 1, 1, obj.x, obj.y, 'lesserDemon');
          }
          enemyGroup.add(enemy);
       }
