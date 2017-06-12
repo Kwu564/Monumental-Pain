@@ -51,7 +51,7 @@ GLOBAL_CUTSCENE_DATA = [
       text: CUTSCENE4,
       bg: null,
       music: 'title-song',
-      state: 'PlayPlatform',
+      state: 'PlayOver',
       dest: O_WORLD,
       execute: function() {
          global_x = 576;
@@ -109,7 +109,7 @@ GLOBAL_CUTSCENE_DATA = [
       text: CUTSCENE7,
       bg: null,
       music: 'title-song',
-      state: 'PlayPlatform',
+      state: 'PlayOver',
       dest: O_WORLD,
       execute: function() {
          global_x = 1632;
@@ -128,7 +128,8 @@ GLOBAL_CUTSCENE_DATA = [
       state: 'PlayPlatform',
       dest: HATU_1,
       execute: function() {
-         //empty
+         global_x = 1632;
+         global_y = 864;
       },
       onetime: false,
       played: false

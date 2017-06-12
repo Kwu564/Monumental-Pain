@@ -13,6 +13,14 @@ GLOBAL_MAP_DATA = [
        
        events: [
           function() {
+             //enter boss fight
+             if(global_save_point === 8) {
+                game.sound.stopAll();
+                global_save_point = 9;
+                game.state.start('Cutscene');
+             }
+          },
+          function() {
              //enter Kevn Monument battle
              if(global_save_point === 1) {
                 game.sound.stopAll();
@@ -28,14 +36,6 @@ GLOBAL_MAP_DATA = [
                 game.state.start('Cutscene');
              }
           },
-          function() {
-             //enter boss fight
-             if(global_save_point === 8) {
-                game.sound.stopAll();
-                global_save_point = 9;
-                game.state.start('Cutscene');
-             }
-          }
        ]
    },
    {

@@ -434,7 +434,9 @@ const TEXT_DATA = [{
             'Meet me at the Pillars of Hatu, and perhaps we can sabotage their plans.'],
       style: STORY_STYLE,
       after: function() {
-         global_save_point = 5;
+         if(global_save_point === 4) {
+            global_save_point = 5;
+         }
       }
    },
    {
