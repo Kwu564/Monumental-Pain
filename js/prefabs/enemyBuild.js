@@ -328,7 +328,7 @@ lesserDemon.prototype.update = function(){
 
 // the demon will chase down and attack the player
 lesserDemon.prototype.lunge = function(){
-    this.body.velocity.x = 3.5*this.body.velocity.x;
+    //this.body.velocity.x = 3.5*this.body.velocity.x;
 }; 
 
 // this is the demons attack function
@@ -341,7 +341,7 @@ lesserDemon.prototype.playAttack = function(src){
     if(this.isAnimDone === 1){
         this.isAnimDone = 0;
     }else{
-        this.mobDamagePlayer();
+        //this.mobDamagePlayer();
         if(this.direction < 0){
             this.animations.play('slashLeft');
             this.weaponImpact.position.x = -8;
