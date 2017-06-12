@@ -78,17 +78,17 @@ oworldEnemy.prototype.update = function(){
 oworldEnemy.prototype.switchDir = function() {
     // Checks velocity and applies the appropriate direction 
     // for animation purposes
-    if(this.body.velocity.x < 0) {this.animations.play('OWorldEnemyWalkWest');}
-    if(this.body.velocity.x > 0) {this.animations.play('OWorldEnemyWalkEast');}
+    if(this.body.velocity.x < 0 && this.body.velocity.y == 0) {this.animations.play('OWorldEnemyWalkWest');}
+    else if(this.body.velocity.x > 0 && this.body.velocity.y == 0) {this.animations.play('OWorldEnemyWalkEast');}
     
-    if(this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouth');}
-    if(this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkNorth');}
+    else if(this.body.velocity.y > 0 && this.body.velocity.x == 0) {this.animations.play('OWorldEnemyWalkSouth');}
+    else if(this.body.velocity.y < 0 && this.body.velocity.x == 0) {this.animations.play('OWorldEnemyWalkNorth');}
 
-    if(this.body.velocity.x < 0 && this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouthWest');}
-    if(this.body.velocity.x > 0 && this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkSouthEast');}
+    else if(this.body.velocity.x < 0 && this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouthWest');}
+    else if(this.body.velocity.x > 0 && this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkSouthEast');}
 
-    if(this.body.velocity.x < 0 && this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkSouthWest');}
-    if(this.body.velocity.x > 0 && this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouthEast');}
+    else if(this.body.velocity.x < 0 && this.body.velocity.y < 0) {this.animations.play('OWorldEnemyWalkSouthWest');}
+    else if(this.body.velocity.x > 0 && this.body.velocity.y > 0) {this.animations.play('OWorldEnemyWalkSouthEast');}
 
 }
 oworldEnemy.prototype.moveTowardPlayer = function() {
