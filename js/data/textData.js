@@ -114,8 +114,9 @@ const TEXT_DATA = [{
       }
    },
    {
-      text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.',
-            'That\'s how much of a fool you are'],
+      text: ['Listen! Our town-no, the entire forest-is in grave danger!',
+            'A group has recently voiced plans of burning the Tree of Kevn. I\'m not sure what their purpose is, but please, you have to stop them!',
+            'Please, masked protector of the forest. No one else seems to h ave the will or the ability to stop this.'],
       style: STORY_STYLE,
       after: function() {
          //empty
@@ -171,7 +172,7 @@ const TEXT_DATA = [{
             'The people of this land are so easily manipulated. Those pitiful rocks and bushes you call monuments are worthless.',
             'And yet, so many were wildly motivated by the thought of their destruction, by the thought that it may bring liberation.',
             'Now, you. It was pointless coming here. You should have continued hiding in that forest of yours.',
-            'Now you must be destroyed as well.'],
+            'Now you will be destroyed as well.'],
       style: {
          font: 'Georgia',
          fontSize: '18px',
@@ -183,6 +184,53 @@ const TEXT_DATA = [{
       },
       after: function() {
          
+      }
+   },
+   {
+      //Kevn NPC 1
+      //Instructions on where to go
+      text: ['This is the town of Kevn.',
+            'We are currently in a time of restlesness, as political groups debate passionately on the state of our world.',
+            'You should speak with others in town. Some of them seek your help.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Kevn NPC 2
+      //Wife concerned about her husband
+      text: ['I am concerned for my husband.',
+            'He has been idolizing a man in the castle for his insight on what he calls "our decided oppression."',
+            'I did not think much of it, but lately he and others have talked of violence and destruction of "that which oppresses us."',
+            'I still do not understand. That makes me fear more.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Kevn NPC 3
+      //Trigger for Kevn Monument battle
+      text: ['Thank the heavens, you have arrived.',
+            'Masked protector, I do not know what you have heard, but a man in the castle-an advisor to the king-seems to be gathering a following through his speech.',
+            'Our town was caught largely off guard as countless men left wielding swords and axes chanting mantras of burning the sources of their oppression. By that, they evidently mean the Tree of Kevn.',
+            'They must be stopped. The Tree of Kevn does not oppress us. It represents our history as a people and the life of this forest.',
+            'Please, protector. Do what you must to prevent this destruction.'],
+      style: STORY_STYLE,
+      after: function() {
+         global_save_point = 1;
+      }
+   },
+   {
+      //Kevn NPC 4
+      //Tree of Kevn history
+      text: ['The Tree of Kevn has stood since before records show that humankind has existed.',
+            'As such, it has appropriately served as our monument of tradition and as who we are as people.',
+            'Evidently, some find these notions disagreeable. In fact they find the Tree to stand for the opposite, and they do not see its worth.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
       }
    }
 ]
@@ -202,6 +250,10 @@ const EXPOSITION = 4;
 const CUTSCENE1 = 5;
 const CUTSCENE2 = 6;
 const CUTSCENE3 = 7;
+const KEVN_NPC1 = 8;
+const KEVN_NPC2 = 9;
+const KEVN_NPC3 = 10;
+const KEVN_NPC4 = 11;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //

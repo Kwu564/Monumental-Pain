@@ -11,7 +11,7 @@ GLOBAL_CUTSCENE_DATA = [
       //destination to return to
       dest: HERO_SANCTUARY,
       execute: function() {
-         global_save_point = 1;
+         //empty
       },
       onetime: false,
       played: false
