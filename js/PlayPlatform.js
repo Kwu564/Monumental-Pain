@@ -204,18 +204,18 @@ PlayPlatform.prototype = {
 
       // PLAYER UI ELEMENTS
       // create health bar
-      playerHealthText = game.add.text(70, 30, "Health:", {font:"Courier", fontSize: "26px", fill: "white"});
+      playerHealthText = game.add.text(400, 30, "Health:", {font:"Courier", fontSize: "26px", fill: "white"});
       playerHealthText.fontWeight = 'bold';
       playerHealthText.stroke = '#000000';
       playerHealthText.strokeThickness = 6;
       playerHealthText.anchor.setTo(.5);
       playerHealthText.fixedToCamera = true;
 
-      playerHealthBarBack = game.add.sprite(70, 64, 'healthbarback');
+      playerHealthBarBack = game.add.sprite(400, 64, 'healthbarback');
       playerHealthBarBack.anchor.setTo(.5);
       playerHealthBarBack.fixedToCamera = true;
 
-      playerHealthBar = game.add.sprite(70, 64, 'healthbar');
+      playerHealthBar = game.add.sprite(400, 64, 'healthbar');
       playerHealthBar.anchor.setTo(.5);
       playerHealthBar.fixedToCamera = true;
       playerHealthBar.scale.setTo(1, 1);      
@@ -267,6 +267,7 @@ PlayPlatform.prototype = {
          else if(player.weapon === 'crossbow' && canShoot) {
             canShoot = false;
             let bullet = new bulletBuild(this.game,player.body.position.x+16,player.body.position.y+32,player.direction);
+            this.muzzleFlash(bullet);
             this.attackSound.play();
 
             // create a timer to limit the speed with witch one can fire a crossbow
@@ -343,6 +344,11 @@ PlayPlatform.prototype = {
       player.swordImpact.alpha = 1;
       // fade out the impact sprite right after 200 milliseconds
       game.time.events.add(200, this.fadePlayerSwordImpact, this);
+
+      // make the enemy's sprite flash red to indicate enemy is taking damage
+      enemy.tint = 0xff0000;
+      game.time.events.add(200,function() {enemy.tint = 0xffffff},this);
+
       enemy.health -= 2;
    },
    // called when a bullet hits the enemy
@@ -358,7 +364,14 @@ PlayPlatform.prototype = {
          arrowImpact.scale.set(-1,1);
       }
       // fades the arrow impact sprite in 100 milliseconds
-      game.add.tween(arrowImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);      
+      game.add.tween(arrowImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);
+      // delete the impact sprite after it has faded out to free up memory
+      game.time.events.add(200, function(){arrowImpact.destroy();}, this);
+
+      // make the enemy's sprite flash red to indicate enemy is taking damage
+      enemy.tint = 0xff0000;
+      game.time.events.add(200,function() {enemy.tint = 0xffffff},this);
+
       enemy.health -= 1;
       bullet.kill();
    },   
@@ -366,7 +379,29 @@ PlayPlatform.prototype = {
    fadePlayerSwordImpact: function() {
       // fades the sword impact sprite in 100 milliseconds
       game.add.tween(player.swordImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);
-   },    
+   },
+   // called whenever the player fires an arrow
+   // it spews dust out of the crossbow
+   muzzleFlash: function (bullet) {
+      // create an impact sprite where the bullet hit
+      let arrowImpact = game.add.sprite(player.body.position.x + 35, player.body.position.y + 20, 'crossbowMuzzleEffect');
+      arrowImpact.anchor.set(.5,.5);
+      arrowImpact.scale.set(1,1);
+      // set the correct orientation for the arrow impact sprite
+      if ( bullet.direction == 1 ) {
+         arrowImpact.position.x = player.body.position.x + 35;
+         arrowImpact.position.y = player.body.position.y + 20;
+         arrowImpact.scale.set(1,1);
+      } else if ( bullet.direction == -1 ) {
+         arrowImpact.position.x = player.body.position.x - 25;
+         arrowImpact.position.y = player.body.position.y + 20;         
+         arrowImpact.scale.set(-1,1);
+      }
+      // fades the arrow impact sprite in 100 milliseconds
+      game.add.tween(arrowImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);
+      // delete the impact sprite after it has faded out to free up memory
+      game.time.events.add(200, function(){arrowImpact.destroy();}, this);    
+   },
    // allows the player to talk with the npcs
    interactNPC: function(player, npc) {
       
@@ -450,7 +485,9 @@ PlayPlatform.prototype = {
          arrowImpact.scale.set(-1,1);
       }
       // fades the arrow impact sprite in 100 milliseconds
-      game.add.tween(arrowImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);     
+      game.add.tween(arrowImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);
+      // delete the impact sprite after it has faded out to free up memory
+      game.time.events.add(200, function(){arrowImpact.destroy();}, this);
       bullet.kill();
    },   
    gameover: function() {

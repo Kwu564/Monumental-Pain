@@ -57,7 +57,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     // add child sprite for sword
     this.sword = this.addChild(game.make.sprite(8, -23, 'collider'));
     this.sword.scale.set(30, 60);
-    this.sword.alpha = 0.1;
+    this.sword.alpha = 0;
     game.physics.arcade.enable(this.sword);
 
     // Add child sprite for the sword impact effect.
@@ -94,7 +94,7 @@ spriteBuild.prototype.constructor = spriteBuild;
 spriteBuild.prototype.update = function() {
     // if the player is invicible (as they are after being hit), they become transparent
     if(this.invincibility === 1){
-        this.alpha = .5;  
+        this.alpha = .5;
     }else{
         // otherwise they return to full opacity
         this.alpha = 1;

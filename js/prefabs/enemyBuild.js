@@ -158,7 +158,13 @@ axeMan.prototype.update = function(){
     
     // ensure that the sprite is destroyed if it dies
     if(this.health <= 0){
-          this.destroy();
+         // enemy stops moving
+         this.animations.stop();
+         this.body.velocity.x = 0;
+         // quickly fade out the enemy sprite before destroying it
+         game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true);
+         // delete the enemy sprite after it has faded out to free up memory
+         game.time.events.add(300, function(){this.destroy();}, this);
     }
 
     // if it sees the player it will give chase
@@ -306,7 +312,13 @@ lesserDemon.prototype.update = function(){
     this.animate();
     // destroy the lesser demon when it no longer has health
     if(this.health <= 0){
-          this.destroy();
+         // enemy stops moving
+         this.animations.stop();
+         this.body.velocity.x = 0;
+         // quickly fade out the enemy sprite before destroying it
+         game.add.tween(this).to( { alpha: 0 }, 200, Phaser.Easing.Linear.None, true);
+         // delete the enemy sprite after it has faded out to free up memory
+         game.time.events.add(300, function(){this.destroy();}, this);     
     }
     // demon will seek to attack player and does damage on overlap
     game.physics.arcade.overlap(player, this.vision2, this.lunge, null, this);
