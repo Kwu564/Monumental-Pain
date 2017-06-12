@@ -346,7 +346,19 @@ PlayPlatform.prototype = {
       enemy.health -= 2;
    },
    // called when a bullet hits the enemy
-   bulletHit: function(bullet,enemy) {     
+   bulletHit: function(bullet,enemy) {
+      // create an impact sprite where the bullet hit
+      let arrowImpact = game.add.sprite(bullet.position.x, bullet.position.y, 'arrowImpact');
+      arrowImpact.anchor.set(.5,.5);
+      arrowImpact.scale.set(1,1);
+      // set the correct orientation for the arrow impact sprite
+      if ( bullet.direction == 1 ) {
+         arrowImpact.scale.set(1,1);
+      } else if ( bullet.direction == -1 ) {
+         arrowImpact.scale.set(-1,1);
+      }
+      // fades the arrow impact sprite in 100 milliseconds
+      game.add.tween(arrowImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);      
       enemy.health -= 1;
       bullet.kill();
    },   
@@ -427,6 +439,18 @@ PlayPlatform.prototype = {
       timer.start();
    },
    killBullet: function(bullet) {
+      // create an impact sprite where the bullet hit
+      let arrowImpact = game.add.sprite(bullet.position.x, bullet.position.y, 'arrowImpact');
+      arrowImpact.anchor.set(.5,.5);
+      arrowImpact.scale.set(1,1);
+      // set the correct orientation for the arrow impact sprite
+      if ( bullet.direction == 1 ) {
+         arrowImpact.scale.set(1,1);
+      } else if ( bullet.direction == -1 ) {
+         arrowImpact.scale.set(-1,1);
+      }
+      // fades the arrow impact sprite in 100 milliseconds
+      game.add.tween(arrowImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);     
       bullet.kill();
    },   
    gameover: function() {

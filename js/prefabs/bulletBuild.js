@@ -32,8 +32,7 @@ var bulletBuild = function(game, x, y, direction){
     }
 
     // ensure the sprite is facing the right direction
-    this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);    
-
+    this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
 };
 
 bulletBuild.prototype = Object.create(Phaser.Sprite.prototype);

@@ -110,6 +110,8 @@ enemyBuild.prototype.respawnVision = function(){
 // Specific enemies //
 //////////////////////
 // AXEMAN
+// NOTE: this is also the constructor for the swordsman enemy.
+// Changing things here will also effect the swordsman too!
 var axeMan = function(game, scaleX, scaleY, x, y, src, frame) { 
     enemyBuild.call(this,game,scaleX,scaleY,x,y,src,frame);
     // walk speed
@@ -255,7 +257,7 @@ var lesserDemon = function(game, scaleX, scaleY, x, y, src, frame) {
    this.weaponImpact = this.addChild(game.make.sprite(8, -23, 'smallWeaponImpact'));
    this.weaponImpact.scale.set(1, 1);
    this.weaponImpact.alpha = 0;
-   game.physics.arcade.enable(this.weaponImpact);    
+   game.physics.arcade.enable(this.weaponImpact);  
 };
 
 lesserDemon.prototype = Object.create(enemyBuild.prototype);

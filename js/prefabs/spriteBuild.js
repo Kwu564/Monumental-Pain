@@ -19,7 +19,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.health = 4;
     //flag for determining when attack animation is finished playing 
     this.isAnimDone = 1;
-    this.invincibility = 1;
+    this.invincibility = 0;
     this.invincibilityDelay = 1;
     this.slashAnimRight = null;
     this.slashAnimLeft = null;
