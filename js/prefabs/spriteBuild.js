@@ -57,7 +57,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     // add child sprite for sword
     this.sword = this.addChild(game.make.sprite(8, -23, 'collider'));
     this.sword.scale.set(30, 60);
-    this.sword.alpha = 0;
+    this.sword.alpha = 0.1;
     game.physics.arcade.enable(this.sword);
 
     // Add child sprite for the sword impact effect.
