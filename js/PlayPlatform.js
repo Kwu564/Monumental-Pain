@@ -267,7 +267,19 @@ PlayPlatform.prototype = {
          }
          else if(player.weapon === 'crossbow' && canShoot) {
             canShoot = false;
-            let bullet = new bulletBuild(this.game,player.body.position.x+16,player.body.position.y+32,player.direction);
+            // make the arrows spawn at the correct location
+            // the spawn location adjusts according to where the player
+            // is facing.
+            let fireLocationX = 0;
+            let fireLocationY = 0;            
+            if ( player.direction == 1 ) {
+               fireLocationX = player.body.position.x + 35;
+               fireLocationY = player.body.position.y + 30;
+            } else if ( player.direction == -1 ) {
+               fireLocationX = player.body.position.x - 25;
+               fireLocationY = player.body.position.y + 30;               
+            }
+            let bullet = new bulletBuild(this.game,fireLocationX,fireLocationY,player.direction);
             this.muzzleFlash(bullet);
             this.attackSound.play();
 
