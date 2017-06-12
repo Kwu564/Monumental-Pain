@@ -55,7 +55,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.airTime = 0;             //determines whether a thud sound is played on landing
     
     // add child sprite for sword
-    this.sword = this.addChild(game.make.sprite(8, -23, 'collider'));
+    this.sword = this.addChild(game.make.sprite(2, -27, 'collider'));
     this.sword.scale.set(30, 60);
     this.sword.alpha = 0.1;
     game.physics.arcade.enable(this.sword);
@@ -155,7 +155,7 @@ spriteBuild.prototype.update = function() {
             }
 
             //make sure the sword hitbox is on the right side of the player
-            this.sword.position.x = (-2) - this.sword.width;
+            this.sword.position.x = (-14) - this.sword.width;
             //make sure the sword impact sprite is on the right side of the player
             this.swordImpact.position.x = (-30) - this.swordImpact.width;
             //make sure that the sword impact sprite is facing on the left side of the player
