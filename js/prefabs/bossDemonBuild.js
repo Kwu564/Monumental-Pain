@@ -55,7 +55,7 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.direction = -1; //positive = right, negative = left
 
     //sound
-    this.attackSound = game.add.audio('attackSound');
+    this.attackSound = game.add.audio('bossAttackSound');
 };
 
 bossDemonBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -95,8 +95,8 @@ bossDemonBuild.prototype.update = function(){
     // if the demon has 0 or less health, it will be destroyed and the victory screen will start
     if(this.health <= 0){
         this.destroy();
-        global_save_point = 10;
-        game.state.start('Cutscene');
+        textObj = TEXT_DATA[BOSS_FIGHT_WIN];
+        textBox(game, game.camera.width/2, game.camera.height/2, 0.5, 0.5, !NAVIGABLE, textObj);
     }
 
     // the player will collide withthe demon making it difficult to manuever around

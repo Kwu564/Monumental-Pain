@@ -451,6 +451,26 @@ const TEXT_DATA = [{
          global_save_point = 7;
          game.state.start('Cutscene');
       }
+   },
+   {
+      //Boss Fight Win
+      //killed the big ol' demon boy
+      text: ['I... I cannot believe this. Someone so small, insignificant was able to destroy a demonic power this great.',
+            'I will... I will return..... and you will be destroyed.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         game.sound.stopAll();
+         global_save_point = 10;
+         game.state.start('Cutscene');
+      }
    }
 ]
 
@@ -488,6 +508,7 @@ const HATU_NPC3 = 23;
 const HATU_NPC4 = 24;
 const HATU_NPC5 = 25;
 const HATU_FIGHT_WIN = 26;
+const BOSS_FIGHT_WIN = 27;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //
