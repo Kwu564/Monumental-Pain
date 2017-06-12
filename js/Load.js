@@ -35,13 +35,13 @@ Load.prototype = {
 
       // an array of keys and files; listed in pairs i.e. ['key', 'key.file',...]
       // Varius images
-      let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png','titleart','TitleArt.png', 'gameOver', 'gameOver.png','hatu-bg','hatu-bg.png','boss-bg','boss-bg.png','healthbar','healthbar.png','healthbarback','healthbarback.png','swordImpact','swordImpact.png'];
+      let imgList = ['collider','collider.png','kevn-bg','kevn-bg.png','textbox','textbox.png','titleart','TitleArt.png', 'gameOver', 'gameOver.png','hatu-bg','hatu-bg.png','boss-bg','boss-bg.png','healthbar','healthbar.png','healthbarback','healthbarback.png'];
       
       // cutscenes
       let sceneList = ['cutscene1','cutscene1.png'];
 
       // sprites that are not part of spritesheets
-      let spriteList = ['arrow','crossbowBolt.png'];
+      let spriteList = ['arrow','crossbowBolt.png','swordImpact','swordImpact.png','smallWeaponImpact','smallweaponImpact.png','arrowImpact','arrowImpact.png','crossbowMuzzleEffect','crossbowMuzzleEffect.png'];
 
       // spritesheets
       let sheetList = ['platHero','hero-tall.png',64,64,'axeMan-enemy','axeMan.png',64,64,'swordsMan-enemy','swordsMan.png',64,64,'lesserDemon','lesserDemon.png',64,64,'overallDude-npc','overallDude.png',64,64,'skirtDudette-npc','skirtDudette.png',64,64,'bossDemon','bossDemon.png',340,340,'hero','hero.png',32,32,'baddie','baddie.png',32,32,'darkWizard','darkWizard.png',64,64];
