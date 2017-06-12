@@ -222,13 +222,13 @@ var createSwordSlashHit = function(){
         this.swordSlashHit = this.addChild(game.make.sprite(0,160, 'collider'));
         this.swordSlashHit.scale.set(250,50);
         this.swordSlashHit.anchor.set(.5,.5);
-        this.swordSlashHit.alpha = 1;
+        this.swordSlashHit.alpha = 0;
         game.physics.arcade.enable(this.swordSlashHit);
     }else{
         this.swordSlashHit = this.addChild(game.make.sprite(150,160, 'collider'));
         this.swordSlashHit.scale.set(250,50);
         this.swordSlashHit.anchor.set(.5,.5);
-        this.swordSlashHit.alpha = 1;
+        this.swordSlashHit.alpha = 0;
     }
 };
 
