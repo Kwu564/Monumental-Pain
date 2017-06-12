@@ -124,7 +124,7 @@
                 {
                  "height":52,
                  "id":50,
-                 "name":"boss",
+                 "name":"Castle",
                  "rotation":0,
                  "type":"0",
                  "visible":true,
@@ -135,7 +135,7 @@
                 {
                  "height":47,
                  "id":51,
-                 "name":"",
+                 "name":"Tree",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -146,7 +146,7 @@
                 {
                  "height":48,
                  "id":52,
-                 "name":"",
+                 "name":"Pillars",
                  "rotation":0,
                  "type":"",
                  "visible":true,

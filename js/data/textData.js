@@ -114,8 +114,9 @@ const TEXT_DATA = [{
       }
    },
    {
-      text: ['You are a fool. Your mother thinks so. I think so. You probably think so too.',
-            'That\'s how much of a fool you are'],
+      text: ['Listen! Our town-no, the entire forest-is in grave danger!',
+            'A group has recently voiced plans of burning the Tree of Kevn. I\'m not sure what their purpose is, but please, you have to stop them!',
+            'Please, masked protector of the forest. No one else seems to h ave the will or the ability to stop this.'],
       style: STORY_STYLE,
       after: function() {
          //empty
@@ -171,7 +172,7 @@ const TEXT_DATA = [{
             'The people of this land are so easily manipulated. Those pitiful rocks and bushes you call monuments are worthless.',
             'And yet, so many were wildly motivated by the thought of their destruction, by the thought that it may bring liberation.',
             'Now, you. It was pointless coming here. You should have continued hiding in that forest of yours.',
-            'Now you must be destroyed as well.'],
+            'Now you will be destroyed as well.'],
       style: {
          font: 'Georgia',
          fontSize: '18px',
@@ -183,6 +184,272 @@ const TEXT_DATA = [{
       },
       after: function() {
          
+      }
+   },
+   {
+      //Kevn NPC 1
+      //Instructions on where to go
+      text: ['This is the town of Kevn.',
+            'We are currently in a time of restlesness, as political groups debate passionately on the state of our world.',
+            'You should speak with others in town. Some of them seek your help.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Kevn NPC 2
+      //Wife concerned about her husband
+      text: ['I am concerned for my husband.',
+            'He has been idolizing a man in the castle for his insight on what he calls "our decided oppression."',
+            'I did not think much of it, but lately he and others have talked of violence and destruction of "that which oppresses us."',
+            'I still do not understand. That makes me fear more.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Kevn NPC 3
+      //Trigger for Kevn Monument battle
+      text: ['Thank the heavens, you have arrived.',
+            'Masked protector, I do not know what you have heard, but a man in the castle-an advisor to the king-seems to be gathering a following through his speech.',
+            'Our town was caught largely off guard as countless men left wielding swords and axes chanting mantras of burning the sources of their oppression. By that, they evidently mean the Tree of Kevn.',
+            'They must be stopped. The Tree of Kevn does not oppress us. It represents our history as a people and the life of this forest.',
+            'Please, protector. Do what you must to prevent this destruction.'],
+      style: STORY_STYLE,
+      after: function() {
+         if(global_save_point === 0) {
+            global_save_point = 1;
+         }
+      }
+   },
+   {
+      //Kevn NPC 4
+      //Tree of Kevn history
+      text: ['The Tree of Kevn has stood since before records show that humankind has existed.',
+            'As such, it has appropriately served as our monument of tradition and as who we are as people.',
+            'Evidently, some find these notions disagreeable. In fact they find the Tree to stand for the opposite, and they do not see its worth.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Kevn NPC 5
+      //Heals the player's health
+      text: ['You look weary, protector. Let me restore your health.'],
+      style: STORY_STYLE,
+      after: function() {
+         player.health = 5;
+      }
+   },
+   {
+      //Cutscene3
+      text: ['Burn it down! Burn it down! Burn it down!',
+            'Destroy our oppression! Release us from the binds of the past!'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'red',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene4
+      text: ['The Tree of Kevn has suffered serious scars from the attack.',
+            'It may not survive.',
+            'You must attempt to prevent this from happening again. The Tree of Kevn is not the only monument.',
+            'Head EAST, protector, to the mountain city of Hatu. They need your strength. Be careful, for many will try to stop you along the way.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene5
+      text: ['The ancient pillars of Hatu still stand in the mountain town of Hatu.',
+            'Move swiftly to the east of Kevn. The monument\'s enemies will attack soon.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene6
+      text: ['Move the explosives! These pillars of fear no longer stand in our way!',
+            'We are beyond the age of oppression! Rise against these petty stones that stand in our way! Show them who is truly powerful!'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'red',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene7
+      text: ['It appears the destroyers have moved away from this place.',
+            'You cannot guarantee they will not return, but it is time to address the root of this violence.',
+            'Travel to the castle to the south of Hatu, where the advisor plots grander deployment of chaos.',
+            'As we speak, he calls upon dark magical power to assert dominance over the land.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene8
+      text: ['An evil power grows in the castle in the center of this continent.',
+            'Go, protector.\nYour final stand is there.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Cutscene10
+      text: ['The beast has been stopped.',
+            'His followers remain, and the destruction they caused is permanent, but from here you may help this world move forward.',
+            'Thank you, protector.'],
+      style: {
+         font: 'Georgia',
+         fontSize: '18px',
+         fill: 'white',
+         wordWrap: true,
+         wordWrapWidth: 800,
+         align: 'center',
+         backgroundColor: 'black'
+      },
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Kevn Fight Win
+      //reached the NPC in the Kevn Monument battle
+      text: ['Protector! You have come to save the Tree!',
+            'These men have dealt serious damage to the bark and leaves. I am afraid of how it will recover.',
+            'Please, we will stay here and attempt to recuperate. You must go stop them from causing further harm.'],
+      style: STORY_STYLE,
+      after: function() {
+         game.sound.stopAll();
+         global_save_point = 3;
+         game.state.start('Cutscene');
+      }
+   },
+   {
+      //Hatu NPC 1
+      //Welcome to Hatu
+      text: ['Welcome to Hatu. I\'m not sure I have seen you before.',
+            'You look like you are from the forest. What has made you come all this way?',
+            'Our town is not what it normally is. Many have left and the rest are arguing.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 2
+      //Pacing woman
+      text: ['I don\'t know what to do. When the king\'s advisor first began giving speeches, I found him inspiring.',
+            'He spoke of the hardships in life and how we can fix them. I wanted to fix them. It seemed hopeful.',
+            'But then he shifted his eyes toward the monuments of our lands. At that point I did not understand. What could the monuments have to do with hardship?',
+            'Why does he call for violence?'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 3
+      //Arguing person 1
+      text: ['How can you not see how counterintuitive this is? Why would you destroy something as harmless and historical as the Pillars of Hatu?',
+            'It will only cause more conflict!'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 4
+      //Arguing person 2
+      text: ['Places like the Pillars of Hatu have been looming over us, forcing us into a tradition we do not have consent of taking.',
+            'Since we are born, it is shoved down our throats to look up to these monuments, but why? It\'s not right! I want my freedom to practice culture and live my life as I choose.'],
+      style: STORY_STYLE,
+      after: function() {
+         //empty
+      }
+   },
+   {
+      //Hatu NPC 5
+      //Explosives information
+      text: ['Oh, no... this is terrible.',
+            'Protector! I heard from a friend in Kevn that you may come to our aide. Please help us!',
+            'My son, bless his heart, gathered together massive quantities of explosives we use for mining. He would not tell me where he was going, but I know he and others took them to the Pillars of Hatu',
+            'We cannot let them demolish the pillars, but I am too weak to fight them',
+            'Meet me at the Pillars of Hatu, and perhaps we can sabotage their plans.'],
+      style: STORY_STYLE,
+      after: function() {
+         if(global_save_point === 4) {
+            global_save_point = 5;
+         }
+      }
+   },
+   {
+      //Hatu Fight Win
+      //reached the NPC in the Hatu Monument battle
+      text: ['You made it! I apologize for being in such an inconvenient location, but I had to find somewhere I may be safe.',
+            'While you distracted them, I collected as many explosives as I could and tried to douse them enough to make them useless.',
+            'I cannot express how grateful I am that you came. Thank you, protector.'],
+      style: STORY_STYLE,
+      after: function() {
+         game.sound.stopAll();
+         global_save_point = 7;
+         game.state.start('Cutscene');
       }
    }
 ]
@@ -201,7 +468,26 @@ const YOU_ARE_A_FOOL = 3;
 const EXPOSITION = 4;
 const CUTSCENE1 = 5;
 const CUTSCENE2 = 6;
-const CUTSCENE3 = 7;
+const CUTSCENE9 = 7;
+const KEVN_NPC1 = 8;
+const KEVN_NPC2 = 9;
+const KEVN_NPC3 = 10;
+const KEVN_NPC4 = 11;
+const KEVN_NPC5 = 12;
+const CUTSCENE3 = 13;
+const CUTSCENE4 = 14;
+const CUTSCENE5 = 15;
+const CUTSCENE6 = 16;
+const CUTSCENE7 = 17;
+const CUTSCENE8 = 18;
+const CUTSCENE10 = 19;
+const KEVN_FIGHT_WIN = 20;
+const HATU_NPC1 = 21;
+const HATU_NPC2 = 22;
+const HATU_NPC3 = 23;
+const HATU_NPC4 = 24;
+const HATU_NPC5 = 25;
+const HATU_FIGHT_WIN = 26;
 
 ////////////////////////////////////////////
 // THIS CONSTANT IS A BOOLEAN VALUES THAT //

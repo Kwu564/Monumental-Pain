@@ -162,6 +162,13 @@ PlayPlatform.prototype = {
             enemy = new wizardBuild(this.game, 1, 1, obj.x, obj.y, 'darkWizard');
          } else if(obj.name === 'demonSpawner') {
             //create spawner here
+            enemy = new lesserDemon(this.game, 1, 1, obj.x, obj.y, 'lesserDemon');
+         } else if(obj.name === 'swordsManSpawner') {
+            //create spawner here
+            enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'swordsMan-enemy');
+         } else if(obj.name === 'axeManSpawner') {
+            //create spawner here
+            enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
          }
          enemyGroup.add(enemy);
       }
