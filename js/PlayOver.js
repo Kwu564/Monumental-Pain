@@ -59,7 +59,7 @@ PlayOver.prototype = {
       //WALLMAP SETUP
       // all tiles not listed can be colided with
       map.setCollisionByExclusion([6,21,24], true, layer2);
-      map.setCollisionByExclusion([1,2,3,5,17,18,66], true, layer3);
+      map.setCollisionByExclusion([1,2,3,4,17,18,20,35,36,51,52,66,86,87,99,100,102,103,115,116], true, layer3);
       
       // resize the world bounds to fit the tilemap
       layer1.resizeWorld();

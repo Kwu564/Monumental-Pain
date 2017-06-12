@@ -133,7 +133,7 @@ GLOBAL_MAP_DATA = [
             
                wizard.tint = 0xff0000; //turn wizard red
                var sound = game.add.audio('transformation');
-               var song = game.add.audio('gameover-song');
+               var song = game.add.audio('boss-song');
                sound.play();
                //wait for the sound effect to be done
                //then kill the wizard and tell PlayPlatform

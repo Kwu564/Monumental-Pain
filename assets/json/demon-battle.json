@@ -36,7 +36,29 @@
         {
          "draworder":"topdown",
          "name":"enemies",
-         "objects":[],
+         "objects":[
+                {
+                 "height":64,
+                 "id":9,
+                 "name":"demonSpawner",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1984,
+                 "y":320
+                }, 
+                {
+                 "height":64,
+                 "id":10,
+                 "name":"demonSpawner",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":512,
+                 "y":320
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -136,7 +158,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":8,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":64,
