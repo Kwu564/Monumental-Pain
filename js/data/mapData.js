@@ -136,7 +136,7 @@ GLOBAL_MAP_DATA = [
        
        bgKey: 'boss-bg',
        
-       music: 'gameover-song',
+       music: 'boss-song',
        
        events: [
           function() {
@@ -161,7 +161,7 @@ GLOBAL_MAP_DATA = [
                   wizard.kill();
                   spawnBoss = true;
                   canEnter = true;
-                  song.play();
+                  song.play('', 0, 1, true);
                }, this);
                timer.start();
              }, this);
