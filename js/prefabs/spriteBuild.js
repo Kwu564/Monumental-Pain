@@ -57,7 +57,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     // add child sprite for sword
     this.sword = this.addChild(game.make.sprite(2, -27, 'collider'));
     this.sword.scale.set(30, 60);
-    this.sword.alpha = 0.1;
+    this.sword.alpha = 0;
     game.physics.arcade.enable(this.sword);
 
     // Add child sprite for the sword impact effect.
@@ -274,6 +274,8 @@ spriteBuild.prototype.playAttack = function() {
     } else {
         // play the attack animations if isAnimDone = 0
         // play attack sounds and animations in the correct direction
+        player.invincibility = 1;
+        game.time.events.add(Phaser.Timer.SECOND*.5, function() {this.invincibility = 0}, this);
         if ( this.weapon === 'sword' ) {
             this.attackSound.play();
             if ( this.direction === 1 ) {
