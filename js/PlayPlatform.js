@@ -156,18 +156,17 @@ PlayPlatform.prototype = {
          let enemy;
          if(obj.name === 'demonSpawner'){
             let timer = game.time.create();
-            timer.add(10000, function() {
-            this.spawnEnemyEvent(obj.x,obj.y);
+            
+            timer.add(15000, function() {
+               this.spawnEnemyEvent(obj.x,obj.y,obj.name);
             }, this);
             timer.start();
             //this.spawnEnemyEvent(obj.x,obj.y);
-
-         if(obj.name === 'demonSpawner'
-           || obj.name === 'swordsManSpawner'
+         } else if(obj.name === 'swordsManSpawner'
            || obj.name === 'axeManSpawner')
          {
             this.spawnEnemyEvent(obj.x,obj.y,obj.name);
-         }else{
+         } else{
             if(obj.name === 'axeMan') {
                enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
             } else if(obj.name === 'swordsMan') {
