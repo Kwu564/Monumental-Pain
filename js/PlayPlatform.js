@@ -161,6 +161,12 @@ PlayPlatform.prototype = {
             }, this);
             timer.start();
             //this.spawnEnemyEvent(obj.x,obj.y);
+
+         if(obj.name === 'demonSpawner'
+           || obj.name === 'swordsManSpawner'
+           || obj.name === 'axeManSpawner')
+         {
+            this.spawnEnemyEvent(obj.x,obj.y,obj.name);
          }else{
             if(obj.name === 'axeMan') {
                enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
@@ -170,25 +176,14 @@ PlayPlatform.prototype = {
                //enemy = new lesserDemon(this.game, 1, 1, obj.x, obj.y, 'lesserDemon');
             } else if(obj.name === 'darkWizard') {
                enemy = new wizardBuild(this.game, 1, 1, obj.x, obj.y, 'darkWizard');
-            } else if(obj.name === 'demonSpawner') {
-               //create spawner here
-               
-            } else if(obj.name === 'swordsManSpawner') {
-               //create spawner here
-               enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'swordsMan-enemy');
-            } else if(obj.name === 'axeManSpawner') {
-               //create spawner here
-               enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
             }
             enemyGroup.add(enemy);
+            enemyGroup.setAll('body.collideWorldBounds', true);
          }
       }
       
       // set appropriate properties to all types of enemies
       enemyGroup.setAll('body.gravity.y', 1500);
-      enemyGroup.setAll('body.collideWorldBounds', true);
-      bossGroup.setAll('body.gravity.y', 1500);
-      bossGroup.setAll('body.collideWorldBounds', true);
       
       // NPC SPAWNING
       npcGroup = this.game.add.group();
@@ -529,17 +524,26 @@ PlayPlatform.prototype = {
       timer.start();
    },
    //self explanatory function, is recursive on a timer
-   spawnEnemyEvent: function(sourceX,sourceY){
+   spawnEnemyEvent: function(sourceX,sourceY,type){
       let timer = game.time.create();
-      enemy = new lesserDemon(this.game,1,1,sourceX,sourceY,'lesserDemon');
+      
+      let enemy;
+      if(type === 'demonSpawner') {
+         enemy = new lesserDemon(this.game,1,1,sourceX,sourceY,'lesserDemon');
+      } else if(type === 'axeManSpawner') {
+         enemy = new axeMan(this.game, 1, 1, sourceX, sourceY, 'axeMan-enemy');
+      } else if(type === 'swordsManSpawner') {
+         enemy = new axeMan(this.game, 1, 1, sourceX, sourceY, 'swordsMan-enemy');
+      }
       enemyGroup.add(enemy);
+      enemyGroup.setAll('body.gravity.y', 1500);
+      enemyGroup.setAll('body.collideWorldBounds', false);
 
       timer.add(10000, function() {
-         this.spawnEnemyEvent(sourceX,sourceY);
+         this.spawnEnemyEvent(sourceX,sourceY,type);
       }, this);
       timer.start();
-      enemyGroup.setAll('body.gravity.y', 1500);
-      enemyGroup.setAll('body.collideWorldBounds', true);
+      
    },
 
    /////////////////////////
