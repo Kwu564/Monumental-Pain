@@ -37,6 +37,7 @@ var enemyBuild = function(game, scaleX, scaleY, x, y, src, frame){
    // set initial direction
    this.direction = -1; //positive = right, negative = left
    this.isAnimDone = 0;
+   this.canAttack = 1;
 };
 
 enemyBuild.prototype = Object.create(Phaser.Sprite.prototype);
@@ -185,7 +186,9 @@ axeMan.prototype.update = function(){
     game.physics.arcade.overlap(player, this.vision, this.chase, null, this);
 
     // if it reaches the plaeyr it will attack
-    game.physics.arcade.collide(player, this, this.playAttack, null, this);
+    if(this.canAttack == 1){
+        game.physics.arcade.collide(player, this, this.playAttack, null, this);
+    }
 };
 
 // this is the chase function which causes the axeman to move faster
@@ -199,14 +202,17 @@ axeMan.prototype.chase = function(){
 
 // this function handles the axemans attakc
 axeMan.prototype.playAttack = function(){
-   // set the state correctly
-   this.state = 'attacking';
-   this.axeSlashright.onComplete.add(function() {this.isAnimDone === 1; this.state = 'walking'}, this);
-   this.axeSlashleft.onComplete.add(function() {this.isAnimDone === 1; this.state = 'walking'},this);
-   // reset the animations
-   if(this.isAnimDone === 1){
+    // set the state correctly
+    this.state = 'attacking';
+    this.body.velocity.x = 0;
+    this.axeSlashright.onComplete.add(function() {this.isAnimDone === 1; this.state = 'walking'}, this);
+    this.axeSlashleft.onComplete.add(function() {this.isAnimDone === 1; this.state = 'walking'},this);
+    // reset the animations
+    this.canAttack = 0;
+    game.time.events.add(Phaser.Timer.SECOND,function() {this.canAttack = 1}, this);
+    if(this.isAnimDone === 1){
       this.isAnimDone = 0;
-   }else{ // damage the player
+    }else{ // damage the player
       this.mobDamagePlayer();
       console.log("axeman is attacking");
       // play the correct animation based on where the sprite is facing
@@ -335,7 +341,9 @@ lesserDemon.prototype.update = function(){
     }
     // demon will seek to attack player and does damage on overlap
     game.physics.arcade.overlap(player, this.vision2, this.lunge, null, this);
-    game.physics.arcade.overlap(player, this, this.playAttack, null, this);
+    if(this.canAttack == 1){
+        game.physics.arcade.overlap(player, this, this.playAttack, null, this);
+    }
 };
 
 
@@ -350,6 +358,9 @@ lesserDemon.prototype.playAttack = function(src){
     this.state = 'attacking';
     this.slashRight.onComplete.add(function() {this.isAnimDone === 1; this.state = 'walking'},this);
     this.slashLeft.onComplete.add(function() {this.isAnimDone ===1; this.state = 'walking'},this);
+
+    this.canAttack = 0;
+    game.time.events.add(Phaser.Timer.SECOND,function() {this.canAttack = 1}, this);
 
     if(this.isAnimDone === 1){
         this.isAnimDone = 0;
