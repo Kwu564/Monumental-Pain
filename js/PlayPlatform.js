@@ -19,7 +19,8 @@ var PlayPlatform = function(game) {
 };
 PlayPlatform.prototype = {
    create: function() {
-      global_save_point = 8;
+      //for boss testing
+      //global_save_point = 8;
       console.log("PlayPlatform: create");
 
       // fades camera instantly, black while creating things
@@ -521,6 +522,7 @@ PlayPlatform.prototype = {
       }, this);
       timer.start();
    },
+   //self explanatory function, is recursive on a timer
    spawnEnemyEvent: function(sourceX,sourceY){
       let timer = game.time.create();
       enemy = new lesserDemon(this.game,1,1,sourceX,sourceY,'lesserDemon');
