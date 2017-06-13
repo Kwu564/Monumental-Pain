@@ -525,9 +525,13 @@ PlayPlatform.prototype = {
       let timer = game.time.create();
       enemy = new lesserDemon(this.game,1,1,sourceX,sourceY,'lesserDemon');
       enemyGroup.add(enemy);
-      timer.add(10, function() {
+
+      timer.add(10000, function() {
          this.spawnEnemyEvent(sourceX,sourceY);
       }, this);
+      timer.start();
+      enemyGroup.setAll('body.gravity.y', 1500);
+      enemyGroup.setAll('body.collideWorldBounds', true);
    },
 
    /////////////////////////
