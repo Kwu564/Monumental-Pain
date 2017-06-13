@@ -529,6 +529,11 @@ PlayPlatform.prototype = {
       let enemy;
       if(type === 'demonSpawner') {
          enemy = new lesserDemon(this.game,1,1,sourceX,sourceY,'lesserDemon');
+         if(enemy.body.position.x > 1286) {
+            enemy.direction = 1;
+         } else {
+            enemy.direction = -1;
+         }
       } else if(type === 'axeManSpawner') {
          enemy = new axeMan(this.game, 1, 1, sourceX, sourceY, 'axeMan-enemy');
       } else if(type === 'swordsManSpawner') {
