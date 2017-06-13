@@ -170,14 +170,12 @@ PlayPlatform.prototype = {
                enemy = new wizardBuild(this.game, 1, 1, obj.x, obj.y, 'darkWizard');
             }
             enemyGroup.add(enemy);
+            enemyGroup.setAll('body.collideWorldBounds', true);
          }
       }
       
       // set appropriate properties to all types of enemies
       enemyGroup.setAll('body.gravity.y', 1500);
-      enemyGroup.setAll('body.collideWorldBounds', true);
-      bossGroup.setAll('body.gravity.y', 1500);
-      bossGroup.setAll('body.collideWorldBounds', true);
       
       // NPC SPAWNING
       npcGroup = this.game.add.group();
@@ -525,18 +523,19 @@ PlayPlatform.prototype = {
       if(type === 'demonSpawner') {
          enemy = new lesserDemon(this.game,1,1,sourceX,sourceY,'lesserDemon');
       } else if(type === 'axeManSpawner') {
-         enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
+         enemy = new axeMan(this.game, 1, 1, sourceX, sourceY, 'axeMan-enemy');
       } else if(type === 'swordsManSpawner') {
-         enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'swordsMan-enemy');
+         enemy = new axeMan(this.game, 1, 1, sourceX, sourceY, 'swordsMan-enemy');
       }
       enemyGroup.add(enemy);
-
-      timer.add(10000, function() {
-         this.spawnEnemyEvent(sourceX,sourceY);
-      }, this);
-      timer.start();
       enemyGroup.setAll('body.gravity.y', 1500);
       enemyGroup.setAll('body.collideWorldBounds', false);
+
+      timer.add(10000, function() {
+         this.spawnEnemyEvent(sourceX,sourceY,type);
+      }, this);
+      timer.start();
+      
    },
 
    /////////////////////////
