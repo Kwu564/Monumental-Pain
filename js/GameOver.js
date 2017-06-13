@@ -19,6 +19,7 @@ GameOver.prototype = {
       // Reset all relevent globally tracked variables
       global_x = 512;
       global_y = 448;
+      canShoot = true
 
       // creates the actual button, this one does not have a background fill
       var menuButton = game.add.text(game.world.centerX, game.world.centerY - 64, " ~Main Menu~ ", {font: "Courier", fontSize: "32px", fill: "#EFEBCE"});
