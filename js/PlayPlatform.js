@@ -234,6 +234,7 @@ PlayPlatform.prototype = {
       // play music if its toggled on
       song = this.add.audio(mapObj.music);
       if(global_playMusic) song.play('', 0, 1, true);
+      if(global_save_point === 9) song.pause();     // this makes the sound effects for the boss battle work
 
       // add in the attacking sound effect used in both sword and crossbow
       this.attackSound = game.add.audio('attackSound');
@@ -544,5 +545,11 @@ PlayPlatform.prototype = {
       //game.debug.bodyInfo(player, 64, 64);
       //game.debug.body(player);
       //game.debug.body(bossDemon);
+      // debug every sprite under enemyGroup
+      /*
+      for ( let i = 0, len = enemyGroup.children.length; i < len; i++ ) {
+         game.debug.body(enemyGroup.children[i]);
+      }
+      */
    }
 }

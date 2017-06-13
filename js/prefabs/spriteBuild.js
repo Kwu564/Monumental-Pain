@@ -32,8 +32,8 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.game.physics.arcade.enableBody(this);
     
     // change collision box size
-    this.body.setSize(25, 49, 25, 14); //(width, height, offsetX, offsetY)
-    
+    this.body.setSize(25, 49, 17, 16); //(width, height, offsetX, offsetY)
+
     // sounds
     this.bump = game.add.audio('bump');
     this.attackSound = game.add.audio('attackSound');
@@ -55,7 +55,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.airTime = 0;             //determines whether a thud sound is played on landing
     
     // add child sprite for sword
-    this.sword = this.addChild(game.make.sprite(8, -23, 'collider'));
+    this.sword = this.addChild(game.make.sprite(2, -27, 'collider'));
     this.sword.scale.set(30, 60);
     this.sword.alpha = 0;
     game.physics.arcade.enable(this.sword);
@@ -120,6 +120,9 @@ spriteBuild.prototype.update = function() {
 
         // move right if the player presses D
         } else if ( game.input.keyboard.isDown(Phaser.Keyboard.D) ) {
+            // change collision box size
+            this.body.setSize(25, 49, 17, 16); //(width, height, offsetX, offsetY) 
+            this.anchor.setTo(.5,.5);       
             this.isAnimDone = 1;
             this.direction = 1;
             this.status = 'walkingRight';
@@ -138,6 +141,9 @@ spriteBuild.prototype.update = function() {
 
         // move left if the player presses A
         } else if ( game.input.keyboard.isDown(Phaser.Keyboard.A) ) {
+            // change collision box size
+            this.body.setSize(25, 49, 35, 16); //(width, height, offsetX, offsetY)
+            this.anchor.setTo(.7,.5);                      
             this.isAnimDone = 1;
             this.direction = -1;
             this.status = 'walkingLeft';
@@ -149,7 +155,7 @@ spriteBuild.prototype.update = function() {
             }
 
             //make sure the sword hitbox is on the right side of the player
-            this.sword.position.x = (-2) - this.sword.width;
+            this.sword.position.x = (-14) - this.sword.width;
             //make sure the sword impact sprite is on the right side of the player
             this.swordImpact.position.x = (-30) - this.swordImpact.width;
             //make sure that the sword impact sprite is facing on the left side of the player
