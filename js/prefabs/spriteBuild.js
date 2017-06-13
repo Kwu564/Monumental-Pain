@@ -32,7 +32,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.game.physics.arcade.enableBody(this);
     
     // change collision box size
-    this.body.setSize(25, 49, 17, 16); //(width, height, offsetX, offsetY)
+    this.body.setSize(25, 49, 17, 15); //(width, height, offsetX, offsetY)
 
     // sounds
     this.bump = game.add.audio('bump');
@@ -121,7 +121,7 @@ spriteBuild.prototype.update = function() {
         // move right if the player presses D
         } else if ( game.input.keyboard.isDown(Phaser.Keyboard.D) ) {
             // change collision box size
-            this.body.setSize(25, 49, 17, 16); //(width, height, offsetX, offsetY) 
+            this.body.setSize(25, 49, 17, 15); //(width, height, offsetX, offsetY) 
             this.anchor.setTo(.5,.5);       
             this.isAnimDone = 1;
             this.direction = 1;
@@ -142,7 +142,7 @@ spriteBuild.prototype.update = function() {
         // move left if the player presses A
         } else if ( game.input.keyboard.isDown(Phaser.Keyboard.A) ) {
             // change collision box size
-            this.body.setSize(25, 49, 35, 16); //(width, height, offsetX, offsetY)
+            this.body.setSize(25, 49, 35, 15); //(width, height, offsetX, offsetY)
             this.anchor.setTo(.7,.5);                      
             this.isAnimDone = 1;
             this.direction = -1;
