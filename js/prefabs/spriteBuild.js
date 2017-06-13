@@ -42,7 +42,7 @@ var spriteBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.direction = 1;
     
     // Make an 'E' that appears over the player's head when they're on a door/npc
-    this.notifier = this.addChild(game.make.text(0,-64,'E',{font:'Courier',fontsize:'24px',fill:'white',align:'center'}));
+    this.notifier = this.addChild(game.make.text(-8,-64,'E',{font:'Georgia',fontSize:'24px',fill:'white',align:'center'}));
     this.notifier.visible = false; // will read true when over something that the player can interact with
     
     // PLAYER STATUS
