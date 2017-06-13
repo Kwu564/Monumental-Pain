@@ -141,6 +141,7 @@ GLOBAL_MAP_DATA = [
        events: [
           function() {
             canEnter = false;
+            game.physics.arcade.isPaused = true;
           
             //put the wizard on the floor
             var wizard = game.add.sprite(1216,576,'darkWizard',4);
@@ -161,6 +162,7 @@ GLOBAL_MAP_DATA = [
                   wizard.kill();
                   spawnBoss = true;
                   canEnter = true;
+                  game.physics.arcade.isPaused = false;
                   song.play('', 0, 1, true);
                }, this);
                timer.start();
