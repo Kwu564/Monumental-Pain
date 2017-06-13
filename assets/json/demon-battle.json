@@ -142,7 +142,7 @@
          "name":"spawn",
          "objects":[
                 {
-                 "height":48,
+                 "height":34,
                  "id":1,
                  "name":"spawn",
                  "rotation":0,
@@ -150,7 +150,7 @@
                  "visible":true,
                  "width":64,
                  "x":1024,
-                 "y":592
+                 "y":606
                 }],
          "opacity":1,
          "type":"objectgroup",
