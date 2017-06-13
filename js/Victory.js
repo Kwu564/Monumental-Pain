@@ -19,6 +19,7 @@ Victory.prototype = {
       // Reset all relevent globally tracked variables
       global_x = 512;
       global_y = 448;
+      canShoot = true
       global_save_point = 0; // reset game checkpoints
 
       // creates the actual button, this one does not have a background fill
