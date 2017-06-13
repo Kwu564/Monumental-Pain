@@ -26,6 +26,7 @@ var enemyBuild = function(game, scaleX, scaleY, x, y, src, frame){
    this.anchor.setTo(.5,.5);
    this.scale.setTo(scaleX,scaleY);
    game.physics.arcade.enableBody(this);
+   this.body.setSize(48,64,0,0);
 
     // change collision box size
     this.body.setSize(25, 59, 17, 5); //(width, height, offsetX, offsetY)
@@ -357,11 +358,13 @@ lesserDemon.prototype.playAttack = function(src){
         if(this.direction < 0){
             this.animations.play('slashLeft');
             this.weaponImpact.position.x = -8;
-            this.weaponImpact.scale.set(-1, 1);      
+            this.weaponImpact.scale.set(-1, 1); 
+            this.mobDamagePlayer();   
         }else{
             this.animations.play('slashRight');
             this.weaponImpact.position.x = 8;
-            this.weaponImpact.scale.set(1, 1);            
+            this.weaponImpact.scale.set(1, 1); 
+            this.mobDamagePlayer();           
         }
          // make the impact sprite visible
          this.weaponImpact.alpha = 1;
