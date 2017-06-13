@@ -158,14 +158,14 @@ PlayPlatform.prototype = {
             let timer = game.time.create();
             
             timer.add(15000, function() {
-               this.spawnEnemyEvent(obj.x,obj.y,obj.name);
+               this.spawnEnemyEvent(obj.x,obj.y,obj.name,10000);
             }, this);
             timer.start();
             //this.spawnEnemyEvent(obj.x,obj.y);
          } else if(obj.name === 'swordsManSpawner'
            || obj.name === 'axeManSpawner')
          {
-            this.spawnEnemyEvent(obj.x,obj.y,obj.name);
+            this.spawnEnemyEvent(obj.x,obj.y,obj.name,4000);
          } else{
             if(obj.name === 'axeMan') {
                enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
@@ -523,7 +523,7 @@ PlayPlatform.prototype = {
       timer.start();
    },
    //self explanatory function, is recursive on a timer
-   spawnEnemyEvent: function(sourceX,sourceY,type){
+   spawnEnemyEvent: function(sourceX,sourceY,type,frequency){
       let timer = game.time.create();
       
       let enemy;
@@ -538,8 +538,8 @@ PlayPlatform.prototype = {
       enemyGroup.setAll('body.gravity.y', 1500);
       enemyGroup.setAll('body.collideWorldBounds', false);
 
-      timer.add(10000, function() {
-         this.spawnEnemyEvent(sourceX,sourceY,type);
+      timer.add(frequency, function() {
+         this.spawnEnemyEvent(sourceX,sourceY,type,frequency);
       }, this);
       timer.start();
       
