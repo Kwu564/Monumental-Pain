@@ -19,6 +19,8 @@ var PlayPlatform = function(game) {
 };
 PlayPlatform.prototype = {
    create: function() {
+      //for boss testing
+      //global_save_point = 8;
       console.log("PlayPlatform: create");
 
       // fades camera instantly, black while creating things
@@ -152,25 +154,29 @@ PlayPlatform.prototype = {
          let obj = enemyLayer[i];
          // adds enemies to the tilemaps position bassed on their names
          let enemy;
-         if(obj.name === 'axeMan') {
-            enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
-         } else if(obj.name === 'swordsMan') {
-            enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'swordsMan-enemy');
-         } else if(obj.name === 'lesserDemon') {
-            enemy = new lesserDemon(this.game, 1, 1, obj.x, obj.y, 'lesserDemon');
-         } else if(obj.name === 'darkWizard') {
-            enemy = new wizardBuild(this.game, 1, 1, obj.x, obj.y, 'darkWizard');
-         } else if(obj.name === 'demonSpawner') {
-            //create spawner here
-            enemy = new lesserDemon(this.game, 1, 1, obj.x, obj.y, 'lesserDemon');
-         } else if(obj.name === 'swordsManSpawner') {
-            //create spawner here
-            enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'swordsMan-enemy');
-         } else if(obj.name === 'axeManSpawner') {
-            //create spawner here
-            enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
+         if(obj.name === 'demonSpawner'){
+            this.spawnEnemyEvent(obj.x,obj.y);
+         }else{
+            if(obj.name === 'axeMan') {
+               enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
+            } else if(obj.name === 'swordsMan') {
+               enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'swordsMan-enemy');
+            } else if(obj.name === 'lesserDemon') {
+               //enemy = new lesserDemon(this.game, 1, 1, obj.x, obj.y, 'lesserDemon');
+            } else if(obj.name === 'darkWizard') {
+               enemy = new wizardBuild(this.game, 1, 1, obj.x, obj.y, 'darkWizard');
+            } else if(obj.name === 'demonSpawner') {
+               //create spawner here
+               
+            } else if(obj.name === 'swordsManSpawner') {
+               //create spawner here
+               enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'swordsMan-enemy');
+            } else if(obj.name === 'axeManSpawner') {
+               //create spawner here
+               enemy = new axeMan(this.game, 1, 1, obj.x, obj.y, 'axeMan-enemy');
+            }
+            enemyGroup.add(enemy);
          }
-         enemyGroup.add(enemy);
       }
       
       // set appropriate properties to all types of enemies
@@ -442,6 +448,7 @@ PlayPlatform.prototype = {
    // called to sent the player to the cutscene state
    enterCutscene: function(which) {
       global_save_point = which;
+
       
       //Enter Cutscene state
       canEnter = false; // removes player control
@@ -515,6 +522,19 @@ PlayPlatform.prototype = {
          game.state.start('GameOver');
       }, this);
       timer.start();
+   },
+   //self explanatory function, is recursive on a timer
+   spawnEnemyEvent: function(sourceX,sourceY){
+      let timer = game.time.create();
+      enemy = new lesserDemon(this.game,1,1,sourceX,sourceY,'lesserDemon');
+      enemyGroup.add(enemy);
+
+      timer.add(10000, function() {
+         this.spawnEnemyEvent(sourceX,sourceY);
+      }, this);
+      timer.start();
+      enemyGroup.setAll('body.gravity.y', 1500);
+      enemyGroup.setAll('body.collideWorldBounds', true);
    },
 
    /////////////////////////

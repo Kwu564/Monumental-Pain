@@ -41,7 +41,7 @@ var bossDemonBuild = function(game,scaleX,scaleY,x,y,src,frame){
     this.swordSlashHit = this.addChild(game.make.sprite(0, 160, 'collider'));
     this.swordSlashHit.scale.set(400,50);
     this.swordSlashHit.anchor.set(.5,.5);
-    this.swordSlashHit.alpha = 1;
+    this.swordSlashHit.alpha = 0;
     game.physics.arcade.enable(this.swordSlashHit);
 
 
@@ -218,11 +218,18 @@ bossDemonBuild.prototype.bossChase = function(){
 // Creates the hitbox for the actual strike, enables physics,
 // this allows it to  be called as an overlap in update
 var createSwordSlashHit = function(){
-    this.swordSlashHit = this.addChild(game.make.sprite(-90,160, 'collider'));
-    this.swordSlashHit.scale.set(250,50);
-    this.swordSlashHit.anchor.set(.5,.5);
-    this.swordSlashHit.alpha = 1;
-    game.physics.arcade.enable(this.swordSlashHit);
+    if(this.direction < 0){
+        this.swordSlashHit = this.addChild(game.make.sprite(0,160, 'collider'));
+        this.swordSlashHit.scale.set(250,50);
+        this.swordSlashHit.anchor.set(.5,.5);
+        this.swordSlashHit.alpha = 0;
+        game.physics.arcade.enable(this.swordSlashHit);
+    }else{
+        this.swordSlashHit = this.addChild(game.make.sprite(150,160, 'collider'));
+        this.swordSlashHit.scale.set(250,50);
+        this.swordSlashHit.anchor.set(.5,.5);
+        this.swordSlashHit.alpha = 0;
+    }
 };
 
 // this function causes the player to take damage from the demon
