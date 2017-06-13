@@ -268,6 +268,8 @@ spriteBuild.prototype.playAttack = function() {
     } else {
         // play the attack animations if isAnimDone = 0
         // play attack sounds and animations in the correct direction
+        player.invincibility = 1;
+        game.time.events.add(Phaser.Timer.SECOND*.5, function() {this.invincibility = 0}, this);
         if ( this.weapon === 'sword' ) {
             this.attackSound.play();
             if ( this.direction === 1 ) {
