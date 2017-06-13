@@ -154,6 +154,14 @@ PlayPlatform.prototype = {
          let obj = enemyLayer[i];
          // adds enemies to the tilemaps position bassed on their names
          let enemy;
+         if(obj.name === 'demonSpawner'){
+            let timer = game.time.create();
+            timer.add(10000, function() {
+            this.spawnEnemyEvent(obj.x,obj.y);
+            }, this);
+            timer.start();
+            //this.spawnEnemyEvent(obj.x,obj.y);
+
          if(obj.name === 'demonSpawner'
            || obj.name === 'swordsManSpawner'
            || obj.name === 'axeManSpawner')

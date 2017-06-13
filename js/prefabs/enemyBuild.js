@@ -19,7 +19,7 @@ var enemyBuild = function(game, scaleX, scaleY, x, y, src, frame){
    this.vision = this.addChild(game.make.sprite(-128, 0, 'collider')); // add child sprite for vision
    this.vision.scale.set(200, 49);
    this.vision.anchor.set(.5,.5);
-   this.vision.alpha = 0;
+   this.vision.alpha = .1;
    game.physics.arcade.enable(this.vision);
 
    // set scale and anchor points for the enemies
@@ -27,9 +27,6 @@ var enemyBuild = function(game, scaleX, scaleY, x, y, src, frame){
    this.scale.setTo(scaleX,scaleY);
    game.physics.arcade.enableBody(this);
    this.body.setSize(48,64,0,0);
-
-    // change collision box size
-    this.body.setSize(25, 59, 17, 5); //(width, height, offsetX, offsetY)
 
    // add the attack sound for use when attacking
    this.attackSound = game.add.audio('attackSound');
@@ -67,13 +64,9 @@ enemyBuild.prototype.update = function(){
 // this function is makes the enemy turn around
 enemyBuild.prototype.switchDir = function() {
     if(this.direction < 0) {
-          // change collision box size
-          this.body.setSize(25, 59, 17, 5); //(width, height, offsetX, offsetY)      
         this.direction = 1;
         this.body.position.x += 1;
     } else{
-          // change collision box size
-          this.body.setSize(25, 59, 15, 5); //(width, height, offsetX, offsetY)      
         this.direction = -1;
         this.body.position.x -= 1;
     }
@@ -254,6 +247,7 @@ axeMan.prototype.fadeEnemyWeaponImpact = function(){
    // fades the weapon impact sprite in 100 milliseconds
    game.add.tween(this.weaponImpact).to( { alpha: 0 }, 100, Phaser.Easing.Linear.None, true);   
 }
+
 
 // LESSERDEMON
 var lesserDemon = function(game, scaleX, scaleY, x, y, src, frame) { 
